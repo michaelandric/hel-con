@@ -25,7 +25,7 @@ class FSLANAT:
     def fslanat(self):
         print 'fslanat... '+time.ctime()
         f = open('stdout_files/stdout_from_fsl_anat_%s' % self.t1pref, 'w')
-        fslargs = split('fsl_anat -i %s.nii.gz' % self.t1pref)
+        fslargs = split('fsl_anat -i %s.nii.gz --weakbias' % self.t1pref)
         Popen(fslargs, stdout = f, stderr = STDOUT)
         f.close()
         print 'DONE. '+time.ctime()
@@ -40,5 +40,5 @@ if __name__ == "__main__":
         os.chdir(os.environ['hel']+'/%s' % ss)   # set for localizers
         anat = 'volume.%s' % ss
         FA = FSLANAT(anat)
-        FA.AFNItoNIFTI()
+        #FA.AFNItoNIFTI()
         FA.fslanat()

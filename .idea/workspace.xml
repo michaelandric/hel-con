@@ -29,8 +29,8 @@
       <file leaf-file-name="1.fsl_anat.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/1.fsl_anat.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.18099548" vertical-offset="0" max-vertical-offset="1000">
-              <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.88235295" vertical-offset="60" max-vertical-offset="1000">
+              <caret line="42" column="9" selection-start-line="42" selection-start-column="9" selection-end-line="42" selection-end-column="9" />
               <folding>
                 <element signature="e#23#32#0" expanded="true" />
               </folding>
@@ -289,8 +289,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/1.fsl_anat.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.18099548" vertical-offset="0" max-vertical-offset="1000">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.88235295" vertical-offset="60" max-vertical-offset="1000">
+          <caret line="42" column="9" selection-start-line="42" selection-start-column="9" selection-end-line="42" selection-end-column="9" />
           <folding>
             <element signature="e#23#32#0" expanded="true" />
           </folding>
