@@ -2,11 +2,10 @@
 
 import os
 import time
-import sys
-import commands
-import time
-import shutil
-from optparse import OptionParser
+from shlex import split
+from subprocess import call
+from subprocess import Popen
+from subprocess import STDOUT
 
 class FSLANAT:
 
