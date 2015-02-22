@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ef05d6cc-293b-4a0c-b58b-875278650f42" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/2.gm_mask.py" afterPath="$PROJECT_DIR$/2.gm_mask.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/1.fsl_anat.py" afterPath="$PROJECT_DIR$/1.fsl_anat.py" />
     </list>
     <ignored path="hel-con.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,8 +29,8 @@
       <file leaf-file-name="1.fsl_anat.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/1.fsl_anat.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="116" max-vertical-offset="1000">
-              <caret line="39" column="46" selection-start-line="39" selection-start-column="8" selection-end-line="39" selection-end-column="46" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="1000">
+              <caret line="36" column="32" selection-start-line="36" selection-start-column="32" selection-end-line="36" selection-end-column="32" />
               <folding>
                 <element signature="e#23#32#0" expanded="true" />
               </folding>
@@ -41,7 +41,7 @@
       <file leaf-file-name="2.gm_mask.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/2.gm_mask.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.40723982" vertical-offset="580" max-vertical-offset="1480">
+            <state vertical-scroll-proportion="0.38914028" vertical-offset="596" max-vertical-offset="1480">
               <caret line="47" column="68" selection-start-line="47" selection-start-column="68" selection-end-line="47" selection-end-column="68" />
               <folding>
                 <element signature="e#108#118#0" expanded="true" />
@@ -59,8 +59,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/1.maskmaker.py" />
-        <option value="$PROJECT_DIR$/1.fsl_anat.py" />
         <option value="$PROJECT_DIR$/2.gm_mask.py" />
+        <option value="$PROJECT_DIR$/1.fsl_anat.py" />
       </list>
     </option>
   </component>
@@ -325,8 +325,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/1.fsl_anat.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="116" max-vertical-offset="1000">
-          <caret line="39" column="46" selection-start-line="39" selection-start-column="8" selection-end-line="39" selection-end-column="46" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="1000">
+          <caret line="36" column="32" selection-start-line="36" selection-start-column="32" selection-end-line="36" selection-end-column="32" />
           <folding>
             <element signature="e#23#32#0" expanded="true" />
           </folding>
@@ -335,7 +335,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/2.gm_mask.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.40723982" vertical-offset="580" max-vertical-offset="1480">
+        <state vertical-scroll-proportion="0.38914028" vertical-offset="596" max-vertical-offset="1480">
           <caret line="47" column="68" selection-start-line="47" selection-start-column="68" selection-end-line="47" selection-end-column="68" />
           <folding>
             <element signature="e#108#118#0" expanded="true" />

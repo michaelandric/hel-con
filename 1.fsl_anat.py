@@ -34,11 +34,11 @@ class FSLANAT:
 
 if __name__ == "__main__":
 
-    subj_list = ['hel19']
+    subj_list = ['hel18', 'hel17']
 
     for ss in subj_list:
-        os.chdir(os.environ['hel']+'/%s' % ss)   # set for localizers
+        os.chdir(os.environ['hel']+'/%s' % ss)
         anat = 'volume.%s' % ss
         FA = FSLANAT(anat)
-        #FA.AFNItoNIFTI()
+        FA.AFNItoNIFTI()
         FA.fslanat()
