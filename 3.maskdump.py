@@ -23,34 +23,12 @@ def maskdump(inimage, outname, mask=None):
 
 def get_ijk(outname, mask=None):
     print 'Getting IJK coordinates... '+time.ctime()
-    f = open('stdout_files/stderr_from_getijk.txt', 'w')
-    dmpout = open('%s' % outname, 'w')
     if not mask==None:
         print 'USING MASK: '+mask
-        dmpcmd = split('3dmaskdump -mask %s %s' % (mask, mask))
+        call("3dmaskdump -mask %s %s | awk '{print $1, $2, $3}' > %s" % (mask, mask, outname), shell=True)
     else:
         print 'NOT USING MASK.'
-        dmpcmd = split('3dmaskdump %s' % mask)
-    print dmpcmd
-    call(dmpcmd, stdout=dmpout, stderr=f)
-    dmpout.close()
-    f.close()
-    ff = open(dmpout, 'r')
-    fff = ff.readlines()
-    a = []
-    b = []
-    c = []
-    for line in fff:
-        a.append(line.split()[0])
-        b.append(line.split()[1])
-        c.append(line.split()[2]+'\n')
-    new = zip(a, b, c)
-    newout = ""
-    for line in new:
-        newout += ' '.join(line)
-    outf = open(outname, 'w')
-    outf.write(newout)
-    outf.close()
+        call("3dmaskdump %s | awk '{print $1, $2, $3}' > %s" % (mask, outname), shell=True)
     print 'DONE. '+time.ctime()
 
 
