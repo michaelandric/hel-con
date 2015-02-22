@@ -35,7 +35,7 @@ def get_ijk(outname, mask=None):
     call(dmpcmd, stdout=dmpout, stderr=f)
     dmpout.close()
     f.close()
-    ff open(dmpout, 'r')
+    ff = open(dmpout, 'r')
     fff = ff.readlines()
     a = []
     b = []
