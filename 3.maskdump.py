@@ -51,5 +51,7 @@ if __name__ == '__main__':
         outname = os.environ['hel']+'/%s/connectivity/cleanTScat_%s.allruns_GMmask_dump' % (ss, ss)
         mask = os.environ['hel']+'/%s/volume.%s.anat/%s_GMmask_resampled+orig' % (ss, ss, ss)
         #maskdump(inimage, outname, mask)
-        outname = os.environ['hel']+'/%s/connectivity/%s.ijk_GMmask_dump' % (ss, ss)
+        os.chdir(os.environ['hel']+'/%s/volume.%s.anat/' % (ss,ss))
+        print os.getcwd()
+        outname = '%s.ijk_GMmask_dump' % ss
         get_ijk(outname, mask)
