@@ -54,4 +54,5 @@ if __name__ == '__main__':
         os.chdir(os.environ['hel']+'/%s/volume.%s.anat/' % (ss,ss))
         print os.getcwd()
         outname = '%s.ijk_GMmask_dump' % ss
+        mask = '%s_GMmask_resampled+orig.BRIK.gz' % ss
         get_ijk(outname, mask)
