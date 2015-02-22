@@ -27,12 +27,12 @@ def get_ijk(outname, mask=None):
     dmpout = open('%s' % outname, 'w')
     if not mask==None:
         print 'USING MASK: '+mask
-        cmdargs = split("3dmaskdump -mask %s %s | awk '{print $1, $2, $3}'" % (mask, mask))
+        dmpcmd = split('3dmaskdump -mask %s -noijk %s' % (mask, mask))
     else:
         print 'NOT USING MASK.'
-        cmdargs = split("3dmaskdump %s | awk '{print $1, $2, $3}'" % mask)
-    print cmdargs
-    call(cmdargs, stdout=dmpout, stderr=f)
+        dmpcmd = split('3dmaskdump -noijk %s' % mask)
+    print dmpcmd
+    call(dmpcmd, stdout=dmpout, stderr=f)
     dmpout.close()
     f.close()
     print 'DONE. '+time.ctime()
