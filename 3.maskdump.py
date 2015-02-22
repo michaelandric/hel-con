@@ -25,6 +25,11 @@ if __name__ == '__main__':
 
     subj_list = ['hel19']
     for ss in subj_list:
+        os.chdir(os.environ['hel']+'/%s/connectivity/' % ss)
+        print os.getcwd()
+        stdfdir = os.environ['hel']+'/%s/connectivity/stdout_files' % (ss)
+        if not os.path.exists(stdfdir):
+            os.makedirs(stdfdir)
         inimage = os.environ['hel']+'/%s/connectivity/cleanTScat_%s.allruns+orig' % (ss, ss)
         outname = os.environ['hel']+'/%s/connectivity/cleanTScat_%s.allruns_GMmask_dump' % (ss, ss)
         mask = os.environ['hel']+'/%s/volume.%s.anat/%s_GMmask_resampled+orig' % (ss, ss, ss)
