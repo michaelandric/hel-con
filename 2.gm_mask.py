@@ -43,6 +43,7 @@ class MaskMaker:
         """
         resample to functional resolution
         """
+        print 'Resampling to correct functional space... '+time.ctime()
         f = open('stdout_files/stdout_from_3dresample.txt', 'w')
         resargs = split('3dresample -master %s -inset %s_GMmask -prefix %s_GMmask_resampled' % (automask, self.subjid, self.subjid))
         call(resargs, stdout=f, stderr=STDOUT)
@@ -52,12 +53,14 @@ if __name__ == "__main__":
 
     subj_list = ['hel19']
     for ss in subj_list:
-        os.chdir('/Users/andric/Documents/workspace/hel/testweakbias.anat/')
+        os.chdir(os.environ['hel']+'/%s/volume.%s.anat' % (ss, ss))
         print os.getcwd()
         print sys.version
         mm = MaskMaker('T1_biascorr_brain', ss)
         mm.run_fast()
         mm.mask_calc()
+        mask = os.environ['hel']+'/%s/preprocessing/automask_d1_%s+orig' % (ss, ss)
+        mm.resample_func(mask)
 
 
 
