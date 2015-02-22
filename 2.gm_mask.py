@@ -45,7 +45,7 @@ class MaskMaker:
         """
         print 'Resampling to correct functional space... '+time.ctime()
         f = open('stdout_files/stdout_from_3dresample.txt', 'w')
-        resargs = split('3dresample -master %s -inset %s_GMmask -prefix %s_GMmask_resampled' % (automask, self.subjid, self.subjid))
+        resargs = split('3dresample -master %s -inset %s_GMmask+orig -prefix %s_GMmask_resampled' % (automask, self.subjid, self.subjid))
         call(resargs, stdout=f, stderr=STDOUT)
         f.close()
 
