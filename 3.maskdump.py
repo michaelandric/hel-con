@@ -35,6 +35,22 @@ def get_ijk(outname, mask=None):
     call(dmpcmd, stdout=dmpout, stderr=f)
     dmpout.close()
     f.close()
+    ff open(dmpout, 'r')
+    fff = ff.readlines()
+    a = []
+    b = []
+    c = []
+    for line in fff:
+        a.append(line.split()[0])
+        b.append(line.split()[1])
+        c.append(line.split()[2]+'\n')
+    new = zip(a, b, c)
+    newout = ""
+    for line in new:
+        newout += ' '.join(line)
+    outf = open(outname, 'w')
+    outf.write(newout)
+    outf.close()
     print 'DONE. '+time.ctime()
 
 
