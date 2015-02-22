@@ -31,6 +31,7 @@ def get_ijk(outname, mask=None):
     else:
         print 'NOT USING MASK.'
         cmdargs = split("3dmaskdump %s | awk '{print $1, $2, $3}'" % mask)
+    print cmdargs
     call(cmdargs, stdout=dmpout, stderr=f)
     dmpout.close()
     f.close()
