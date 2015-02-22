@@ -51,9 +51,14 @@ class MaskMaker:
 
 if __name__ == "__main__":
 
-    subj_list = ['hel19']
+    subj_list = ['hel18', 'hel17']
     for ss in subj_list:
         os.chdir(os.environ['hel']+'/%s/volume.%s.anat' % (ss, ss))
+
+        stdfdir = os.environ['hel']+'/%s/volume.%s.anat/stdout_files' % (ss, ss)
+        if not os.path.exists(stdfdir):
+            os.makedirs(stdfdir)
+
         print os.getcwd()
         print sys.version
         mm = MaskMaker('T1_biascorr_brain', ss)
