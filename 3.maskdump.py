@@ -3,8 +3,7 @@
 import time
 import os
 from shlex import split
-from subprocess import call, Popen, PIPE
-
+from subprocess import call
 
 def maskdump(inimage, outname, mask=None):
     print 'Running maskdump... '+time.ctime()
