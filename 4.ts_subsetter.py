@@ -37,9 +37,10 @@ if __name__ == '__main__':
         os.chdir(os.environ['hel']+'/%s/connectivity/' % ss)
         print os.getcwd()+' is the current dir'+time.ctime()
         inputTSname = 'cleanTScat_%s.allruns_GMmask_dump' % ss
-        state = Rest
+        state = 'Rest'
         outname = '%s_%s' % (state, inputTSname)
         TSout = TSsubsetter(inputTSname, state)
         TSout.to_csv(outname)
+        print 'TS subset written. We done.'+time.ctime()
 
 
