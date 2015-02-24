@@ -31,8 +31,7 @@ class GRAPHS:
 
     def make_graph(self, outname):
         print 'Now making graph -- '+time.ctime()
-        ts = np.loadtxt('blur.%s.%s.steadystate.TRIM_graymask_dump' % (self.cc, self.ss))
-        ts = pd.DataFrame(ts).T
+        ts = pd.read_csv(self.input).T
         print 'Time series loaded \nStarting correlation -- '+time.ctime()
         corrmat = ts.corr()
         print 'Correlation matrix done. -- '+time.ctime()
