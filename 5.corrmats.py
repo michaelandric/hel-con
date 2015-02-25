@@ -69,7 +69,7 @@ class GRAPHS:
     def make_graph(self, outname):
         print 'Now making graph -- '+time.ctime()
         ts = pd.read_csv(self.input, header=None).T   # transposing this
-        print 'Input is read. \nNow getting the thresholded indices. '+time.ctime()
+        print 'Input is read. \nNow getting the correlation matrix. '+time.ctime()
         corrmat = self.pearson_corr(ts)
         corrmatUT = np.triu(corrmat, k=1)
         print 'Starting sort. -- '+time.ctime()
