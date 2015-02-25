@@ -70,7 +70,11 @@ class GRAPHS:
         print 'Graph edgelist written out. \nDONE. -- '+time.ctime()
 
     def convert_graph(self, graph):
-        '''This is to convert graph from text to binary file for community detection'''
+        """
+        This is to convert graph for community detection
+        :param graph: The graph made in previous function
+        :return: Will convert to binary for Louvain algorithm and write to file
+        """
         f = open('stdout_files/stdout_from_convert.txt', 'w')
         print 'Converting edgelist to binary for community detection -- '+time.ctime()
         cmdargs = split('community_convert -i '+graph+'  -o '+graph+'.bin')
@@ -90,7 +94,8 @@ if __name__ == "__main__":
 
     os.chdir('/mnt/lnif-storage/urihas/MAstdstt/%s' % subjid)
     print os.getcwd()
-    graph_outname = '/mnt/lnif-storage/urihas/MAstdstt/%s/graphs/%s.%s.dens_%s.edgelist' % (subjid, subjid, condition, thresh_density)
-    GR = GRAPHS(subjid, condition, thresh_density)
+    inputTS = 'blur.%s.%s.csv' % (condition, subjid)
+    graph_outname = '/mnt/lnif-storage/urihas/MAstdstt/%s/graphs/TEST%s.%s.dens_%s.edgelist' % (subjid, subjid, condition, thresh_density)
+    GR = GRAPHS(subjid, inputTS, thresh_density)
     GR.make_graph(graph_outname)
     GR.convert_graph(graph_outname)
