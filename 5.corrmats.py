@@ -31,6 +31,7 @@ class GRAPHS:
 
     def get_inds(self, data):
         """
+        LEGACY FUNCTION. IT IS SLOW.
         This derives correlation matrix for data and returns thresholded indices
         :param data: Input TS
         :return: The indices that pass density threshold
@@ -55,12 +56,29 @@ class GRAPHS:
         inds = zip(np.where(blank)[0], np.where(blank)[1])
         return inds
 
+    def pearson_corr(self, data):
+        """
+        Implementing correlation quicker than pandas corr
+        :param data: input TS transposed for time points (rows) x voxels (cols)
+        :return: N^2 correlation mat
+        """
+        zm = ((data - data.mean()) / data.std())
+        a = (np.dot(zm.T, zm)) / np.sqrt(scipy.stats.ss(zm).T*scipy.stats.ss(zm))
+        return a
+
     def make_graph(self, outname):
         print 'Now making graph -- '+time.ctime()
-        ts = pd.read_csv(self.input, header=None)
+        ts = pd.read_csv(self.input, header=None).T   # transposing this
         print 'Input is read. \nNow getting the thresholded indices. '+time.ctime()
-        inds = self.get_inds(ts)
-        print 'Indices done. '+time.ctime()
+        corrmat = self.pearson_corr(ts)
+        corrmatUT = np.triu(corrmat, k=1)
+        print 'Starting sort. -- '+time.ctime()
+        corrsrtd = np.sort(corrmatUT[corrmatUT !=0], kind='mergesort')
+        print 'Sort done. \nThresholding... -- '+time.ctime()
+        threshd = corrsrtd[int(len(corrsrtd)*(1.-float(self.dens))):]
+        print 'Thresholding done. \nNow getting edge indices -- '+time.ctime()
+        ix = np.in1d(corrmatUT.ravel(), threshd).reshape(corrmatUT.shape)
+        inds = zip(np.where(ix)[0], np.where(ix)[1])
         G = nx.Graph()
         print 'Graph initialized. \nAdding edges -- '+time.ctime()
         for ii in inds:
@@ -92,10 +110,10 @@ if __name__ == "__main__":
     condition = sys.argv[2]
     thresh_density = sys.argv[3]
 
-    os.chdir('/mnt/lnif-storage/urihas/MAstdstt/%s' % subjid)
+    os.chdir(os.environ['hel']+'/%s/connectivity/' % subjid)
     print os.getcwd()
-    inputTS = 'blur.%s.%s.csv' % (condition, subjid)
-    graph_outname = '/mnt/lnif-storage/urihas/MAstdstt/%s/graphs/TEST%s.%s.dens_%s.edgelist' % (subjid, subjid, condition, thresh_density)
+    inputTS = '%s_cleanTScat_%s.allruns_GMmask_dump.csv' % (condition, subjid)
+    graph_outname = 'graphs/%s.%s.dens_%s.edgelist' % (subjid, condition, thresh_density)
     GR = GRAPHS(subjid, inputTS, thresh_density)
     GR.make_graph(graph_outname)
     GR.convert_graph(graph_outname)
