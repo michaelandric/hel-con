@@ -30,18 +30,27 @@ def TSsubsetter(inputTS, state):
     subsetts = pd.DataFrame(ts).iloc[:,section]
     return subsetts
 
+
 if __name__ == '__main__':
 
-    subj_list=['hel18']:
-    for ss in subj_list:
-        os.chdir(os.environ['hel']+'/%s/connectivity/' % ss)
-        print os.getcwd()+' is the current dir'+time.ctime()
-        for state in ['Task', 'Rest']:
-            inputTSname = 'cleanTScat_%s.allruns_GMmask_dump' % ss
-            # state = 'Task'   # should be "Task" or "Rest"
-            outname = '%s_%s.csv' % (state, inputTSname)
-            TSout = TSsubsetter(inputTSname, state)
-            TSout.to_csv(outname, header=False, index=False)
-            print 'TS subset written. We done.'+time.ctime()
+    if len(sys.argv) < 3:
+        sys.stderr.write("You messed up! \n"
+                         "Usage: %s <SUBJECT ID> <CONDITION ID> \n" %
+                         (os.path.basename(sys.argv[0]),))
 
+    subjid = sys.argv[1]
+    condition = sys.argv[2]
+
+    os.chdir(os.environ['hel']+'/%s/connectivity/' % subjid)
+    print os.getcwd()+' is the current dir'+time.ctime()
+
+    inputTSname = 'cleanTScat_%s.allruns_GMmask_dump' % subjid
+    if not os.path.exists(inputTSname):
+        sys.stderr.write("ERROR: Filename %s not found!\n" % (inputTSname))
+        sys.exit(1)
+
+    outname = '%s_%s.csv' % (condition, inputTSname)
+    TSout = TSsubsetter(inputTSname, condition)
+    TSout.to_csv(outname, header=False, index=False)
+    print 'TS subset written. We done.'+time.ctime()
 
