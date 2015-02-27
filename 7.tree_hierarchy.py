@@ -4,10 +4,10 @@ __author__ = 'andric'
 
 import sys
 import os
-import numpy as np
 from subprocess import Popen, PIPE
 from shlex import split
 from time import ctime
+
 
 class TreeParser(object):
 
