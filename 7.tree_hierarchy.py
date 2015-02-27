@@ -75,7 +75,8 @@ if __name__ == '__main__':
         os.makedirs(n_mods_dir)
 
     for n in xrange(niter):
+        print 'ITERATION# %s' % n
         main_tree = '%s/iter%s.%s.%s.dens_%s.tree' % (treedir, n, subjid, condition, thresh_density)
         tree_out = '%s/iter%s.%s.%s.dens_%s.tree_highest' % (tree_hier_dir, n, subjid, condition, thresh_density)
-        n_mods_name = '%s/iter%s.%s.%s.dens_%s.n_mods' % (tree_hier_dir, n, subjid, condition, thresh_density)
+        n_mods_name = '%s/iter%s.%s.%s.dens_%s.n_mods' % (n_mods_dir, n, subjid, condition, thresh_density)
         tp.get_hierarchical(main_tree, tree_out, n_mods_name)
