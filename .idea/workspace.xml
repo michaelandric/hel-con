@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ef05d6cc-293b-4a0c-b58b-875278650f42" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/6.community_detection.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/5.corrmats.py" afterPath="$PROJECT_DIR$/5.corrmats.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/6.community_detection.py" afterPath="$PROJECT_DIR$/6.community_detection.py" />
     </list>
     <ignored path="hel-con.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -55,8 +53,8 @@
       <file leaf-file-name="6.community_detection.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/6.community_detection.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.1764706" vertical-offset="1336" max-vertical-offset="2220">
-              <caret line="59" column="105" selection-start-line="59" selection-start-column="105" selection-end-line="59" selection-end-column="105" />
+            <state vertical-scroll-proportion="0.88687783" vertical-offset="1336" max-vertical-offset="2260">
+              <caret line="106" column="57" selection-start-line="106" selection-start-column="57" selection-end-line="106" selection-end-column="57" />
               <folding>
                 <element signature="e#165#175#0" expanded="true" />
               </folding>
@@ -483,8 +481,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/6.community_detection.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.1764706" vertical-offset="1336" max-vertical-offset="2220">
-          <caret line="59" column="105" selection-start-line="59" selection-start-column="105" selection-end-line="59" selection-end-column="105" />
+        <state vertical-scroll-proportion="0.88687783" vertical-offset="1336" max-vertical-offset="2260">
+          <caret line="106" column="57" selection-start-line="106" selection-start-column="57" selection-end-line="106" selection-end-column="57" />
           <folding>
             <element signature="e#165#175#0" expanded="true" />
           </folding>

@@ -93,13 +93,15 @@ if __name__ == '__main__':
         cm.convert_graph()
         cm.zipper('zip')
         # Below for doing modularity
+        treedir = 'trees'
+        Qdir = 'Qvals'
         niter = 100
         print 'Doing community detection. \nNumber of iterations: %s -- ' % niter+time.ctime()
-        if not os.path.exists('trees'):
-            os.makedirs('trees')
-        if not os.path.exists('Qvals'):
-            os.makedirs('Qvals')
+        if not os.path.exists(treedir):
+            os.makedirs(treedir)
+        if not os.path.exists(Qdir):
+            os.makedirs(Qdir)
         for n in xrange(niter):
-            tree_outname = 'trees/iter%s.%s.%s.dens_%s.tree' % (n, subjid, condition, thresh_density)
-            modscorename = 'Qvals/iter%s.%s.%s.dens_%s.Qval' % (n, subjid, condition, thresh_density)
+            tree_outname = '%s/iter%s.%s.%s.dens_%s.tree' % (treedir, n, subjid, condition, thresh_density)
+            modscorename = '%s/iter%s.%s.%s.dens_%s.Qval' % (Qdir, n, subjid, condition, thresh_density)
             cm.get_modularity(tree_outname, modscorename)
