@@ -32,15 +32,16 @@ def TSsubsetter(inputTS, state):
 
 if __name__ == '__main__':
 
-    subj_list=['hel19']
+    subj_list=['hel18', 'hel17']:
     for ss in subj_list:
         os.chdir(os.environ['hel']+'/%s/connectivity/' % ss)
         print os.getcwd()+' is the current dir'+time.ctime()
-        inputTSname = 'cleanTScat_%s.allruns_GMmask_dump' % ss
-        state = 'Task'   # should be "Task" or "Rest"
-        outname = '%s_%s.csv' % (state, inputTSname)
-        TSout = TSsubsetter(inputTSname, state)
-        TSout.to_csv(outname, header=False, index=False)
-        print 'TS subset written. We done.'+time.ctime()
+        for state in ['Task', 'Rest']:
+            inputTSname = 'cleanTScat_%s.allruns_GMmask_dump' % ss
+            #state = 'Task'   # should be "Task" or "Rest"
+            outname = '%s_%s.csv' % (state, inputTSname)
+            TSout = TSsubsetter(inputTSname, state)
+            TSout.to_csv(outname, header=False, index=False)
+            print 'TS subset written. We done.'+time.ctime()
 
 
