@@ -32,7 +32,7 @@ def TSsubsetter(inputTS, state):
 
 if __name__ == '__main__':
 
-    subj_list=['hel18', 'hel17']:
+    subj_list=['hel18']:
     for ss in subj_list:
         os.chdir(os.environ['hel']+'/%s/connectivity/' % ss)
         print os.getcwd()+' is the current dir'+time.ctime()

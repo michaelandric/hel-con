@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ef05d6cc-293b-4a0c-b58b-875278650f42" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/3.maskdump.py" afterPath="$PROJECT_DIR$/3.maskdump.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/4.ts_subsetter.py" afterPath="$PROJECT_DIR$/4.ts_subsetter.py" />
     </list>
     <ignored path="hel-con.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -26,10 +26,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="3.maskdump.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="3.maskdump.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/3.maskdump.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7963801" vertical-offset="276" max-vertical-offset="1160">
+            <state vertical-scroll-proportion="0.0" vertical-offset="276" max-vertical-offset="1160">
               <caret line="49" column="25" selection-start-line="49" selection-start-column="25" selection-end-line="49" selection-end-column="25" />
               <folding>
                 <element signature="e#23#34#0" expanded="true" />
@@ -38,11 +38,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="4.ts_subsetter.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="4.ts_subsetter.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/4.ts_subsetter.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="1100">
-              <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.67873305" vertical-offset="120" max-vertical-offset="1100">
+              <caret line="34" column="22" selection-start-line="34" selection-start-column="22" selection-end-line="34" selection-end-column="22" />
               <folding>
                 <element signature="e#107#116#0" expanded="true" />
               </folding>
@@ -89,8 +89,8 @@
         <option value="$PROJECT_DIR$/6.modularity.py" />
         <option value="$PROJECT_DIR$/5.corrmats.py" />
         <option value="$PROJECT_DIR$/6.community_detection.py" />
-        <option value="$PROJECT_DIR$/4.ts_subsetter.py" />
         <option value="$PROJECT_DIR$/3.maskdump.py" />
+        <option value="$PROJECT_DIR$/4.ts_subsetter.py" />
       </list>
     </option>
   </component>
@@ -469,22 +469,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/4.ts_subsetter.py">
+    <entry file="file://$PROJECT_DIR$/3.maskdump.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="1100">
-          <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="276" max-vertical-offset="1160">
+          <caret line="49" column="25" selection-start-line="49" selection-start-column="25" selection-end-line="49" selection-end-column="25" />
           <folding>
-            <element signature="e#107#116#0" expanded="true" />
+            <element signature="e#23#34#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/3.maskdump.py">
+    <entry file="file://$PROJECT_DIR$/4.ts_subsetter.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7963801" vertical-offset="276" max-vertical-offset="1160">
-          <caret line="49" column="25" selection-start-line="49" selection-start-column="25" selection-end-line="49" selection-end-column="25" />
+        <state vertical-scroll-proportion="0.67873305" vertical-offset="120" max-vertical-offset="1100">
+          <caret line="34" column="22" selection-start-line="34" selection-start-column="22" selection-end-line="34" selection-end-column="22" />
           <folding>
-            <element signature="e#23#34#0" expanded="true" />
+            <element signature="e#107#116#0" expanded="true" />
           </folding>
         </state>
       </provider>
