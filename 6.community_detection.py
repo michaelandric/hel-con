@@ -81,27 +81,27 @@ if __name__ == '__main__':
                          "Usage: %s <SUBJECT ID> <CONDITION ID> <THRESH DENSITY> \n" %
                          (os.path.basename(sys.argv[0]),))
 
-        subjid = sys.argv[1]
-        condition = sys.argv[2]
-        thresh_density = sys.argv[3]
+    subjid = sys.argv[1]
+    condition = sys.argv[2]
+    thresh_density = sys.argv[3]
 
-        os.chdir(os.environ['hel']+'/%s/connectivity/' % subjid)
-        print os.getcwd()
-        graph = 'graphs/%s.%s.dens_%s.edgelist' % (subjid, condition, thresh_density)
-        cm = COMMUN(graph)
-        cm.zipper('unzip')
-        cm.convert_graph()
-        cm.zipper('zip')
-        # Below for doing modularity
-        treedir = 'trees'
-        Qdir = 'Qvals'
-        niter = 100
-        print 'Doing community detection. \nNumber of iterations: %s -- ' % niter+time.ctime()
-        if not os.path.exists(treedir):
-            os.makedirs(treedir)
-        if not os.path.exists(Qdir):
-            os.makedirs(Qdir)
-        for n in xrange(niter):
-            tree_outname = '%s/iter%s.%s.%s.dens_%s.tree' % (treedir, n, subjid, condition, thresh_density)
-            modscorename = '%s/iter%s.%s.%s.dens_%s.Qval' % (Qdir, n, subjid, condition, thresh_density)
-            cm.get_modularity(tree_outname, modscorename)
+    os.chdir(os.environ['hel']+'/%s/connectivity/' % subjid)
+    print os.getcwd()
+    graph = 'graphs/%s.%s.dens_%s.edgelist' % (subjid, condition, thresh_density)
+    cm = COMMUN(graph)
+    cm.zipper('unzip')
+    cm.convert_graph()
+    cm.zipper('zip')
+    # Below for doing modularity
+    treedir = 'trees'
+    Qdir = 'Qvals'
+    niter = 100
+    print 'Doing community detection. \nNumber of iterations: %s -- ' % niter+time.ctime()
+    if not os.path.exists(treedir):
+        os.makedirs(treedir)
+    if not os.path.exists(Qdir):
+        os.makedirs(Qdir)
+    for n in xrange(niter):
+        tree_outname = '%s/iter%s.%s.%s.dens_%s.tree' % (treedir, n, subjid, condition, thresh_density)
+        modscorename = '%s/iter%s.%s.%s.dens_%s.Qval' % (Qdir, n, subjid, condition, thresh_density)
+        cm.get_modularity(tree_outname, modscorename)
