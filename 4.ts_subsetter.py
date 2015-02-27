@@ -38,7 +38,7 @@ if __name__ == '__main__':
         print os.getcwd()+' is the current dir'+time.ctime()
         for state in ['Task', 'Rest']:
             inputTSname = 'cleanTScat_%s.allruns_GMmask_dump' % ss
-            #state = 'Task'   # should be "Task" or "Rest"
+            # state = 'Task'   # should be "Task" or "Rest"
             outname = '%s_%s.csv' % (state, inputTSname)
             TSout = TSsubsetter(inputTSname, state)
             TSout.to_csv(outname, header=False, index=False)
