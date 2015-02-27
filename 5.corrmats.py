@@ -10,8 +10,6 @@ import pandas as pd
 import numpy as np
 import networkx as nx
 import scipy.stats
-from shlex import split
-from subprocess import call, STDOUT
 
 
 class GRAPHS:
@@ -74,18 +72,6 @@ class GRAPHS:
         nx.write_edgelist(G, outname, data=False)
         print 'Graph edgelist written out. \nDONE. -- '+time.ctime()
 
-    def convert_graph(self, graph):
-        """
-        This is to convert graph for community detection
-        :param graph: The graph made in previous function
-        :return: Will convert to binary for Louvain algorithm and write to file
-        """
-        f = open('stdout_files/stdout_from_convert.txt', 'w')
-        print 'Converting edgelist to binary for community detection -- '+time.ctime()
-        cmdargs = split('community_convert -i '+graph+'  -o '+graph+'.bin')
-        call(cmdargs, stdout=f, stderr=STDOUT)
-        print 'Conversion done. -- '+time.ctime()
-        f.close()
 
 if __name__ == "__main__":
     if len(sys.argv) < 4:
