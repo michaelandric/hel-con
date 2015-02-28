@@ -7,13 +7,22 @@ import os
 from subprocess import Popen, PIPE
 from shlex import split
 from time import ctime
-
+from collections import Counter
+import numpy as np
 
 class TreeParser(object):
 
     tree_all_levels = None
 
-    def get_hierarchical(self, tree_all_levels, tr_outname, n_mods_name):
+    def get_hierarchical(self, tree_all_levels, tr_outname):
+        """
+        Get the hierarchy for the modularity solution.
+        Find the highest level. Get the tree at that level. Write tree to file.
+        Find the number of modules at that level.
+        :param tree_all_levels: the entire tree comprising every level (from community detection)
+        :param tr_outname: the output name for the tree at highest hierarchical level
+        :return: number of modules at highest hierarchical level
+        """
         cmdargs = split('hierarchy -n %s' % tree_all_levels)
         print 'Parsing trees to find highest hierarchical level -- '+ctime()
         print cmdargs
@@ -28,27 +37,17 @@ class TreeParser(object):
         f.write(tree[0])
         f.close()
         print ctime()+' :::\n'
-        print 'Done writing the tree. '+ctime()
+        print 'Done writing the tree. \nNow getting number of modules... '+ctime()
 
-        mods = []
-        for x in xrange(len(tree[0].split('\n'))-1):
-            mods.append(tree[0].split('\n')[x].split()[1])
-        m2 = map(int, mods)
-        s2 = set(m2)
-        toremove = []
-        for mod_id in s2:
-            if m2.count(mod_id) < 2:
-                toremove.append(mod_id)
-        for mod_id in toremove:
-            s2.remove(mod_id)
-        # n_mods = str(len(set(mods)))   # this would be the total number of modules
-        n_mods = str(len(set(s2)))   # this is the total number of modules > 1 voxel
-        print ctime()+' :::\n'
-        print n_mods+' is the numbere of modules (> 1 voxel)'
-        ff = open(n_mods_name, 'w')
-        ff.write(n_mods+'\n')
-        ff.close()
-        print 'Done writing N_mods '+ctime()
+        stree = [tt for tt in tree[0].split('\n')]
+        mods = np.array(np.zeros(len(stree)-1), dtype=np.int16)
+        for i in xrange(len(mods)):
+            mods[i] = stree[i].split()[1]
+        cnts = np.array(Counter(mods).values())
+        n_mods = len(cnts[np.where(cnts > 1)])
+        print n_mods+' is the number of modules (> 1 voxel) '+ctime()
+        return n_mods
+
 
 if __name__ == '__main__':
 
@@ -68,15 +67,17 @@ if __name__ == '__main__':
     print os.getcwd()
     treedir = 'trees'
     tree_hier_dir = 'tree_highest'
-    n_mods_dir = 'n_mods'
+    n_mods_dir = 'modularity'
     if not os.path.exists(tree_hier_dir):
         os.makedirs(tree_hier_dir)
     if not os.path.exists(n_mods_dir):
         os.makedirs(n_mods_dir)
 
+    module_count = np.array(np.zeros(niter))
     for n in xrange(niter):
         print 'ITERATION# %s' % n
         main_tree = '%s/iter%s.%s.%s.dens_%s.tree' % (treedir, n, subjid, condition, thresh_density)
         tree_out = '%s/iter%s.%s.%s.dens_%s.tree_highest' % (tree_hier_dir, n, subjid, condition, thresh_density)
         n_mods_name = '%s/iter%s.%s.%s.dens_%s.n_mods' % (n_mods_dir, n, subjid, condition, thresh_density)
-        tp.get_hierarchical(main_tree, tree_out, n_mods_name)
+        module_count[n] = tp.get_hierarchical(main_tree, tree_out)
+    np.savetxt('%s/%s.%s.dens_%s.n_mods' % (n_mods_dir, subjid, condition, thresh_density), module_count, fmt='%i')
