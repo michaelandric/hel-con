@@ -45,7 +45,7 @@ class TreeParser(object):
             mods[i] = stree[i].split()[1]
         cnts = np.array(Counter(mods).values())
         n_mods = len(cnts[np.where(cnts > 1)])
-        print n_mods+' is the number of modules (> 1 voxel) '+ctime()
+        print `n_mods`+' is the number of modules (> 1 voxel) '+ctime()
         return n_mods
 
 
