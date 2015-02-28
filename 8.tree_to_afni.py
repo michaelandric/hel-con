@@ -7,6 +7,7 @@ import os
 import numpy as np
 from shlex import split
 from subprocess import call, STDOUT
+from collections import Counter
 
 
 def undump(undump_outname, datumtype, master, infile):
