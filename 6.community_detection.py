@@ -6,8 +6,9 @@ __author__ = 'andric'
 import sys
 import os
 import time
+import numpy as np
 from shlex import split
-from subprocess import call, STDOUT
+from subprocess import call, STDOUT, PIPE, Popen
 
 class COMMUN:
 
@@ -59,19 +60,17 @@ class COMMUN:
         else:
             print 'Cannot find the graph. Check your configuration and inputs. \nFlaming... '+time.ctime()
 
-    def get_modularity(self, tree_out, modscore):
+    def get_modularity(self, tree_out):
         """
         Do community detection with Louvain algorithm.
         :param tree_out:
-        :param modscore:
-        :return: Writes tree and modscore to separate files.
+        :return: Q value, also writes tree to file.
         """
-        f = open(tree_out, 'w')
-        m = open(modscore, 'w')
+        fh = open(tree_out, 'w')
         cmdargs = split('community -l -1 '+self.graphname+'.bin')
-        call(cmdargs, stdout=f, stderr=m)
-        f.close()
-        m.close()
+        m = Popen(cmdargs, stdout=fh, stderr=PIPE).communicate()
+        fh.close()
+        return float(m[1])
 
 
 if __name__ == '__main__':
@@ -94,14 +93,15 @@ if __name__ == '__main__':
     cm.zipper('zip')
     # Below for doing modularity
     treedir = 'trees'
-    Qdir = 'Qvals'
+    mod_dir = 'modularity'
     niter = 100
+    Qs = np.array(np.zeros(niter))
     print 'Doing community detection. \nNumber of iterations: %s -- ' % niter+time.ctime()
     if not os.path.exists(treedir):
         os.makedirs(treedir)
-    if not os.path.exists(Qdir):
-        os.makedirs(Qdir)
+    if not os.path.exists(mod_dir):
+        os.makedirs(mod_dir)
     for n in xrange(niter):
         tree_outname = '%s/iter%s.%s.%s.dens_%s.tree' % (treedir, n, subjid, condition, thresh_density)
-        modscorename = '%s/iter%s.%s.%s.dens_%s.Qval' % (Qdir, n, subjid, condition, thresh_density)
-        cm.get_modularity(tree_outname, modscorename)
+        Qs[n] = cm.get_modularity(tree_outname)
+    np.savetxt('%s/%s.%s.dens_%s.Qval' % (mod_dir, subjid, condition, thresh_density), Qs, fmt='%.5f')
