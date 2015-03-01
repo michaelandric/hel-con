@@ -36,13 +36,20 @@ if __name__ == '__main__':
     q = np.loadtxt('%s/%s.%s.dens_%s.Qval' % (mod_dir, subjid, condition, thresh_density))
     maxiter = q.argmax()
     tree = np.loadtxt('%s/iter%s.%s.%s.dens_%s.tree_highest' % (tree_hier_dir, maxiter, subjid, condition, thresh_density), dtype=np.int32)
+    # Zero value for single voxel modules
     tree1 = tree[:,1]
     cnts = Counter(tree1)
-    modid = np.array(cnts.keys())[np.where(np.array(cnts.values())==1)]
-    tree1[np.in1d(tree1, modid)] = 0
+    cntsvals = np.array(cnts.values())
+    nmod_thr = len(cntsvals[cntsvals > 1])   # number of modules > 1 voxel
+    modid_singles = np.array(cnts.keys())[np.where(cntsvals==1)]
+    tree1[np.in1d(tree1, modid_singles)] = 0
+    # This relabels modules by rank number rather than arbitrary numeric label (easier for visualization)
+    tree2 = np.array(np.zeros(len(tree1)))
+    for c in xrange(nmod_thr):
+        tree2[np.where(tree1==cnts.most_common(nmod_thr)[c][0])] = c+1
 
     ijk = np.loadtxt(os.environ['hel']+'/%s/volume.%s.anat/%s.ijk_GMmask_dump' % (subjid, subjid, subjid))
-    ijktree = np.column_stack((ijk, tree1))
+    ijktree = np.column_stack((ijk, tree2))
     ijktree_outname = '%s/%s.%s.dens_%s.tree_highest_max.ijk' % (mod_dir, subjid, condition, thresh_density)
     np.savetxt(ijktree_outname, ijktree, fmt='%i')
 
