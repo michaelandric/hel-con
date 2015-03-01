@@ -51,7 +51,7 @@ class MaskMaker:
 
 if __name__ == "__main__":
 
-    subj_list = ['hel4', 'hel5', 'hel6']
+    subj_list = ['hel7', 'hel8', 'hel10', 'hel11', 'hel12', 'hel13']
     for ss in subj_list:
         os.chdir(os.environ['hel']+'/%s/volume.%s.anat' % (ss, ss))
 
