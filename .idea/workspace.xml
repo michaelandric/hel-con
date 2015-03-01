@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ef05d6cc-293b-4a0c-b58b-875278650f42" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/8.tree_to_afni.py" afterPath="$PROJECT_DIR$/8.tree_to_afni.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/1.fsl_anat.py" afterPath="$PROJECT_DIR$/1.fsl_anat.py" />
     </list>
     <ignored path="hel-con.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -74,14 +74,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="8.tree_to_afni.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="8.tree_to_afni.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/8.tree_to_afni.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6945701" vertical-offset="160" max-vertical-offset="1206">
+            <state vertical-scroll-proportion="0.0" vertical-offset="160" max-vertical-offset="1206">
               <caret line="42" column="21" selection-start-line="42" selection-start-column="21" selection-end-line="42" selection-end-column="21" />
               <folding>
                 <element signature="e#99#109#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="1.fsl_anat.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/1.fsl_anat.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.6312217" vertical-offset="0" max-vertical-offset="884">
+              <caret line="36" column="38" selection-start-line="36" selection-start-column="38" selection-end-line="36" selection-end-column="38" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -107,7 +117,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/1.maskmaker.py" />
-        <option value="$PROJECT_DIR$/1.fsl_anat.py" />
         <option value="$PROJECT_DIR$/2.gm_mask.py" />
         <option value="$PROJECT_DIR$/4.corrmats.py" />
         <option value="$PROJECT_DIR$/6.modularity.py" />
@@ -117,6 +126,7 @@
         <option value="$PROJECT_DIR$/6.community_detection.py" />
         <option value="$PROJECT_DIR$/7.tree_hierarchy.py" />
         <option value="$PROJECT_DIR$/8.tree_to_afni.py" />
+        <option value="$PROJECT_DIR$/1.fsl_anat.py" />
       </list>
     </option>
   </component>
@@ -513,13 +523,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/1.fsl_anat.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="1000">
-          <caret line="36" column="32" selection-start-line="36" selection-start-column="32" selection-end-line="36" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/2.gm_mask.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="580" max-vertical-offset="1580">
@@ -579,11 +582,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/8.tree_to_afni.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6945701" vertical-offset="160" max-vertical-offset="1206">
+        <state vertical-scroll-proportion="0.0" vertical-offset="160" max-vertical-offset="1206">
           <caret line="42" column="21" selection-start-line="42" selection-start-column="21" selection-end-line="42" selection-end-column="21" />
           <folding>
             <element signature="e#99#109#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/1.fsl_anat.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6312217" vertical-offset="0" max-vertical-offset="884">
+          <caret line="36" column="38" selection-start-line="36" selection-start-column="38" selection-end-line="36" selection-end-column="38" />
+          <folding />
         </state>
       </provider>
     </entry>
