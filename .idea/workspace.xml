@@ -89,8 +89,8 @@
       <file leaf-file-name="1.fsl_anat.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/1.fsl_anat.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6312217" vertical-offset="0" max-vertical-offset="884">
-              <caret line="36" column="38" selection-start-line="36" selection-start-column="38" selection-end-line="36" selection-end-column="38" />
+            <state vertical-scroll-proportion="0.7330317" vertical-offset="0" max-vertical-offset="884">
+              <caret line="41" column="39" selection-start-line="41" selection-start-column="39" selection-end-line="41" selection-end-column="39" />
               <folding />
             </state>
           </provider>
@@ -592,8 +592,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/1.fsl_anat.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6312217" vertical-offset="0" max-vertical-offset="884">
-          <caret line="36" column="38" selection-start-line="36" selection-start-column="38" selection-end-line="36" selection-end-column="38" />
+        <state vertical-scroll-proportion="0.7330317" vertical-offset="0" max-vertical-offset="884">
+          <caret line="41" column="39" selection-start-line="41" selection-start-column="39" selection-end-line="41" selection-end-column="39" />
           <folding />
         </state>
       </provider>

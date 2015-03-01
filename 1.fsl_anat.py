@@ -38,6 +38,8 @@ if __name__ == "__main__":
 
     for ss in subj_list:
         os.chdir(os.environ['hel']+'/%s' % ss)
+        if not os.path.exists('stdout_files'):
+            os.makedirs('stdout_files')
         anat = 'volume.%s' % ss
         FA = FSLANAT(anat)
         FA.AFNItoNIFTI()
