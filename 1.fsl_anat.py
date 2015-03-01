@@ -34,7 +34,7 @@ class FSLANAT:
 
 if __name__ == "__main__":
 
-    subj_list = ['hel8']
+    subj_list = ['hel12', 'hel13', 'hel14', 'hel15', 'hel16']
 
     for ss in subj_list:
         os.chdir(os.environ['hel']+'/%s' % ss)
