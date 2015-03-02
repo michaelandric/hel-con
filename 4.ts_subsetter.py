@@ -34,7 +34,7 @@ def TSsubsetter(inputTS, state):
 if __name__ == '__main__':
 
     if len(sys.argv) < 3:
-        sys.stderr.write("You messed up! \n"
+        sys.stderr.write("You done screwed up! \n"
                          "Usage: %s <SUBJECT ID> <CONDITION ID> \n" %
                          (os.path.basename(sys.argv[0]),))
 

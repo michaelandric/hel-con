@@ -52,7 +52,7 @@ class TreeParser(object):
 if __name__ == '__main__':
 
     if len(sys.argv) < 4:
-        sys.stderr.write("You done fucked up! \n"
+        sys.stderr.write("You done screwed up! \n"
                          "Usage: %s <SUBJECT ID> <CONDITION ID> <THRESH DENSITY> \n" %
                          (os.path.basename(sys.argv[0]),))
 
