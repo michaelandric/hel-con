@@ -37,8 +37,8 @@ class GRAPHS:
         :return: Writes to text file the outname
         """
         print 'Now making graph -- '+time.ctime()
-        ts = pd.read_csv(self.input, header=None).T   # transposing this
-        n_vox = ts.shape[1]
+        ts = pd.read_csv(self.input, header=None)
+        n_vox = ts.shape[0]
         compl_graph = int((n_vox*(n_vox-1))/2)
         n_edges = int(compl_graph*self.dens)
         print 'Input is read. \nNow getting the correlation matrix. '+time.ctime()
