@@ -9,7 +9,6 @@ import time
 import pandas as pd
 import numpy as np
 import networkx as nx
-import scipy.stats
 
 
 class GRAPHS:
@@ -26,16 +25,6 @@ class GRAPHS:
         self.dens = float(thresh_density)
         self.input = inputTS
         print 'Initializing. -- '+time.ctime()
-
-    def similarity_corr(self, data):
-        """
-        Implementing correlation quicker than pandas corr
-        :param data: input TS transposed for time points (rows) x voxels (cols)
-        :return: N^2 correlation mat
-        """
-        zm = ((data - data.mean()) / data.std())
-        a = (np.dot(zm.T, zm)) / np.sqrt(scipy.stats.ss(zm).T*scipy.stats.ss(zm))
-        return a
 
     def make_graph(self, outname):
         """
