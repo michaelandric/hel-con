@@ -27,7 +27,7 @@ class GRAPHS:
         self.input = inputTS
         print 'Initializing. -- '+time.ctime()
 
-    def pearson_corr(self, data):
+    def similarity_corr(self, data):
         """
         Implementing correlation quicker than pandas corr
         :param data: input TS transposed for time points (rows) x voxels (cols)
@@ -53,7 +53,7 @@ class GRAPHS:
         compl_graph = int((n_vox*(n_vox-1))/2)
         n_edges = int(compl_graph*self.dens)
         print 'Input is read. \nNow getting the correlation matrix. '+time.ctime()
-        corrmat = self.pearson_corr(ts)
+        corrmat = np.corrcoef(ts)
         corrmat_ut = np.nan_to_num(np.triu(corrmat, k=1))
         print 'Starting sort. -- '+time.ctime()
         corrsrtd = np.sort(corrmat_ut[corrmat_ut > 0], kind='mergesort')
