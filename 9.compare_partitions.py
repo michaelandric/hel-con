@@ -3,8 +3,10 @@
 __author__ = 'andric'
 
 import sys
+import os
 import time
 import numpy as np
+from itertools import combinations
 
 
 class COMPARE:
@@ -38,9 +40,9 @@ class COMPARE:
 if __name__ == '__main__':
 
     if len(sys.argv) < 3:
-    sys.stderr.write("You done screwed up! \n"
-                     "Usage: %s <SUBJECT ID> <METHOD> \n" %
-                     (os.path.basename(sys.argv[0]),))
+        sys.stderr.write("You done screwed up! \n"
+                         "Usage: %s <SUBJECT ID> <METHOD> \n" %
+                         (os.path.basename(sys.argv[0]),))
 
     subjid = sys.argv[1]
     compare_method = sys.argv[2]
@@ -55,15 +57,16 @@ if __name__ == '__main__':
 
     # Prepping output array
     n_combinations = ((niter**2)-niter)/2
-    compare_out = np.array(np.zeros(n_combinations))
 
     cmp = COMPARE()
 
     if compare_method == 'ARI':
+        compare_out = np.array(np.zeros(n_combinations))
         from sklearn.metrics import adjusted_rand_score
         for combo in combinations(np.arange(100), 2):
             compare_out = cmp.adjRand(tree_mat[:,combo[0]], tree_mat[:,combo[1]])
     elif compare_method == 'NMI':
+        compare_out = np.array(np.zeros(n_combinations))
         from sklearn.metrics import normalized_mutual_info_score
         for combo in combinations(np.arange(100), 2):
             compare_out = cmp.normalized_MI(tree_mat[:,combo[0]], tree_mat[:,combo[1]])
@@ -71,4 +74,4 @@ if __name__ == '__main__':
         print 'Where is your method?? \nFlaming... '+time.ctime()
         sys.exit(1)
 
-    return compare_out
+    print compare_out
