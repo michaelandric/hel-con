@@ -63,13 +63,17 @@ if __name__ == '__main__':
     if compare_method == 'ARI':
         compare_out = np.array(np.zeros(n_combinations))
         from sklearn.metrics import adjusted_rand_score
+        i = 0
         for combo in combinations(np.arange(100), 2):
-            compare_out = cmp.adjRand(tree_mat[:,combo[0]], tree_mat[:,combo[1]])
+            compare_out[i] = cmp.adjRand(tree_mat[:,combo[0]], tree_mat[:,combo[1]])
+            i = i+1
     elif compare_method == 'NMI':
         compare_out = np.array(np.zeros(n_combinations))
         from sklearn.metrics import normalized_mutual_info_score
+        i = 0
         for combo in combinations(np.arange(100), 2):
-            compare_out = cmp.normalized_MI(tree_mat[:,combo[0]], tree_mat[:,combo[1]])
+            compare_out[i] = cmp.normalized_MI(tree_mat[:,combo[0]], tree_mat[:,combo[1]])
+            i+1
     else:
         print 'Where is your method?? \nFlaming... '+time.ctime()
         sys.exit(1)
