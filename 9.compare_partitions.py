@@ -59,7 +59,7 @@ if __name__ == '__main__':
         infile1 = 'tree_highest/%s_dens0.1_tree.iter%d.highesttree' % ('CB', n)
         tree_mat1[:,n] = np.loadtxt(infile1)[:,1]   # because these infile actually has one col for indices
         infile2 = 'tree_highest/%s_dens0.1_tree.iter%d.highesttree' % ('SCB', n)
-        tree_mat2[:,n] = np.loadtxt(infile1)[:,1]   # because these infile actually has one col for indices
+        tree_mat2[:,n] = np.loadtxt(infile2)[:,1]   # because these infile actually has one col for indices
 
     #tree_mat2 = tree_mat1   # If comparing for same subject over iterations
 
