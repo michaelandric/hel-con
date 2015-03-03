@@ -54,13 +54,14 @@ class GRAPHS:
         n, v = np.where(ix)
         print 'Done getting where coords... '+time.ctime()
         inds = np.array(zip(n, v), dtype=int32)
+        print 'Graph complete. \nWriting it to file -- '+time.ctime()
         np.savetxt(outname, inds, fmt='%i')
         #G = nx.Graph()
         #print 'Graph initialized. \nAdding edges -- '+time.ctime()
         #G.add_edges_from(inds)
         #print 'Graph complete. \nWriting it to file -- '+time.ctime()
         #nx.write_edgelist(G, outname, data=False)
-        #print 'Graph edgelist written out. \nDONE. -- '+time.ctime()
+        print 'Graph edgelist written out. \nDONE. -- '+time.ctime()
 
 
 if __name__ == "__main__":
