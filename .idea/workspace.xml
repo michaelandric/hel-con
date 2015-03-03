@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ef05d6cc-293b-4a0c-b58b-875278650f42" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/9.compare_partitions.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/9.compare_partitions.py" afterPath="$PROJECT_DIR$/9.compare_partitions.py" />
     </list>
     <ignored path="hel-con.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -54,10 +53,10 @@
       <file leaf-file-name="9.compare_partitions.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/9.compare_partitions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8371041" vertical-offset="268" max-vertical-offset="1152">
-              <caret line="56" column="19" selection-start-line="56" selection-start-column="19" selection-end-line="56" selection-end-column="19" />
+            <state vertical-scroll-proportion="0.020361992" vertical-offset="0" max-vertical-offset="1440">
+              <caret line="1" column="21" selection-start-line="1" selection-start-column="21" selection-end-line="1" selection-end-column="21" />
               <folding>
-                <element signature="e#87#97#0" expanded="true" />
+                <element signature="e#70#80#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -703,10 +702,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/9.compare_partitions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8371041" vertical-offset="268" max-vertical-offset="1152">
-          <caret line="56" column="19" selection-start-line="56" selection-start-column="19" selection-end-line="56" selection-end-column="19" />
+        <state vertical-scroll-proportion="0.020361992" vertical-offset="0" max-vertical-offset="1440">
+          <caret line="1" column="21" selection-start-line="1" selection-start-column="21" selection-end-line="1" selection-end-column="21" />
           <folding>
-            <element signature="e#87#97#0" expanded="true" />
+            <element signature="e#70#80#0" expanded="true" />
           </folding>
         </state>
       </provider>

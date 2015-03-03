@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Compare partitions using Rand Index"""
+"""Compare partitions"""
 __author__ = 'andric'
 
 import sys
@@ -7,12 +7,28 @@ import time
 import numpy as np
 
 class COMPARE:
+    """
+    Methods for comparing partition similarity
+    """
 
     def adjRand(self, p1, p2):
+        """
+        Get the Adjusted Rand Score, adjusted as
+        ARI = (RI - Expected_RI) / (max(RI) - Expected_RI)
+        :param p1: Partition 1
+        :param p2: Partition 2
+        :return: Adjusted Rand score
+        """
         ars = adjusted_rand_score(p1, p2)
         return ars
 
     def normalized_MI(self, p1, p2):
+        """
+        Get the Normalized Mutual Information
+        :param p1: Partition 1
+        :param p2: Partition 2
+        :return: Normalized Mutual Information measure
+        """
         nmi = normalized_mutual_info_score(p1, p2)
         return nmi
 
