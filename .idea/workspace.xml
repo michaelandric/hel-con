@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ef05d6cc-293b-4a0c-b58b-875278650f42" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/5.corrmats.py" afterPath="$PROJECT_DIR$/5.corrmats.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/9.compare_partitions.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="hel-con.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -38,13 +39,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="5.corrmats.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="5.corrmats.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/5.corrmats.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.36651585" vertical-offset="522" max-vertical-offset="1476">
-              <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="592" max-vertical-offset="1476">
+              <caret line="61" column="25" selection-start-line="61" selection-start-column="25" selection-end-line="61" selection-end-column="25" />
               <folding>
                 <element signature="e#150#160#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="9.compare_partitions.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/9.compare_partitions.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.8371041" vertical-offset="268" max-vertical-offset="1152">
+              <caret line="56" column="19" selection-start-line="56" selection-start-column="19" selection-end-line="56" selection-end-column="19" />
+              <folding>
+                <element signature="e#87#97#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -53,8 +66,8 @@
       <file leaf-file-name="7.tree_hierarchy.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/7.tree_hierarchy.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="520" max-vertical-offset="1584">
-              <caret line="54" column="42" selection-start-line="54" selection-start-column="42" selection-end-line="54" selection-end-column="42" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="700" max-vertical-offset="1584">
+              <caret line="61" column="95" selection-start-line="58" selection-start-column="0" selection-end-line="61" selection-end-column="95" />
               <folding>
                 <element signature="e#107#117#0" expanded="true" />
               </folding>
@@ -105,6 +118,7 @@
         <option value="$PROJECT_DIR$/7.tree_hierarchy.py" />
         <option value="$PROJECT_DIR$/4.ts_subsetter.py" />
         <option value="$PROJECT_DIR$/5.corrmats.py" />
+        <option value="$PROJECT_DIR$/9.compare_partitions.py" />
       </list>
     </option>
   </component>
@@ -619,26 +633,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/8.tree_to_afni.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="322" max-vertical-offset="1206">
-          <caret line="22" column="42" selection-start-line="22" selection-start-column="42" selection-end-line="22" selection-end-column="42" />
-          <folding>
-            <element signature="e#99#109#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/7.tree_hierarchy.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="520" max-vertical-offset="1584">
-          <caret line="54" column="42" selection-start-line="54" selection-start-column="42" selection-end-line="54" selection-end-column="42" />
-          <folding>
-            <element signature="e#107#117#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/4.ts_subsetter.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="268" max-vertical-offset="1152">
@@ -677,12 +671,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/8.tree_to_afni.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="322" max-vertical-offset="1206">
+          <caret line="22" column="42" selection-start-line="22" selection-start-column="42" selection-end-line="22" selection-end-column="42" />
+          <folding>
+            <element signature="e#99#109#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/5.corrmats.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.36651585" vertical-offset="522" max-vertical-offset="1476">
-          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="592" max-vertical-offset="1476">
+          <caret line="61" column="25" selection-start-line="61" selection-start-column="25" selection-end-line="61" selection-end-column="25" />
           <folding>
             <element signature="e#150#160#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/7.tree_hierarchy.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="700" max-vertical-offset="1584">
+          <caret line="61" column="95" selection-start-line="58" selection-start-column="0" selection-end-line="61" selection-end-column="95" />
+          <folding>
+            <element signature="e#107#117#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/9.compare_partitions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8371041" vertical-offset="268" max-vertical-offset="1152">
+          <caret line="56" column="19" selection-start-line="56" selection-start-column="19" selection-end-line="56" selection-end-column="19" />
+          <folding>
+            <element signature="e#87#97#0" expanded="true" />
           </folding>
         </state>
       </provider>
