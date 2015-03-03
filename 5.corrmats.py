@@ -8,7 +8,6 @@ import os
 import time
 import pandas as pd
 import numpy as np
-import networkx as nx
 
 
 class GRAPHS:
@@ -53,14 +52,9 @@ class GRAPHS:
         print 'Found in 1d '+time.ctime()
         n, v = np.where(ix)
         print 'Done getting where coords... '+time.ctime()
-        inds = np.array(zip(n, v), dtype=int32)
-        print 'Graph complete. \nWriting it to file -- '+time.ctime()
-        np.savetxt(outname, inds, fmt='%i')
-        #G = nx.Graph()
-        #print 'Graph initialized. \nAdding edges -- '+time.ctime()
-        #G.add_edges_from(inds)
-        #print 'Graph complete. \nWriting it to file -- '+time.ctime()
-        #nx.write_edgelist(G, outname, data=False)
+        inds = np.array(zip(n, v), dtype=np.int32)
+        print 'Got graph edges. \nWriting it to file -- '+time.ctime()
+        np.savetxt(outname, inds, fmt='%d')
         print 'Graph edgelist written out. \nDONE. -- '+time.ctime()
 
 
