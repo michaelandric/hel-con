@@ -6,6 +6,7 @@ import sys
 import time
 import numpy as np
 
+
 class COMPARE:
     """
     Methods for comparing partition similarity
@@ -36,22 +37,20 @@ class COMPARE:
 
 if __name__ == '__main__':
 
-    if len(sys.argv) < 5:
+    if len(sys.argv) < 3:
     sys.stderr.write("You done screwed up! \n"
-                     "Usage: %s <SUBJECT ID> <CONDITION ID> <THRESH DENSITY> <METHOD>  \n" %
+                     "Usage: %s <SUBJECT ID> <METHOD> \n" %
                      (os.path.basename(sys.argv[0]),))
 
     subjid = sys.argv[1]
-    condition = sys.argv[2]
-    thresh_density = sys.argv[3]
-    compare_method = sys.argv[4]
+    compare_method = sys.argv[2]
     niter = 100   # because I have 100 iterations of the modularity solution, one tree for each
 
     n_regions = 148
     # Building array of inputs. These are the trees of highest modularity
     tree_mat = np.array(np.zeros(niter*n_regions)).reshape(n_regions, niter)
     for n in xrange(niter):
-        infile = 'tree_highest/%s_dens%s_tree.iter%d.highesttree' % (subjid, thresh_density, n)
+        infile = 'tree_highest/%s_dens0.1_tree.iter%d.highesttree' % (subjid, n)
         tree_mat[:,n] = np.loadtxt(infile)[:,1]   # because these infile actually has one col for indices
 
     # Prepping output array

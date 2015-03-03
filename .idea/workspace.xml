@@ -53,8 +53,8 @@
       <file leaf-file-name="9.compare_partitions.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/9.compare_partitions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.020361992" vertical-offset="0" max-vertical-offset="1440">
-              <caret line="1" column="21" selection-start-line="1" selection-start-column="21" selection-end-line="1" selection-end-column="21" />
+            <state vertical-scroll-proportion="0.65158373" vertical-offset="378" max-vertical-offset="1422">
+              <caret line="53" column="78" selection-start-line="53" selection-start-column="78" selection-end-line="53" selection-end-column="78" />
               <folding>
                 <element signature="e#70#80#0" expanded="true" />
               </folding>
@@ -702,8 +702,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/9.compare_partitions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.020361992" vertical-offset="0" max-vertical-offset="1440">
-          <caret line="1" column="21" selection-start-line="1" selection-start-column="21" selection-end-line="1" selection-end-column="21" />
+        <state vertical-scroll-proportion="0.65158373" vertical-offset="378" max-vertical-offset="1422">
+          <caret line="53" column="78" selection-start-line="53" selection-start-column="78" selection-end-line="53" selection-end-column="78" />
           <folding>
             <element signature="e#70#80#0" expanded="true" />
           </folding>
