@@ -47,6 +47,7 @@ if __name__ == '__main__':
     subjid = sys.argv[1]
     compare_method = sys.argv[2]
     niter = 100   # because I have 100 iterations of the modularity solution, one tree for each
+    output_pref = '%s_%s.txt'
 
     n_regions = 148
     # Building array of inputs. These are the trees of highest modularity
@@ -67,15 +68,15 @@ if __name__ == '__main__':
         for combo in combinations(np.arange(100), 2):
             compare_out[i] = cmp.adjRand(tree_mat[:,combo[0]], tree_mat[:,combo[1]])
             i = i+1
+        np.savetxt(output_pref, compare_out, fmt='%.4f')
     elif compare_method == 'NMI':
         compare_out = np.array(np.zeros(n_combinations))
         from sklearn.metrics import normalized_mutual_info_score
         i = 0
         for combo in combinations(np.arange(100), 2):
             compare_out[i] = cmp.normalized_MI(tree_mat[:,combo[0]], tree_mat[:,combo[1]])
-            i+1
+            i = i+1
+        np.savetxt(output_pref, compare_out, fmt='%.4f')
     else:
         print 'Where is your method?? \nFlaming... '+time.ctime()
         sys.exit(1)
-
-    print compare_out
