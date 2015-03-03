@@ -53,13 +53,14 @@ class GRAPHS:
         print 'Found in 1d '+time.ctime()
         n, v = np.where(ix)
         print 'Done getting where coords... '+time.ctime()
-        inds = zip(n, v)
-        G = nx.Graph()
-        print 'Graph initialized. \nAdding edges -- '+time.ctime()
-        G.add_edges_from(inds)
-        print 'Graph complete. \nWriting it to file -- '+time.ctime()
-        nx.write_edgelist(G, outname, data=False)
-        print 'Graph edgelist written out. \nDONE. -- '+time.ctime()
+        inds = np.array(zip(n, v), dtype=int32)
+        np.savetxt(outname, inds, fmt='%i')
+        #G = nx.Graph()
+        #print 'Graph initialized. \nAdding edges -- '+time.ctime()
+        #G.add_edges_from(inds)
+        #print 'Graph complete. \nWriting it to file -- '+time.ctime()
+        #nx.write_edgelist(G, outname, data=False)
+        #print 'Graph edgelist written out. \nDONE. -- '+time.ctime()
 
 
 if __name__ == "__main__":
