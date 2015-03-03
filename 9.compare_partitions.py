@@ -47,7 +47,7 @@ if __name__ == '__main__':
     subjid = sys.argv[1]
     compare_method = sys.argv[2]
     niter = 100   # because I have 100 iterations of the modularity solution, one tree for each
-    output_pref = '%s_%s.txt'
+    output_pref = '%s_%s.txt' % (subjid, compare_method)
 
     n_regions = 148
     # Building array of inputs. These are the trees of highest modularity
