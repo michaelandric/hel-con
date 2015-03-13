@@ -13,10 +13,11 @@ def zscore_input(infile, type):
     :param type: Either "zrange" (z-score) or "ones" for -1 to 1 interval
     :return: Normalized input design
     """
+    indat = np.loadtxt(infile)
     if type == 'zrange':
-        normed = stats.zscore(infile)
+        normed = stats.zscore(indat)
     elif type == 'ones':
-        normed = (((infile-np.min(infile)) / (np.max(infile) - np.min(infile))*2)-1)
+        normed = (((indat-np.min(indat)) / (np.max(indat) - np.min(indat))*2)-1)
 
     return normed
 
