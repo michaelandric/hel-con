@@ -1,6 +1,8 @@
 #!/usr/bin/evn python
 __author__ = 'andric'
 
+import sys
+import os
 import numpy as np
 from scipy import stats
 
