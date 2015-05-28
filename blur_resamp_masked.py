@@ -17,7 +17,7 @@ def blur_fwhm(stdout_dir, in_pref, out_pref, fwhm):
     """
     f = open('%s/stdout_from_3dmerge.txt' % stdout_dir, 'w')
     cmdargs = split('3dmerge -1blur_fwhm %s -doall \
-        -prefix %s %s+orig' % (fwhm, out_pref, in_pref))
+        -datum float -prefix %s %s+orig' % (fwhm, out_pref, in_pref))
     call(cmdargs, stdout=f, stderr=STDOUT)
     f.close()
 
