@@ -14,7 +14,7 @@ from subprocess import call, STDOUT
 
 def afnitonifti(stdout_dir, in_pref):
     f = open('%s/stdout_from_3dAFNItoNIFTI.txt' % stdout_dir, 'w')
-    cmdargs = split('3dAFNItoNIFTI %s' % in_pref)
+    cmdargs = split('3dAFNItoNIFTI %s+orig' % in_pref)
     call(cmdargs, stdout=f, stderr=STDOUT)
     f.close()
 
