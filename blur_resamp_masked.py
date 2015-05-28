@@ -12,7 +12,9 @@ from shlex import split
 from subprocess import call, STDOUT
 
 
-def afnitonifti(stdout_dir, in_pref):
+def afnitonifti(stdout_dir, proc_dir, in_pref):
+    os.chdir(proc_dir)
+    print os.getcwd()
     f = open('%s/stdout_from_3dAFNItoNIFTI.txt' % stdout_dir, 'w')
     cmdargs = split('3dAFNItoNIFTI %s+orig' % in_pref)
     call(cmdargs, stdout=f, stderr=STDOUT)
@@ -80,7 +82,7 @@ if __name__ == '__main__':
 
         func_dat_pref = os.path.join(preproc_dir, 'cleanTS_%sr01' % ss)
 
-        afnitonifti(stdout_dir, func_dat_pref)
+        afnitonifti(stdout_dir, preproc_dir, func_dat_pref)
 
         fwhm_size = '4.0'
         out_blur_pref = '%s_smth4mm' % func_dat_pref
@@ -120,7 +122,7 @@ if __name__ == '__main__':
             func_dat_pref = os.path.join(preproc_dir,
                                          'cleanTS_%sr0%s' % (ss, i))
 
-            afnitonifti(stdout_dir, func_dat_pref)
+            afnitonifti(stdout_dir, preproc_dir, func_dat_pref)
 
             out_blur_pref = '%s_smth4mm' % func_dat_pref
             blur_fwhm(stdout_dir, func_dat_pref, out_blur_pref, fwhm_size)
