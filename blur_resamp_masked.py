@@ -12,12 +12,19 @@ from shlex import split
 from subprocess import call, STDOUT
 
 
+def afnitonifti(stdout_dir, in_pref):
+    f = open('%s/stdout_from_3dAFNItoNIFTI.txt' % stdout_dir, 'w')
+    cmdargs = split('3dAFNItoNIFTI %s' % in_pref)
+    call(cmdargs, stdout=f, stderr=STDOUT)
+    f.close()
+
+
 def blur_fwhm(stdout_dir, in_pref, out_pref, fwhm):
     """
     """
     f = open('%s/stdout_from_3dmerge.txt' % stdout_dir, 'w')
     cmdargs = split('3dmerge -1blur_fwhm %s -doall \
-        -datum float -prefix %s %s+orig' % (fwhm, out_pref, in_pref))
+        -datum float -prefix %s %s.nii.gz' % (fwhm, out_pref, in_pref))
     call(cmdargs, stdout=f, stderr=STDOUT)
     f.close()
 
@@ -72,6 +79,9 @@ if __name__ == '__main__':
             os.makedirs(stdout_dir)
 
         func_dat_pref = os.path.join(preproc_dir, 'cleanTS_%sr01' % ss)
+
+        afnitonifti(stdout_dir, func_dat_pref)
+
         fwhm_size = '4.0'
         out_blur_pref = '%s_smth4mm' % func_dat_pref
         blur_fwhm(stdout_dir, func_dat_pref, out_blur_pref, fwhm_size)
@@ -109,6 +119,9 @@ if __name__ == '__main__':
 
             func_dat_pref = os.path.join(preproc_dir,
                                          'cleanTS_%sr0%s' % (ss, i))
+
+            afnitonifti(stdout_dir, func_dat_pref)
+
             out_blur_pref = '%s_smth4mm' % func_dat_pref
             blur_fwhm(stdout_dir, func_dat_pref, out_blur_pref, fwhm_size)
 
