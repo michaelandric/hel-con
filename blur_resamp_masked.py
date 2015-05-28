@@ -76,7 +76,7 @@ if __name__ == '__main__':
         out_blur_pref = '%s_smth4mm' % func_dat_pref
         blur_fwhm(stdout_dir, func_dat_pref, out_blur_pref, fwhm_size)
 
-        out_resample_pref = '%s_Liresamp%smm' % (out_blur_pref, fwhm_size)
+        out_resample_pref = '%s_Liresamp4mm' % out_blur_pref
         resample(stdout_dir, out_blur_pref, out_resample_pref)
 
         anat_dir = os.path.join(os.environ['hel'],
@@ -112,7 +112,9 @@ if __name__ == '__main__':
             out_blur_pref = '%s_smth4mm' % func_dat_pref
             blur_fwhm(stdout_dir, func_dat_pref, out_blur_pref, fwhm_size)
 
-            out_resample_pref = '%s_Liresamp%smm' % (out_blur_pref, fwhm_size)
+            out_resample_pref = '%s_Liresamp4mm' % out_blur_pref
+            resample(stdout_dir, out_blur_pref, out_resample_pref)
+
             calc_mask_out_pref = '%s_mskd' % out_resample_pref
             calc_masked_dat(stdout_dir, calc_mask_a,
                             out_resample_pref, calc_mask_out_pref)
