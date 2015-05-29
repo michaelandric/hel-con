@@ -34,7 +34,7 @@ def maskdummp(stdout_dir, mask, in_pref, out_pref):
     f.close()
 
 
-def build_inputlist(subjid, sess):
+def build_inputlist(subjid, proc_dir, sess):
     """
     :param subjid: This is the subject id
     :param sess: Is session 1 or 2
@@ -51,13 +51,13 @@ def build_inputlist(subjid, sess):
     sub_dct = dict(zip(runs, subs))
     if sess == 1:
         for r in runs:
-            f = "'cleanTS_%sr0%d_smth4mm_Liresamp4mm_mskd+orig[%s]'" % \
-                (subjid, r, sub_dct[r])
+            f = "'%s/cleanTS_%sr0%d_smth4mm_Liresamp4mm_mskd+orig[%s]'" % \
+                (proc_dir, subjid, r, sub_dct[r])
             inp_list.append(f)
     elif sess == 2:
         for r in runs:
-            f = "'cleanTS_%sr0%d_smth4mm_Liresamp4mm_mskd+orig[%s]'" % \
-                (subjid, r+3, sub_dct[r])
+            f = "'%s/cleanTS_%sr0%d_smth4mm_Liresamp4mm_mskd+orig[%s]'" % \
+                (proc_dir, subjid, r+3, sub_dct[r])
             inp_list.append(f)
 
     return inp_list
@@ -81,6 +81,6 @@ if __name__ == '__main__':
 
         TScat_inputs = []
         for session in range(1, 3):
-            in_list = build_inputlist(ss, 1)
-            out_name = 'task_sess_%d_%s' % (session, ss)
+            in_list = build_inputlist(ss, preproc_dir, 1)
+            out_name = '%s/task_sess_%d_%s' % (preproc_dir, session, ss)
             TScat(stdout_dir, in_list, out_name)
