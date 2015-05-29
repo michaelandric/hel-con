@@ -51,9 +51,10 @@ if __name__ == '__main__':
         proc_dir = os.path.join(os.environ['hel'], ss, 'preprocessing')
 
         for session in range(1, 3):
-            ts_name = 'task_sess_%d_%s.txt' % (session, ss)
-            ts_file = os.path.join(proc_dir, ts_name)
-            n_nodes = file_len(ts_file)
+            ts_name = os.path.join(proc_dir,
+                                   'task_sess_%d_%s.txt' % (session, ss))
+            ts_file = np.loadtxt(ts_name)
+            n_nodes = file_len(ts_name)
 
             for thresh_dens in np.arange(.05, .1, .05):
                 print 'Thresh: %s' % thresh_dens
