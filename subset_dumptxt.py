@@ -28,7 +28,7 @@ def TScat(stdout_dir, input_list, out_pref):
 def maskdump(stdout_dir, mask, in_pref, out_pref):
     outf = open(out_pref, 'w')
     f = open('%s/stdout_from_maskdump.txt' % stdout_dir, 'w')
-    cmdargs = split('3dmaskdump -mask %s %s' % mask, in_pref)
+    cmdargs = split('3dmaskdump -mask %s %s' % (mask, in_pref))
     call(cmdargs, stdout=outf, stderr=f)
     outf.close()
     f.close()
