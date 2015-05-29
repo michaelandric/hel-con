@@ -25,7 +25,7 @@ def TScat(stdout_dir, input_list, out_pref):
     f.close
 
 
-def maskdummp(stdout_dir, mask, in_pref, out_pref):
+def maskdump(stdout_dir, mask, in_pref, out_pref):
     outf = open(out_pref, 'w')
     f = open('%s/stdout_from_maskdump.txt' % stdout_dir, 'w')
     cmdargs = split('3dmaskdump -mask %s %s' % mask, in_pref)
@@ -82,5 +82,10 @@ if __name__ == '__main__':
         TScat_inputs = []
         for session in range(1, 3):
             in_list = build_inputlist(ss, preproc_dir, 1)
-            out_name = '%s/task_sess_%d_%s' % (preproc_dir, session, ss)
-            TScat(stdout_dir, in_list, out_name)
+            cat_out_name = '%s/task_sess_%d_%s' % (preproc_dir, session, ss)
+            TScat(stdout_dir, in_list, cat_out_name)
+
+            mask_dir = '%s/volume.%s.anat' % (os.environ['hel'], ss)
+            mask = os.path.join(mask_dir, '%s_GMmask_frac_bin+orig.' % ss)
+            ts_outname = '%s.txt' % cat_out_name
+            maskdump(stdout_dir, mask, cat_out_name, ts_outname)
