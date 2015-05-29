@@ -39,13 +39,12 @@ class GRAPHS:
         Returns average correlation among values
         """
         print 'Now making graph -- '+time.ctime()
-        ts = self.input.T   # this need to transpose
-        n_vox = ts.shape[0]
+        n_vox = self.input.shape[0]
         compl_graph = int((n_vox*(n_vox-1))/2)
         n_edges = int(compl_graph*self.dens)
         print 'Input is read. '
         print 'Now getting the correlation matrix. '+time.ctime()
-        corrmat = np.corrcoef(ts)
+        corrmat = np.corrcoef(self.input)
         corrmat_ut = np.nan_to_num(np.triu(corrmat, k=1))
         print 'Starting sort. -- '+time.ctime()
         corrsrtd = np.sort(corrmat_ut[corrmat_ut > 0], kind='mergesort')
