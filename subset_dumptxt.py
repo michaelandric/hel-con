@@ -87,6 +87,6 @@ if __name__ == '__main__':
 
             mask_dir = '%s/%s/volume.%s.anat' % (os.environ['hel'], ss, ss)
             mask = os.path.join(mask_dir, '%s_GMmask_frac_bin+orig.' % ss)
-            in_name = '%s+orig'
+            in_name = '%s+orig' % cat_out_name
             ts_outname = '%s.txt' % cat_out_name
             maskdump(stdout_dir, mask, in_name, ts_outname)
