@@ -85,7 +85,7 @@ if __name__ == '__main__':
             cat_out_name = '%s/task_sess_%d_%s' % (preproc_dir, session, ss)
             TScat(stdout_dir, in_list, cat_out_name)
 
-            mask_dir = '%s/volume.%s.anat' % (os.environ['hel'], ss)
+            mask_dir = '%s/%s/volume.%s.anat' % (os.environ['hel'], ss, ss)
             mask = os.path.join(mask_dir, '%s_GMmask_frac_bin+orig.' % ss)
             ts_outname = '%s.txt' % cat_out_name
             maskdump(stdout_dir, mask, cat_out_name, ts_outname)
