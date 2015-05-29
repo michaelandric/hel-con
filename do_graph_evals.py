@@ -18,6 +18,7 @@ def file_len(fname):
             pass
     return i + 1
 
+
 if __name__ == '__main__':
 
     os.chdir(os.environ['hel'])
@@ -54,7 +55,7 @@ if __name__ == '__main__':
             ts_file = os.path.join(proc_dir, ts_name)
             n_nodes = file_len(ts_file)
 
-            for thresh_dens in np.arange(.05, .11, .1):
+            for thresh_dens in np.arange(.05, .1, .05):
                 print 'Thresh: %s' % thresh_dens
                 print time.ctime()
                 graph_outname = 'task_sess_%d_%s.dens_%s.edgelist.gz' % \
