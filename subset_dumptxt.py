@@ -20,7 +20,8 @@ def TScat(stdout_dir, input_list, out_pref):
     Takes inputs as list (with sub-bricks indicated)
     """
     f = open('%s/stdout_from_TScat.txt' % stdout_dir, 'w')
-    cmdargs = split('3dTcat -prefix %s %s' % out_pref, ' '.join(input_list))
+    filelist = ' '.join(input_list)
+    cmdargs = split('3dTcat -prefix %s %s' % out_pref, filelist)
     call(cmdargs, stdout=f, stderr=STDOUT)
     f.close
 
