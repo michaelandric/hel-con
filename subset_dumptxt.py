@@ -28,10 +28,23 @@ def TScat(stdout_dir, input_list, out_pref):
 def maskdump(stdout_dir, mask, in_pref, out_pref):
     outf = open(out_pref, 'w')
     f = open('%s/stdout_from_maskdump.txt' % stdout_dir, 'w')
-    cmdargs = split('3dmaskdump -mask %s %s' % (mask, in_pref))
+    cmdargs = split('3dmaskdump -mask %s -noijk %s' % (mask, in_pref))
     call(cmdargs, stdout=outf, stderr=f)
     outf.close()
     f.close()
+
+
+def get_ijk(outname, mask=None):
+    print 'Getting IJK coordinates... '+time.ctime()
+    if mask is None:
+        print 'NOTT USING MASK. HUH?'
+        call("3dmaskdump %s | awk '{print $1, $2, $3}' > %s" %
+             (mask, outname), shell=True)
+    else:
+        print 'USING MASK: '+mask
+        call("3dmaskdump -mask %s %s | awk '{print $1, $2, $3}' > %s" %
+             (mask, mask, outname), shell=True)
+    print 'DONE. '+time.ctime()
 
 
 def build_inputlist(subjid, proc_dir, sess):
@@ -85,8 +98,12 @@ if __name__ == '__main__':
             cat_out_name = '%s/task_sess_%d_%s' % (preproc_dir, session, ss)
             TScat(stdout_dir, in_list, cat_out_name)
 
-            mask_dir = '%s/%s/volume.%s.anat' % (os.environ['hel'], ss, ss)
-            mask = os.path.join(mask_dir, '%s_GMmask_frac_bin+orig.' % ss)
+            mask_dir = '%s/%s/volume.%s.anat/' % (os.environ['hel'], ss, ss)
+            mask_pref = os.path.join(mask_dir, '%s_GMmask_frac_bin' % ss)
+            mask = '%s+orig.' % mask_pref
             in_name = '%s+orig' % cat_out_name
             ts_outname = '%s.txt' % cat_out_name
             maskdump(stdout_dir, mask, in_name, ts_outname)
+
+        ijk_outname = '%s_ijk.txt' % mask_pref
+        get_ijk(ijk_outname, mask)
