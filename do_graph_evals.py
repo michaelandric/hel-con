@@ -60,7 +60,7 @@ if __name__ == '__main__':
             ts_file = np.loadtxt(ts_name)
             n_nodes = file_len(ts_name)
 
-            for thresh_dens in [.10, .15, .20]:
+            for thresh_dens in [.05, .10, .15, .20]:
                 print 'Thresh: %s' % thresh_dens
                 print time.ctime()
                 graph_outname = 'task_sess_%d_%s.dens_%s.edgelist.gz' % \
@@ -110,3 +110,5 @@ if __name__ == '__main__':
                     (session, ss, thresh_dens)
                 np.savetxt(os.path.join(mod_dir, nmods_outname),
                            nmods, fmt='%i')
+                bin_file = '%s.bin' % graph_pref
+                os.remove(os.path.join(graph_dir, graph_pref))
