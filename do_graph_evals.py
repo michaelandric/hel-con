@@ -88,14 +88,15 @@ if __name__ == '__main__':
                 Qs = np.zeros(niter)
                 nmods = np.zeros(niter)
                 trees = np.zeros(n_nodes*niter).reshape(n_nodes, niter)
-                hierar_suff = '.task_sess_%d_%s.dens_%s.trees_hierarchy' % \
+                hierar_suff = 'task_sess_%d_%s.dens_%s.trees_hierarchy' % \
                     (session, ss, thresh_dens)
                 for i in xrange(niter):
                     print 'iter %d' % i
-                    hierarchy_tr_name = os.path.join(trees_all_levl_dir,
-                                                     'iter%d' % i, hierar_suff)
-                    Qs[i] = com.get_modularity(hierarchy_tr_name)
-                    tr, n_m = com.get_hierarchical(hierarchy_tr_name)
+                    hierarchy_tr_name = 'iter%d.%s' % (i, hierar_suff)
+                    hierarchy_tr_filename = os.path.join(trees_all_levl_dir,
+                                                         hierarchy_tr_name)
+                    Qs[i] = com.get_modularity(hierarchy_tr_filename)
+                    tr, n_m = com.get_hierarchical(hierarchy_tr_filename)
                     trees[:, i] = tr
                     nmods[i] = n_m
                 Qs_outname = 'task_sess_%d_%s.dens_%s.Qval' % \
