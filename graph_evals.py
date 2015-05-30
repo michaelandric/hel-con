@@ -157,13 +157,11 @@ class CommunityDetect(object):
         :return: Will convert to binary for Louvain algorithm and write to file
         """
         if os.path.exists(self.graphname):
-            f = open('stdout_files/stdout_from_convert.txt', 'w')
             print 'Converting edgelist to binary for community detection'
             print time.ctime()
             cmdargs = split('community_convert -i %s -o %s.bin' %
                             (self.graphname, self.graphname))
-            call(cmdargs, stdout=f, stderr=STDOUT)
-            f.close()
+            call(cmdargs)
             print 'Conversion done. -- '+time.ctime()
         elif os.path.exists(self.graphname+'.gz'):
             print 'You need to unzip the graph! '+time.ctime()
