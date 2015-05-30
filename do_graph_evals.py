@@ -60,7 +60,7 @@ if __name__ == '__main__':
             ts_file = np.loadtxt(ts_name)
             n_nodes = file_len(ts_name)
 
-            for thresh_dens in np.arange(.05, .1, .05):
+            for thresh_dens in [.10, .15, .20]:
                 print 'Thresh: %s' % thresh_dens
                 print time.ctime()
                 graph_outname = 'task_sess_%d_%s.dens_%s.edgelist.gz' % \

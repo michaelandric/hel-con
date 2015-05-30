@@ -194,15 +194,12 @@ class CommunityDetect(object):
         """
         from collections import Counter
         cmdargs = split('hierarchy -n %s' % tree_all_levels)
-        print 'Parsing trees to find highest hierarchical level'
-        print time.ctime()
         print cmdargs
         p = Popen(cmdargs, stdout=PIPE).communicate()
         h = int(p[0].split()[3]) - 1
         print 'Getting hierarchy -- '+time.ctime()
         cmdargs = split('hierarchy -l %d %s' % (h, tree_all_levels))
         tree = Popen(cmdargs, stdout=PIPE).communicate()
-        print 'Now getting number of modules... '+time.ctime()
         stree = [tt for tt in tree[0].split('\n')]
         mods = np.array(np.zeros(len(stree)-1), dtype=np.int)
         for i in xrange(len(mods)):
