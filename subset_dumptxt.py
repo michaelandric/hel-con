@@ -69,8 +69,9 @@ def build_inputlist(subjid, proc_dir, sess):
             inp_list.append(f)
     elif sess == 2:
         for r in runs:
+            r = r+3
             f = "'%s/cleanTS_%sr0%d_smth4mm_Liresamp4mm_mskd+orig[%s]'" % \
-                (proc_dir, subjid, r+3, sub_dct[r])
+                (proc_dir, subjid, r, sub_dct[r])
             inp_list.append(f)
 
     return inp_list
@@ -92,9 +93,8 @@ if __name__ == '__main__':
         if not os.path.exists(stdout_dir):
             os.makedirs(stdout_dir)
 
-        TScat_inputs = []
         for session in range(1, 3):
-            in_list = build_inputlist(ss, preproc_dir, 1)
+            in_list = build_inputlist(ss, preproc_dir, session)
             cat_out_name = '%s/task_sess_%d_%s' % (preproc_dir, session, ss)
             TScat(stdout_dir, in_list, cat_out_name)
 
