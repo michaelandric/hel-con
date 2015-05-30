@@ -39,7 +39,7 @@ if __name__ == '__main__':
         mod_dir = os.path.join(top_dir, '%s/modularity' % ss)
         if not os.path.exists(mod_dir):
             os.makedirs(mod_dir)
-        trees_all_levl_dir = os.path.join(top_dir, '%s/hieararchy_trees' % ss)
+        trees_all_levl_dir = os.path.join(top_dir, '%s/hierarchy_trees' % ss)
         if not os.path.exists(trees_all_levl_dir):
             os.makedirs(trees_all_levl_dir)
         random_dir = os.path.join(top_dir, '%s/random' % ss)
@@ -78,24 +78,6 @@ if __name__ == '__main__':
                 avg_r_out = os.path.join(graph_dir, avg_r_val_name)
                 np.savetxt(avg_r_out, avg_r, fmt='%.4f')
 
-                # get modularity and trees
-                print 'Doing modularity evaluation... '
-                print time.ctime()
-                g = gr.make_networkx_graph(n_nodes)
-
-                Qs = np.zeros(niter)
-                trees = np.zeros(n_nodes*niter).reshape(n_nodes, niter)
-                for i in xrange(niter):
-                    print 'iter %d' % i
-                    trees[:, i], Qs[i] = gr.get_modularity(g)
-                Qs_outname = 'task_sess_%d_%s.dens_%s.Qval' % \
-                    (session, ss, thresh_dens)
-                np.savetxt(os.path.join(mod_dir, Qs_outname), Qs, fmt='%.4f')
-                trees_outname = 'task_sess_%d_%s.dens_%s.trees' % \
-                    (session, ss, thresh_dens)
-                np.savetxt(os.path.join(mod_dir, trees_outname),
-                           trees, fmt='%i')
-
                 # modularity and trees
                 graph_pref = 'task_sess_%d_%s.dens_%s.edgelist' % \
                     (session, ss, thresh_dens)
@@ -107,7 +89,7 @@ if __name__ == '__main__':
                 nmods = np.zeros(niter)
                 trees = np.zeros(n_nodes*niter).reshape(n_nodes, niter)
                 hierar_suff = '.task_sess_%d_%s.dens_%s.trees_hierarchy' % \
-                    (i, session, ss, thresh_dens)
+                    (session, ss, thresh_dens)
                 for i in xrange(niter):
                     print 'iter %d' % i
                     hierarchy_tr_name = os.path.join(trees_all_levl_dir,
