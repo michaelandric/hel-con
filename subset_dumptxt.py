@@ -69,9 +69,8 @@ def build_inputlist(subjid, proc_dir, sess):
             inp_list.append(f)
     elif sess == 2:
         for r in runs:
-            r = r+3
             f = "'%s/cleanTS_%sr0%d_smth4mm_Liresamp4mm_mskd+orig[%s]'" % \
-                (proc_dir, subjid, r, sub_dct[r])
+                (proc_dir, subjid, int(r+3), sub_dct[r])
             inp_list.append(f)
 
     return inp_list
@@ -106,4 +105,4 @@ if __name__ == '__main__':
             maskdump(stdout_dir, mask, in_name, ts_outname)
 
         ijk_outname = '%s_ijk.txt' % mask_pref
-        get_ijk(ijk_outname, mask)
+        # get_ijk(ijk_outname, mask)
