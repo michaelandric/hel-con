@@ -6,15 +6,18 @@ Created on Fri May 29 16:29:43 2015
 """
 
 import os
+import sys
 import time
 import numpy as np
 import networkx as nx
 import bct
+from shlex import split
+from subprocess import call, STDOUT, PIPE, Popen
 from sklearn.metrics import normalized_mutual_info_score
 from sklearn.metrics import adjusted_rand_score
 
 
-class GRAPHS:
+class Graphs(object):
 
     def __init__(self, subjid, inputTS, thresh_density,
                  graph_dir, edgelist_name):
@@ -62,13 +65,13 @@ class GRAPHS:
     def make_networkx_graph(self, n_nodes):
         # setting it up for further use
         g = nx.Graph()
-        g.add_nodes_from(range(148))
+        g.add_nodes_from(range(n_nodes))
         ed = nx.read_edgelist(os.path.join(self.graph_dir, self.el_name),
                               nodetype=int)
         g.add_edges_from(ed.edges())
         return g
 
-    def get_modularity(self, graph):
+    def nx_get_modularity(self, graph):
         """
         Gets modularity louvain
         Uses bct package
@@ -107,39 +110,145 @@ class GRAPHS:
         return n_mods
 
 
-def adj_rand(p1, p2):
+class CommunityDetect(object):
     """
-    Return the Adjusted Rand Index
-    across two partitions
-    :param p1: partition 1
-    :param p2; partition 2
-    :return : Adjusted Rand Score
+    Using the cpp versionso of the louvain community detection
+    This interacts with Popen to read in and out parameters.
+    Hopefully in future I will have this in cython
+    Or something
+
     """
-    if len(p1) != len(p2):
-        print 'Subject needs a fix'
-        if len(p1) < len(p2):
-            p1 = np.append(p1, p1[len(p1)-1])
-        elif len(p2) < len(p1):
-            p2 = np.append(p2, p2[len(p2)-1])
 
-    ari = adjusted_rand_score(p1, p2)
-    return ari
+    def __init__(self, edgelist):
+        """
+        Methods for converting text file edgelist to binary format.
+        Doing community detection.
+        :param edgelist: The graph
+        """
+        self.graphname = edgelist
+
+    def zipper(self, method):
+        """
+        Unzip / zip the graph file for use with Louvain tools.
+        :param file: This graph to be unzipped/zipped
+        :param method: Either "zip" or "unzip"
+        :return: Writes to file the binary formatted graph
+        for Louvain community detection
+        """
+        try:
+            if method == 'zip':
+                print 'Zipping up %s -- ' % self.graphname+time.ctime()
+                cmds = split('gzip %s' % self.graphname)
+                call(cmds)
+                print 'DONE. '+time.ctime()
+            elif method == 'unzip':
+                print 'Unzipping  %s -- ' % self.graphname+time.ctime()
+                cmds = split('gunzip %s.gz' % self.graphname)
+                call(cmds)
+                print 'DONE. '+time.ctime()
+        except IOError:
+            print 'zipper not working. No file? Flaming... '+time.ctime()
+            sys.exit()
+
+    def convert_graph(self):
+        """
+        This is to convert graph for community detection
+        :param graph: The graph made in previous function
+        :return: Will convert to binary for Louvain algorithm and write to file
+        """
+        if os.path.exists(self.graphname):
+            f = open('stdout_files/stdout_from_convert.txt', 'w')
+            print 'Converting edgelist to binary for community detection'
+            print time.ctime()
+            cmdargs = split('community_convert -i %s -o %s.bin' %
+                            (self.graphname, self.graphname))
+            call(cmdargs, stdout=f, stderr=STDOUT)
+            f.close()
+            print 'Conversion done. -- '+time.ctime()
+        elif os.path.exists(self.graphname+'.gz'):
+            print 'You need to unzip the graph! '+time.ctime()
+        else:
+            print 'Cannot find the graph. Check config and inputs.'
+            print 'Flaming... '+time.ctime()
+
+    def get_modularity(self, tree_out):
+        """
+        Do community detection with Louvain algorithm.
+        :param tree_out:
+        :return: Q value, also writes tree to file.
+        """
+        fh = open(tree_out, 'w')
+        cmdargs = split('community -l -1 %s.bin' % self.graphname)
+        m = Popen(cmdargs, stdout=fh, stderr=PIPE).communicate()
+        fh.close()
+        return float(m[1])
+
+    def get_hierarchical(self, tree_all_levels):
+        """
+        Find the highest level. Get the tree at that level.
+        Write tree to file. Find the number of modules at that level.
+        :param tree_all_levels: the entire tree comprising every level
+        (from community detection)
+        :param tr_outname: Output name for tree at highest hierarchical level
+        :retrun mods: The modules tree at highest hierarchical level
+        :return n_mods: number of modules at
+        highest hierarchical level (> 1)
+        """
+        from collections import Counter
+        cmdargs = split('hierarchy -n %s' % tree_all_levels)
+        print 'Parsing trees to find highest hierarchical level'
+        print time.ctime()
+        print cmdargs
+        p = Popen(cmdargs, stdout=PIPE).communicate()
+        h = int(p[0].split()[3]) - 1
+        print 'Getting hierarchy -- '+time.ctime()
+        cmdargs = split('hierarchy -l %d %s' % (h, tree_all_levels))
+        tree = Popen(cmdargs, stdout=PIPE).communicate()
+        print 'Now getting number of modules... '+time.ctime()
+        stree = [tt for tt in tree[0].split('\n')]
+        mods = np.array(np.zeros(len(stree)-1), dtype=np.int)
+        for i in xrange(len(mods)):
+            mods[i] = stree[i].split()[1]
+        cnts = np.array(Counter(mods).values())
+        n_mods = len(cnts[np.where(cnts > 1)])
+        print time.ctime()
+        return (mods, n_mods)
 
 
-def normalized_MI(p1, p2):
-    """
-    Return the normalized mutual information
-    across two partitions
-    :param p1: partition 1
-    :param p2; partition 2
-    :return : normalized mutual information score
-    """
-    if len(p1) != len(p2):
-        print 'Subject needs a fix'
-        if len(p1) < len(p2):
-            p1 = np.append(p1, p1[len(p1)-1])
-        elif len(p2) < len(p1):
-            p2 = np.append(p2, p2[len(p2)-1])
+class Similarity(object):
 
-    nmi = normalized_mutual_info_score(p1, p2)
-    return nmi
+    def adj_rand(p1, p2):
+        """
+        Return the Adjusted Rand Index
+        across two partitions
+        :param p1: partition 1
+        :param p2; partition 2
+        :return : Adjusted Rand Score
+        """
+        if len(p1) != len(p2):
+            print 'Subject needs a fix'
+            if len(p1) < len(p2):
+                p1 = np.append(p1, p1[len(p1)-1])
+            elif len(p2) < len(p1):
+                p2 = np.append(p2, p2[len(p2)-1])
+
+        ari = adjusted_rand_score(p1, p2)
+        return ari
+
+    def normalized_MI(p1, p2):
+        """
+        Return the normalized mutual information
+        across two partitions
+        :param p1: partition 1
+        :param p2; partition 2
+        :return : normalized mutual information score
+        """
+        if len(p1) != len(p2):
+            print 'Subject needs a fix'
+            if len(p1) < len(p2):
+                p1 = np.append(p1, p1[len(p1)-1])
+            elif len(p2) < len(p1):
+                p2 = np.append(p2, p2[len(p2)-1])
+
+        nmi = normalized_mutual_info_score(p1, p2)
+        return nmi

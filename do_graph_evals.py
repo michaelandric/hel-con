@@ -39,6 +39,9 @@ if __name__ == '__main__':
         mod_dir = os.path.join(top_dir, '%s/modularity' % ss)
         if not os.path.exists(mod_dir):
             os.makedirs(mod_dir)
+        trees_all_levl_dir = os.path.join(top_dir, '%s/hieararchy_trees' % ss)
+        if not os.path.exists(trees_all_levl_dir):
+            os.makedirs(trees_all_levl_dir)
         random_dir = os.path.join(top_dir, '%s/random' % ss)
         if not os.path.exists(random_dir):
             os.makedirs(random_dir)
@@ -48,6 +51,7 @@ if __name__ == '__main__':
         rand_mod_dir = os.path.join(random_dir, mod_loc)
         if not os.path.exists(rand_mod_dir):
             os.makedirs(rand_mod_dir)
+
         proc_dir = os.path.join(os.environ['hel'], ss, 'preprocessing')
 
         for session in range(1, 3):
@@ -61,7 +65,7 @@ if __name__ == '__main__':
                 print time.ctime()
                 graph_outname = 'task_sess_%d_%s.dens_%s.edgelist.gz' % \
                     (session, ss, thresh_dens)
-                gr = ge.GRAPHS(ss, ts_file,
+                gr = ge.Graphs(ss, ts_file,
                                thresh_dens, graph_dir,
                                os.path.join(graph_dir, graph_outname))
 
@@ -82,6 +86,7 @@ if __name__ == '__main__':
                 Qs = np.zeros(niter)
                 trees = np.zeros(n_nodes*niter).reshape(n_nodes, niter)
                 for i in xrange(niter):
+                    print 'iter %d' % i
                     trees[:, i], Qs[i] = gr.get_modularity(g)
                 Qs_outname = 'task_sess_%d_%s.dens_%s.Qval' % \
                     (session, ss, thresh_dens)
@@ -90,3 +95,35 @@ if __name__ == '__main__':
                     (session, ss, thresh_dens)
                 np.savetxt(os.path.join(mod_dir, trees_outname),
                            trees, fmt='%i')
+
+                # modularity and trees
+                graph_pref = 'task_sess_%d_%s.dens_%s.edgelist' % \
+                    (session, ss, thresh_dens)
+                com = ge.CommunityDetect(os.path.join(graph_dir, graph_pref))
+                com.zipper('unzip')
+                com.convert_graph()
+                com.zipper('zip')
+                Qs = np.zeros(niter)
+                nmods = np.zeros(niter)
+                trees = np.zeros(n_nodes*niter).reshape(n_nodes, niter)
+                hierar_suff = '.task_sess_%d_%s.dens_%s.trees_hierarchy' % \
+                    (i, session, ss, thresh_dens)
+                for i in xrange(niter):
+                    print 'iter %d' % i
+                    hierarchy_tr_name = os.path.join(trees_all_levl_dir,
+                                                     'iter%d' % i, hierar_suff)
+                    Qs[i] = com.get_modularity(hierarchy_tr_name)
+                    tr, n_m = com.get_hierarchical(hierarchy_tr_name)
+                    trees[:, i] = tr
+                    nmods[i] = n_m
+                Qs_outname = 'task_sess_%d_%s.dens_%s.Qval' % \
+                    (session, ss, thresh_dens)
+                np.savetxt(os.path.join(mod_dir, Qs_outname), Qs, fmt='%.4f')
+                trees_outname = 'task_sess_%d_%s.dens_%s.trees' % \
+                    (session, ss, thresh_dens)
+                np.savetxt(os.path.join(mod_dir, trees_outname),
+                           trees, fmt='%i')
+                nmods_outname = 'task_sess_%d_%s.dens_%s.nmods' % \
+                    (session, ss, thresh_dens)
+                np.savetxt(os.path.join(mod_dir, nmods_outname),
+                           nmods, fmt='%i')
