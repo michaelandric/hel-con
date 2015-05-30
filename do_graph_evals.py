@@ -111,4 +111,4 @@ if __name__ == '__main__':
                 np.savetxt(os.path.join(mod_dir, nmods_outname),
                            nmods, fmt='%i')
                 bin_file = '%s.bin' % graph_pref
-                os.remove(os.path.join(graph_dir, graph_pref))
+                os.remove(os.path.join(graph_dir, bin_file))
