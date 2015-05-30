@@ -97,6 +97,8 @@ if __name__ == '__main__':
                                                          hierarchy_tr_name)
                     Qs[i] = com.get_modularity(hierarchy_tr_filename)
                     tr, n_m = com.get_hierarchical(hierarchy_tr_filename)
+                    if len(tr) == trees.shape[0]-1:
+                        tr = np.append(tr, tr[len(tr)-1])
                     trees[:, i] = tr
                     nmods[i] = n_m
                 Qs_outname = 'task_sess_%d_%s.dens_%s.Qval' % \
