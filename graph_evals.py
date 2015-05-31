@@ -95,6 +95,17 @@ class Graphs(object):
         iter_max = q_vals.argmax()
         return (np.max(q_vals), iter_max)
 
+    def max_nmod(self, fname, indx):
+        """
+        Get the maximum modularity value
+        :param fname: File name containing Q values
+        :param indx: corresponding index for max q
+        :return : nmods at max q
+        """
+        print 'Getting max q value -- %s' % time.ctime()
+        n_mods = np.loadtxt(fname)
+        return n_mods[indx]
+
     def n_modules(self, tname):
         """
         Get the number of modules
