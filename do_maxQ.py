@@ -49,7 +49,8 @@ if __name__ == "__main__":
                 q_array[i, session-1] = qval
                 nmod_fname = 'task_sess_%d_%s.dens_%s.nmods' % \
                     (session, ss, thresh_dens)
-                nmod_array[i, session-1] = gr.max_nmod(nmod_fname, indx)
+                nmods = gr.max_nmod(os.path.join(mod_dir, nmod_fname), indx)
+                nmod_array[i, session-1] = nmods
 
         q_out_report = []
         nmod_out_report = []
