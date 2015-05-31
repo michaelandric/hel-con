@@ -23,14 +23,15 @@ if __name__ == '__main__':
         print 'What is going on here?'
         print 'Where is the top_dir?'
         sys.exit(1)
-    group_Q_dir = os.path.join(top_dir, 'group_modularity')
-    if not os.path.exists(group_Q_dir):
-        os.makedirs(group_Q_dir)
+    group_siml_dir = os.path.join(top_dir, 'group_similarity')
+    if not os.path.exists(group_siml_dir):
+        os.makedirs(group_siml_dir)
 
     niter = 100
+    n_unique = (niter*(niter-1)) / 2.
 
     for thresh_dens in [.05, .10, .15, .20]:
-        for i, ss in enumerate(subj_list):
+        """for i, ss in enumerate(subj_list):
             simil_dir = os.path.join(top_dir, '%s/similarity' % ss)
             if not os.path.exists(simil_dir):
                 os.makedirs(simil_dir)
@@ -67,4 +68,31 @@ if __name__ == '__main__':
             simil_b_name = 'between_tasks_%s.dens_%s_nmi.txt' % \
                 (ss, thresh_dens)
             simil_b_fname = os.path.join(simil_dir, simil_b_name)
-            np.savetxt(simil_b_fname, simil_scores_b, fmt='%.4f')
+            np.savetxt(simil_b_fname, simil_scores_b, fmt='%.4f')"""
+
+        for session in range(1, 3):
+            agg_siml_scores_w = []
+            for ss in subj_list:
+                simil_dir = os.path.join(top_dir, '%s/similarity' % ss)
+                simil_name = 'within_task_sess_%d_%s.dens_%s_nmi.txt' % \
+                    (session, ss, thresh_dens)
+                simil_fname = os.path.join(simil_dir, simil_name)
+                dat = np.loadtxt(simil_fname)
+                agg_siml_scores_w = np.append(agg_siml_scores_w, dat)
+            agg_name = 'within_task_sess_%d_group.dens_%s_nmi.txt' % \
+                (session, thresh_dens)
+            agg_fname = os.path.join(group_siml_dir, agg_name)
+            np.savetxt(agg_fname, agg_siml_scores_w, fmt='%.4f')
+
+        agg_siml_scores_b = []
+        for ss in subj_list:
+            simil_dir = os.path.join(top_dir, '%s/similarity' % ss)
+            simil_b_name = 'between_tasks_%s.dens_%s_nmi.txt' % \
+                (ss, thresh_dens)
+            simil_b_fname = os.path.join(simil_dir, simil_b_name)
+            dat = np.loadtxt(simil_b_fname)
+            agg_siml_scores_b = np.append(agg_siml_scores_b, dat)
+        agg_name_b = 'between_task_sess_%d_group.dens_%s_nmi.txt' % \
+            (session, thresh_dens)
+        agg_fname_b = os.path.join(group_siml_dir, agg_name_b)
+        np.savetxt(agg_fname_b, agg_siml_scores_b, fmt='%.4f')
