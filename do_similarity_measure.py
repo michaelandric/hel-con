@@ -67,3 +67,4 @@ if __name__ == '__main__':
             simil_b_name = 'between_tasks_%s.dens_%s_nmi.txt' % \
                 (ss, thresh_dens)
             simil_b_fname = os.path.join(simil_dir, simil_b_name)
+            np.savetxt(simil_b_fname, simil_scores_b, fmt='%.4f')
