@@ -123,7 +123,7 @@ def applywarpFLIRT(ss, work_dir, input, extrt1, out, premat, interp='nn'):
     if not os.path.exists(stdout_dir):
         os.makedirs(stdout_dir)
     f = open('%s/stdout_from_applywarpFLIRT.txt' % stdout_dir, 'w')
-    cmdargs = split('applywarp -i %s -r %s -o %s --premat=%s --interp=nn' %
+    cmdargs = split('applywarp -i %s -r %s -o %s --premat=%s --interp=%s' %
                     (input, extrt1, out, premat, interp))
     call(cmdargs, stdout=f, stderr=STDOUT)
     f.close()
