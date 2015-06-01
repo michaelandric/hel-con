@@ -40,7 +40,7 @@ if __name__ == '__main__':
             epi_nii_pref = '%s/avg_corrZ_task_sess_%d_%s.ijk' % \
                 (conn_dir, session, ss)
             epi_in_pref = '%s+orig' % epi_nii_pref
-            gp.converttoNIFTI(conn_dir, epi_in_pref, epi_nii_pref)
+#            gp.converttoNIFTI(conn_dir, epi_in_pref, epi_nii_pref)
 
             in_fl = '%s.nii.gz' % epi_nii_pref
             premat = os.path.join(anat_dir, 'epi2anat_%s_reg.mat' % ss)
