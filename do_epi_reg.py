@@ -24,7 +24,7 @@ if __name__ == '__main__':
 
         epi = '%s.nii.gz' % epi_nii_pref
         anat_dir = os.path.join(os.environ['hel'], 'volume.%s.anat' % ss)
-        wholet1 = os.path.join(anat_dir, 'T1_biascorr.nii.gz' % ss)
-        extrt1 = os.path.join(anat_dir, 'T1_biascorr_brain.nii.gz' % ss)
+        wholet1 = os.path.join(anat_dir, 'T1_biascorr.nii.gz')
+        extrt1 = os.path.join(anat_dir, 'T1_biascorr_brain.nii.gz')
         epi_reg_out = os.path.join(anat_dir, 'epi2anat_%s_reg' % ss)
         gp.epi_reg(ss, anat_dir, epi, wholet1, extrt1, epi_reg_out)
