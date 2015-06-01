@@ -10,15 +10,14 @@ import general_procedures as gp
 
 
 if __name__ == '__main__':
-    subj_list = []
+    """subj_list = []
     for i in range(4, 11):
         subj_list.append('hel%d' % i)
     subj_list.remove('hel9')   # because this is bad subj
-
-    """subj_list = []
-    for i in range(1, 4):
-        subj_list.append('hel%d' % i)
     """
+    subj_list = []
+    for i in range(11, 15):
+        subj_list.append('hel%d' % i)
 
     for ss in subj_list:
         proc_dir = os.path.join(os.environ['hel'], ss, 'preprocessing')
