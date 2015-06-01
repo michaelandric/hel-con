@@ -10,14 +10,15 @@ import general_procedures as gp
 
 
 if __name__ == '__main__':
-    """subj_list = []
-    for i in range(4, 11):
+    subj_list = []
+    for i in range(1, 15):
         subj_list.append('hel%d' % i)
     subj_list.remove('hel9')   # because this is bad subj
-    """
-    subj_list = []
+
+    """subj_list = []
     for i in range(15, 20):
         subj_list.append('hel%d' % i)
+    """
 
     top_dir = '%s/graph_analyses' % os.environ['hel']
     interpol = 'nn'
