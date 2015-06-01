@@ -114,7 +114,7 @@ def epi_reg(ss, work_dir, epi, wholet1, extrt1, out):
     f.close()
 
 
-def applywarpFLIRT(ss, work_dir, input, extrt1, out, premat):
+def applywarpFLIRT(ss, work_dir, input, extrt1, out, premat, interp='nn'):
     """
     Warp via linear transformation via fsl FLIRT
     """
@@ -123,13 +123,13 @@ def applywarpFLIRT(ss, work_dir, input, extrt1, out, premat):
     if not os.path.exists(stdout_dir):
         os.makedirs(stdout_dir)
     f = open('%s/stdout_from_applywarpFLIRT.txt' % stdout_dir, 'w')
-    cmdargs = split('applywarp -i %s -r %s -o %s --premat=%s' %
-                    (input, extrt1, out, premat))
+    cmdargs = split('applywarp -i %s -r %s -o %s --premat=%s --interp=nn' %
+                    (input, extrt1, out, premat, interp))
     call(cmdargs, stdout=f, stderr=STDOUT)
     f.close()
 
 
-def applywarpFNIRT(ss, work_dir, input, out, coeff):
+def applywarpFNIRT(ss, work_dir, input, out, coeff, interp='nn'):
     """
     Warp via nonlinear transformation via fsl FNIRT
     """
@@ -140,7 +140,7 @@ def applywarpFNIRT(ss, work_dir, input, out, coeff):
     f = open('%s/stdout_from_applywarp.txt' % stdout_dir, 'w')
     cmdargs = split('applywarp -i %s \
                     -r %s/data/standard/MNI152_T1_2mm.nii.gz \
-                    -o %s -w %s' %
-                    (input, os.environ['FSLDIR'], out, coeff))
+                    -o %s -w %s --interp=%s' %
+                    (input, os.environ['FSLDIR'], out, coeff, interp))
     call(cmdargs, stdout=f, stderr=STDOUT)
     f.close()
