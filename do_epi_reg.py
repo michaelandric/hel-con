@@ -22,7 +22,7 @@ if __name__ == '__main__':
 
     for ss in subj_list:
         proc_dir = os.path.join(os.environ['hel'], ss, 'preprocessing')
-        epi_brain = "'%s/pb02_%sr03_ricorTS+orig[241]'" % (proc_dir, ss)
+        epi_brain = "'%s/pb02_%sr06_ricorTS+orig[241]'" % (proc_dir, ss)
         epi_nii_pref = '%s/pb02_%s_regslice' % (proc_dir, ss)
         gp.converttoNIFTI(proc_dir, epi_brain, epi_nii_pref)
 
