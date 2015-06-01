@@ -30,9 +30,9 @@ if __name__ == '__main__':
         epi_reg_out = os.path.join(anat_dir, 'epi2anat_%s_reg' % ss)
 #        gp.epi_reg(ss, anat_dir, epi, wholet1, extrt1, epi_reg_out)
 
-        epi_in_pref = '%s/hel19_GMmask_frac_bin+orig' % \
+        epi_in_pref = '%s/%s_GMmask_frac_bin+orig' % \
             (anat_dir, ss)
-        epi_nii_pref = '%s/hel19_GMmask_frac_bin' % \
+        epi_nii_pref = '%s/%s_GMmask_frac_bin' % \
             (anat_dir, ss)
         gp.converttoNIFTI(proc_dir, epi_in_pref, epi_nii_pref)
 
