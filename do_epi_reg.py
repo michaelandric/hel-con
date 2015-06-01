@@ -16,7 +16,7 @@ if __name__ == '__main__':
     subj_list.remove('hel9')   # because this is bad subj
     """
     subj_list = []
-    for i in range(11, 15):
+    for i in range(15, 20):
         subj_list.append('hel%d' % i)
 
     for ss in subj_list:
