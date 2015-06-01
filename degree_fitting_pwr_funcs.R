@@ -86,7 +86,7 @@ for (ss in subjects)
     for (i in conditions)
     {
         in_name <- paste(deg_dir,
-                         'task_sess_',i,'_',ss,'.dens_',thresh_dens'.degrees.txt', sep='')
+                         'task_sess_',i,'_',ss,'.dens_',thresh_dens,'.degrees.txt', sep='')
         dat <- c(dat, as.matrix(read.table(in_name)))
     }
     dat_matrix <- matrix(dat, ncol=length(conditions))
