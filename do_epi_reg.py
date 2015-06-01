@@ -10,17 +10,20 @@ import general_procedures as gp
 
 
 if __name__ == '__main__':
-    subj_list = []
+    """subj_list = []
     for i in range(1, 20):
         subj_list.append('hel%d' % i)
     subj_list.remove('hel9')   # because this is bad subj
+    """
+    subj_list = []
+    for i in range(1, 4):
+        subj_list.append('hel%d' % i)
 
-#    for ss in subj_list:
-    for ss in ['hel19']:
+    for ss in subj_list:
         proc_dir = os.path.join(os.environ['hel'], ss, 'preprocessing')
-        epi_brain = "'%s/pb02_%sr06_ricorTS+orig[241]'" % (proc_dir, ss)
+        epi_brain = "'%s/pb02_%sr03_ricorTS+orig[241]'" % (proc_dir, ss)
         epi_nii_pref = '%s/pb02_%s_regslice' % (proc_dir, ss)
-#        gp.converttoNIFTI(proc_dir, epi_brain, epi_nii_pref)
+        gp.converttoNIFTI(proc_dir, epi_brain, epi_nii_pref)
 
         epi = '%s.nii.gz' % epi_nii_pref
         vol_dir_pref = '%s/volume.%s.anat' % (ss, ss)
@@ -28,20 +31,20 @@ if __name__ == '__main__':
         wholet1 = os.path.join(anat_dir, 'T1_biascorr.nii.gz')
         extrt1 = os.path.join(anat_dir, 'T1_biascorr_brain.nii.gz')
         epi_reg_out = os.path.join(anat_dir, 'epi2anat_%s_reg' % ss)
-#        gp.epi_reg(ss, anat_dir, epi, wholet1, extrt1, epi_reg_out)
+        gp.epi_reg(ss, anat_dir, epi, wholet1, extrt1, epi_reg_out)
 
         epi_in_pref = '%s/%s_GMmask_frac_bin+orig' % \
             (anat_dir, ss)
         epi_nii_pref = '%s/%s_GMmask_frac_bin' % \
             (anat_dir, ss)
-        gp.converttoNIFTI(proc_dir, epi_in_pref, epi_nii_pref)
+#        gp.converttoNIFTI(proc_dir, epi_in_pref, epi_nii_pref)
 
         in_fl = '%s.nii.gz' % epi_nii_pref
         premat = os.path.join(anat_dir, 'epi2anat_%s_reg.mat' % ss)
         out_fl = '%s_flirted' % epi_nii_pref
-        gp.applywarpFLIRT(ss, anat_dir, in_fl, extrt1, out_fl, premat)
+#        gp.applywarpFLIRT(ss, anat_dir, in_fl, extrt1, out_fl, premat)
 
         in_fn = '%s.nii.gz' % out_fl
         out_fn = '%s_fnirted_MNI2mm' % epi_nii_pref
         fn_coef = os.path.join(anat_dir, 'T1_to_MNI_nonlin_coeff.nii.gz')
-        gp.applywarpFNIRT(ss, anat_dir, in_fn, out_fn, fn_coef)
+#        gp.applywarpFNIRT(ss, anat_dir, in_fn, out_fn, fn_coef)
