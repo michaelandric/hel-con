@@ -34,7 +34,7 @@ if __name__ == "__main__":
 
     for thresh_dens in [.05, .10, .15, .20]:
         for ss in subj_list:
-            ss_deg_dir = os.path.join(top_dir, 'degrees')
+            ss_deg_dir = os.path.join(top_dir, '%s/degrees' % ss)
             if not os.path.exists(ss_deg_dir):
                 os.makedirs(ss_deg_dir)
             proc_dir = os.path.join(os.environ['hel'], ss, 'preprocessing')
