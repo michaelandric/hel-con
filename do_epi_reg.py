@@ -20,7 +20,7 @@ if __name__ == '__main__':
         proc_dir = os.path.join(os.environ['hel'], ss, 'preprocessing')
         epi_brain = "'%s/pb02_%sr06_ricorTS+orig[241]'" % (proc_dir, ss)
         epi_nii_pref = '%s/pb02_%s_regslice' % (proc_dir, ss)
-        gp.converttoNIFTI(proc_dir, epi_brain, epi_nii_pref)
+#        gp.converttoNIFTI(proc_dir, epi_brain, epi_nii_pref)
 
         epi = '%s.nii.gz' % epi_nii_pref
         vol_dir_pref = '%s/volume.%s.anat' % (ss, ss)
@@ -28,4 +28,20 @@ if __name__ == '__main__':
         wholet1 = os.path.join(anat_dir, 'T1_biascorr.nii.gz')
         extrt1 = os.path.join(anat_dir, 'T1_biascorr_brain.nii.gz')
         epi_reg_out = os.path.join(anat_dir, 'epi2anat_%s_reg' % ss)
-        gp.epi_reg(ss, anat_dir, epi, wholet1, extrt1, epi_reg_out)
+#        gp.epi_reg(ss, anat_dir, epi, wholet1, extrt1, epi_reg_out)
+
+        epi_in_pref = '%s/cleanTS_%sr06_smth4mm_Liresamp4mm_mskd+orig' % \
+            (proc_dir, ss)
+        epi_nii_pref = '%s/cleanTS_%sr06_smth4mm_Liresamp4mm_mskd' % \
+            (proc_dir, ss)
+        gp.converttoNIFTI(proc_dir, epi_in_pref, epi_nii_pref)
+
+        in_fl = '%s.nii.gz' % epi_nii_pref
+        premat = os.path.join(anat_dir, 'epi2anat_%s_reg.mat' % ss)
+        out_fl = '%s_flirted' % epi_nii_pref
+        gp.applywarpFLIRT(ss, anat_dir, in_fl, extrt1, out_fl, premat)
+
+        in_fn = '%s.nii.gz' % out_fl
+        out_fn = '%s_fnirted_MNI2mm' % epi_nii_pref
+        fn_coef = os.path.join(anat_dir, 'T1_to_MNI_nonlin_coeff.nii.gz')
+        gp.applywarpFNIRT(ss, anat_dir, in_fn, out_fn, fn_coef)
