@@ -272,9 +272,11 @@ def avg_global_connectivity(inputts, transform=True):
     print 'Doing avg_global_connectivity '
     print time.ctime()
     print 'Input: %s' % inputts
-    ts = np.genfromtxt(inputts)
+    ts = np.loadtxt(inputts)
     ts_corr = np.corrcoef(ts)
-    corr_avg = np.mean(ts_corr, axis=1)
+    corr_avg = np.nanmean(ts_corr, axis=1)
+    # in case there were 0 rows f'n things up
+    corr_avg[np.isnan(corr_avg)] = 0
     if transform is True:
         return np.arctanh(corr_avg)
     else:
