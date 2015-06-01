@@ -11,7 +11,7 @@ import general_procedures as gp
 
 if __name__ == '__main__':
     subj_list = []
-    for i in range(1, 15):
+    for i in range(1, 20):
         subj_list.append('hel%d' % i)
     subj_list.remove('hel9')   # because this is bad subj
 
@@ -21,7 +21,7 @@ if __name__ == '__main__':
     """
 
     top_dir = '%s/graph_analyses' % os.environ['hel']
-    interpol = 'nn'
+    interpol = 'sinc'
     for ss in subj_list:
         conn_dir = os.path.join(top_dir, '%s/global_connectivity' % ss)
         vol_dir_pref = '%s/volume.%s.anat' % (ss, ss)
