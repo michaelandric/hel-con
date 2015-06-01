@@ -10,7 +10,7 @@ for (s in s_nums)
 }
 
 conditions <- seq(2)
-thepal = colorRampPalette(brewer.pal(9,"Set2"))(9)
+thepal = colorRampPalette(brewer.pal(8,"Set2"))
 
 #library(brainwaver)
 cutoff = 1
@@ -81,7 +81,7 @@ pdf(paste(out_dir,
 par(mfrow=c(2,4))
 for (ss in subjects)
 {
-    deg_dir <- paste(graph_dir, ss, 'degrees/', sep='')
+    deg_dir <- paste(graph_dir, ss, '/degrees/', sep='')
     dat <- c()
     for (i in conditions)
     {
