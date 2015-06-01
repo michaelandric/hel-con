@@ -1,7 +1,7 @@
 setwd('~/Documents/workspace/hel/group_modularity/')
 library(dplyr)
 subjects <- c()
-s_nums = seq(1, 19)[seq(1,19) != 8]
+s_nums = seq(1, 19)[seq(1,19) != 9]
 for (s in s_nums)
 {
     subjects <- c(subjects, paste('hel', s, sep=''))

@@ -3,14 +3,14 @@ library(dplyr)
 library(RColorBrewer)
 graph_dir <- paste('/cnari/normal_language/HEL/graph_analyses/')
 subjects <- c()
-s_nums = seq(1, 19)[seq(1,19) != 8]
+s_nums = seq(1, 19)[seq(1,19) != 9]
 for (s in s_nums)
 {
     subjects <- c(subjects, paste('hel', s, sep=''))
 }
 
 conditions <- seq(2)
-thepal = colorRampPalette(brewer.pal(8,"Set2"))
+thepal = colorRampPalette(brewer.pal(8,"Set2"))(8)
 
 #library(brainwaver)
 cutoff = 1
@@ -59,9 +59,10 @@ deg_func <- function(x, fitting_outname)
     nmax = max(degree.dist)
     tmp = hist(degree.dist, breaks=c(cutoff:nmax),plot=F)
     cum.dist = 1-cumsum(tmp$counts)/length(degree.dist)
-    d = fitting(x, nmax, fitting_outname)
+    # d = fitting(x, nmax, fitting_outname)
+    d = fitting(degree.dist, nmax, fitting_outname)
     ptshape = d$alpha + d$gamma
-    gamma.trace<-1-pgamma((0:nmax),shape=d$alpha,scale=d$beta) 
+    gamma.trace = 1-pgamma((0:nmax),shape=d$alpha,scale=d$beta) 
     Rsq = round((cor(log10(cum.dist)[1:(nmax-1)],
                      log10(gamma.trace)[1:(nmax-1)]))^2, 4)
     return(list("gamma.trace"=gamma.trace,
