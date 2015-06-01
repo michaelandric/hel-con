@@ -23,7 +23,8 @@ if __name__ == '__main__':
         gp.converttoNIFTI(proc_dir, epi_brain, epi_nii_pref)
 
         epi = '%s.nii.gz' % epi_nii_pref
-        anat_dir = os.path.join(os.environ['hel'], 'volume.%s.anat' % ss)
+        vol_dir_pref = '%s/volume.%s.anat' % (ss, ss)
+        anat_dir = os.path.join(os.environ['hel'], vol_dir_pref)
         wholet1 = os.path.join(anat_dir, 'T1_biascorr.nii.gz')
         extrt1 = os.path.join(anat_dir, 'T1_biascorr_brain.nii.gz')
         epi_reg_out = os.path.join(anat_dir, 'epi2anat_%s_reg' % ss)
