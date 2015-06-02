@@ -23,11 +23,11 @@ dat_matG = matrix(nrow=length(subjects),ncol=length(conditions))
 # setwd(paste("/mnt/tier2/urihas/Andric/steadystate/links_files5p/",sep=""))
 for (ss in 1:length(subjects))
 {
-    deg_dir <- paste(graph_dir, ss, '/degrees/', sep='')
+    deg_dir <- paste(graph_dir, subjects[ss], '/degrees/', sep='')
     for (i in conditions)
     {
         fitting_outn <- paste(deg_dir,
-                              'fitting_cond',i,'_',ss,'.dens_',thresh_dens,'.txt', sep='')
+                              'fitting_cond',i,'_',subjects[ss],'.dens_',thresh_dens,'.txt', sep='')
         dat_matA[ss,i] = as.numeric(strsplit(levels(read.delim(fitting_outn)[1,])[4]," ")[[1]][4]) ## this is for alpha — shape
         dat_matB[ss,i] = as.numeric(strsplit(levels(read.delim(fitting_outn)[1,])[5]," ")[[1]][4]) ## this is for beta — scale ("exponent cutoff")
         dat_matG[ss,i] = as.numeric(strsplit(levels(read.delim(fitting_outn)[1,])[6]," ")[[1]][4]) ## this is for gamma — power law values
