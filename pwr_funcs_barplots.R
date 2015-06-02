@@ -56,12 +56,12 @@ for (i in conditions)
 colnames(dat_matG) <- condition_names
 colnames(dat_matB) <- condition_names
 colnames(dat_matA) <- condition_names
-write.table(dat_matG, paste(out_dir, 'dat_matG_pwrlaw.txt', sep='')
-                            row.names=F, col.names=F, quote=F)
-write.table(dat_matB, paste(out_dir, 'dat_matG_expcutoff.txt', sep='')
-                            row.names=F, col.names=F, quote=F)
-write.table(dat_matA, paste(out_dir, 'dat_matG_Truncpshape.txt', sep='')
-                            row.names=F, col.names=F, quote=F)
+write.table(dat_matG, paste(out_dir, 'dat_matG_pwrlaw.txt', sep=''),
+            row.names=F, col.names=F, quote=F)
+write.table(dat_matB, paste(out_dir, 'dat_matG_expcutoff.txt', sep=''),
+            row.names=F, col.names=F, quote=F)
+write.table(dat_matA, paste(out_dir, 'dat_matG_Truncpshape.txt', sep=''),
+            row.names=F, col.names=F, quote=F)
 
 aG <- apply(dat_matG, 2, mean)
 aB <- apply(dat_matB, 2, mean)
