@@ -77,7 +77,7 @@ thepalOrder = thepal[c(1,2)]
 thresh_dens <- .05
 out_dir <- paste(graph_dir, 'group_degrees/', sep='')
 pdf(paste(out_dir,
-          'Vers2deg_distribution_plotsGROUP',cutoff,'_dens_',thresh_dens,'.pdf', sep=''),
+          'Vers2deg_distribution_ORIGplotsGROUP',cutoff,'_dens_',thresh_dens,'.pdf', sep=''),
     paper='a4r', width=10.5)
 par(mfrow=c(2,4))
 for (ss in subjects)
@@ -100,23 +100,23 @@ for (ss in subjects)
         Rsq <- round((cor(log10(out$cum.dist)[1:(out$nmax-2)],
                          log10(out$gamma.trace)[1:(out$nmax-2)]))^2, 4)
         rsquares <- c(rsquares, Rsq)
-#        plot(log10(cutoff:(out$nmax-1)),
-#             log10(out$cum.dist), pch=3,
-#             xlab='log(k)', ylab='log(cumulative distribution)',
-#             main=paste(ss,' ',condition_names[i],' // R^2=',
-#                        round(Rsq, 4), sep=''))
-#        plot(log10(cutoff:(out$nmax-1)),
-#              log10(out$gamma.trace)[1:(out$nmax-1)],
-#              lwd=2, col=thepalOrder[i])
-
         plot(log10(cutoff:(out$nmax-1)),
-             log10(out$gamma.trace)[1:(out$nmax-1)],
-             lwd=2, col=thepalOrder[i],
+             log10(out$cum.dist), pch=3,
              xlab='log(k)', ylab='log(cumulative distribution)',
              main=paste(ss,' ',condition_names[i],' // R^2=',
                         round(Rsq, 4), sep=''))
-        points(log10(cutoff:(out$nmax-1)),
-             log10(out$cum.dist), pch=3, cex=.35)
+        lines(log10(cutoff:(out$nmax-1)),
+              log10(out$gamma.trace)[1:(out$nmax-1)],
+             lwd=2, col=thepalOrder[i])
+
+ #       plot(log10(cutoff:(out$nmax-1)),
+ #            log10(out$gamma.trace)[1:(out$nmax-1)],
+ #            lwd=2, col=thepalOrder[i],
+ #            xlab='log(k)', ylab='log(cumulative distribution)',
+ #            main=paste(ss,' ',condition_names[i],' // R^2=',
+ #                       round(Rsq, 4), sep=''))
+ #       points(log10(cutoff:(out$nmax-1)),
+ #            log10(out$cum.dist), pch=3, cex=.35)
     }
     rsquared_mat = matrix(rsquares, nrow=1, byrow=T)
 }
