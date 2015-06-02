@@ -62,10 +62,14 @@ deg_func <- function(x, fitting_outname)
     # d = fitting(x, nmax, fitting_outname)
     d = fitting(degree.dist, nmax, fitting_outname)
     ptshape = d$alpha + d$gamma
-    gamma.trace = 1-pgamma((0:nmax),shape=d$alpha,scale=d$beta) 
+    gamma.trace <- 1-pgamma((0:nmax),shape=d$alpha,scale=d$beta)
+    power.trace <- (1:(nmax+1))^(-d$gamma+1)
+    exp.trace <- exp(-d$mu*(0:nmax))
     Rsq = round((cor(log10(cum.dist)[1:(nmax-1)],
                      log10(gamma.trace)[1:(nmax-1)]))^2, 4)
     return(list("gamma.trace"=gamma.trace,
+                "power.trace"=power.trace,
+                "exp.trace"=exp.trace,
                 "cum.dist"=cum.dist, "nmax"=nmax,
                 "shape"=ptshape))
 }
