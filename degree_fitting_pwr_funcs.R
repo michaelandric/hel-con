@@ -114,7 +114,7 @@ for (ss in subjects)
              lwd=1.5, col=thepalOrder[i],
              xlab='log(k)', ylab='log(cumulative distribution)',
              main=paste(ss,' ',condition_names[i],' // R^2=',
-                        round(Rsq, 4), sep=''))
+                        round(out$r_sq, 4), sep=''))
         points(log10(cutoff:(out$nmax-1)),
              log10(out$cum.dist), pch=3, cex=.35)
     }
