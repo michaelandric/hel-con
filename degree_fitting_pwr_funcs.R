@@ -97,9 +97,9 @@ for (ss in subjects)
         fitting_outn <- paste(deg_dir,
                               'fitting_cond',i,'_',ss,'.dens_',thresh_dens,'.txt', sep='')
         out <- deg_func(dat_matrix[,i], fitting_outn)
-       Rsq <- round((cor(log10(out$cum.dist)[1:(out$nmax-2)],
+        Rsq <- round((cor(log10(out$cum.dist)[1:(out$nmax-2)],
                          log10(out$gamma.trace)[1:(out$nmax-2)]))^2, 4)
-        rsquares <- c(rsquares, out$r_sq)
+        rsquares <- c(rsquares, Rsq)
 #        plot(log10(cutoff:(out$nmax-1)),
 #             log10(out$cum.dist), pch=3,
 #             xlab='log(k)', ylab='log(cumulative distribution)',
