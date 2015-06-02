@@ -24,7 +24,8 @@ fitting <- function (degree.dist, nmax, fitting_outname)
     nb <- length(degree.dist[degree.dist > 0])
     gamma <- 1 + nb/(sum(log(degree.dist[degree.dist > 0])))
     x <- degree.dist
-    x <- x[x > 0]
+    nmin <- cutoff
+    x <- x[x > nmin]
     n <- length(x)
     fn <- function(p) -(-n * p * log(sum(x)/(n * p)) - n * log(gamma(p)) + 
                             (p - 1) * sum(log(x)) - n * p)
@@ -67,7 +68,7 @@ deg_func <- function(x, fitting_outname)
                      log10(gamma.trace)[1:(nmax-1)]))^2, 4)
     return(list("gamma.trace"=gamma.trace,
                 "cum.dist"=cum.dist, "nmax"=nmax,
-                "shape"=ptshape, "r_sq"=Rsq))
+                "shape"=ptshape))
 }
 
 
@@ -97,8 +98,8 @@ for (ss in subjects)
         fitting_outn <- paste(deg_dir,
                               'fitting_cond',i,'_',ss,'.dens_',thresh_dens,'.txt', sep='')
         out <- deg_func(dat_matrix[,i], fitting_outn)
-#        Rsq <- round((cor(log10(out$cum.dist)[1:(out$nmax-2)],
-#                         log10(out$gamma.trace)[1:(out$nmax-2)]))^2, 4)
+       Rsq <- round((cor(log10(out$cum.dist)[1:(out$nmax-2)],
+                         log10(out$gamma.trace)[1:(out$nmax-2)]))^2, 4)
         rsquares <- c(rsquares, out$r_sq)
 #        plot(log10(cutoff:(out$nmax-1)),
 #             log10(out$cum.dist), pch=3,
@@ -114,7 +115,7 @@ for (ss in subjects)
              lwd=1.5, col=thepalOrder[i],
              xlab='log(k)', ylab='log(cumulative distribution)',
              main=paste(ss,' ',condition_names[i],' // R^2=',
-                        round(out$r_sq, 4), sep=''))
+                        round(Rsq, 4), sep=''))
         points(log10(cutoff:(out$nmax-1)),
              log10(out$cum.dist), pch=3, cex=.35)
     }
