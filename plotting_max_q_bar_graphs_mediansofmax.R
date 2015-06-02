@@ -35,12 +35,12 @@ for (t in 1:length(thresholds))
                                    mod_score_frame$thresh==thresholds[t]),
                               median)[,2]
     tmp <- subset(mod_score_frame, mod_score_frame$thresh == thresholds[t])
+    tmp_mat <- matrix(tmp$modularity, ncol = length(conditions))
+    tmp_means <- rowMeans(tmp_mat)
     for (i in conditions)
     {
-        cond_tmp <- matrix(tmp$modularity, ncol = length(conditions))[,i]
-        tmp_means <- tapply(tmp$modularity, tmp$subject, mean)
-        num <- sd(cond_tmp - tmp_means)
-        er <- num / denom
+        cond_tmp <- tmp_mat[,i]
+        er <- sd(cond_tmp) / denom
         error_vec <- c(error_vec, er)
     }
 }
@@ -83,12 +83,13 @@ for (t in 1:length(thresholds))
                                    mod_score_frame$thresh==thresholds[t]),
                               median)[,2]
     tmp <- subset(mod_score_frame, mod_score_frame$thresh == thresholds[t])
+    tmp_mat <- matrix(tmp$modularity, ncol = length(conditions))
+    tmp_means <- rowMeans(tmp_mat)
     for (i in conditions)
     {
-        cond_tmp <- matrix(tmp$modularity, ncol = length(conditions))[,i]
-        tmp_means <- tapply(tmp$modularity, tmp$subject, mean)
-        num <- sd(cond_tmp - tmp_means)
-        er <- num / denom
+        cond_tmp <- tmp_mat[,i]
+        # er <- (sd(cond_tmp - tmp_means)) / denom
+        er <- sd(cond_tmp) / denom
         error_vec <- c(error_vec, er)
     }
 }

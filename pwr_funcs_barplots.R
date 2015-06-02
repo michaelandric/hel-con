@@ -37,13 +37,17 @@ for (ss in 1:length(subjects))
 error_vecG <- c()
 error_vecB <- c()
 error_vecA <- c()
+denom <- sqrt(length(subjects))
 for (i in conditions)
 {
-    erG <- sd((dat_matG[,i] - rowMeans(dat_matG)) / sqrt(length(subjects)))
-    error_vecG <- c(error_vecG, erG)   # These end up same order as condition_names ("Highly ordered, Some order, Random, Almost Random")
-    erB <- sd((dat_matB[,i] - rowMeans(dat_matB)) / sqrt(length(subjects)))
-    error_vecB <- c(error_vecB, erB)   # These end up same order as condition_names ("Highly ordered, Some order, Random, Almost Random")
-    erA <- sd((dat_matA[,i] - rowMeans(dat_matA)) / sqrt(length(subjects)))
+    # erG <- sd((dat_matG[,i] - rowMeans(dat_matG)) / sqrt(length(subjects)))
+    erG <- sd(dat_matG[,i]) / denom
+    error_vecG <- c(error_vecG, erG)
+    # erB <- sd((dat_matB[,i] - rowMeans(dat_matB)) / sqrt(length(subjects)))
+    erB <- sd(dat_matB[,i]) / denom
+    error_vecB <- c(error_vecB, erB)
+    # erA <- sd((dat_matA[,i] - rowMeans(dat_matA)) / sqrt(length(subjects)))
+    erA <- sd(dat_matA[,i]) / denom
     error_vecA <- c(error_vecA, erA)   # These end up same order as condition_names ("Highly ordered, Some order, Random, Almost Random")
 }
 
