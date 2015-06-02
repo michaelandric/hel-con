@@ -116,7 +116,7 @@ for (ss in subjects)
              main=paste(ss,' ',condition_names[i],' // R^2=',
                         round(Rsq, 4), sep=''))
         points(log10(cutoff:(out$nmax-1)),
-             log10(out$cum.dist), pch=3)
+             log10(out$cum.dist), pch=3, cex=.35)
     }
     rsquared_mat = matrix(rsquares, nrow=1, byrow=T)
 }
