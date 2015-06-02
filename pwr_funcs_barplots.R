@@ -3,8 +3,10 @@
 ## It uses 'fitting*.txt' outputs from 40.pwr_funcs.R to do bar graphs that accompany group stats
 library(gplots)   # this library only on servers 30 and 32
 library(RColorBrewer)
-
+thepal = colorRampPalette(brewer.pal(8,"Set2"))(8)
 graph_dir <- paste('/cnari/normal_language/HEL/graph_analyses/')
+out_dir <- paste(graph_dir, 'group_degrees/', sep='')
+
 subjects <- c()
 s_nums = seq(1, 19)[seq(1,19) != 9]
 for (s in s_nums)
@@ -54,13 +56,16 @@ for (i in conditions)
 colnames(dat_matG) <- condition_names
 colnames(dat_matB) <- condition_names
 colnames(dat_matA) <- condition_names
+write.table(dat_matG, paste(out_dir, 'dat_matG_pwrlaw.txt', 
+                            row.names=F, col.names=F, quote=F))
+write.table(dat_matB, paste(out_dir, 'dat_matG_expcutoff.txt',
+                            row.names=F, col.names=F, quote=F))
+write.table(dat_matA, paste(out_dir, 'dat_matG_Truncpshape.txt',
+                            row.names=F, col.names=F, quote=F))
 
 aG <- apply(dat_matG, 2, mean)
 aB <- apply(dat_matB, 2, mean)
 aA <- apply(dat_matA, 2, mean)
-
-thepal = colorRampPalette(brewer.pal(8,"Set2"))(8)
-out_dir <- paste(graph_dir, 'group_degrees/', sep='')
 
 pdf(paste(out_dir, 'Degrees_PowerLaw_bargraph.dens_',thresh_dens,'.pdf',sep=''))
 ylimG <- c(1.15, 1.01 * max(aG + error_vecG))
