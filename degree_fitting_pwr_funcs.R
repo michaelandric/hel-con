@@ -24,8 +24,7 @@ fitting <- function (degree.dist, nmax, fitting_outname)
     nb <- length(degree.dist[degree.dist > 0])
     gamma <- 1 + nb/(sum(log(degree.dist[degree.dist > 0])))
     x <- degree.dist
-    nmin <- cutoff
-    x <- x[x > nmin]
+    x <- x[x > 0]
     n <- length(x)
     fn <- function(p) -(-n * p * log(sum(x)/(n * p)) - n * log(gamma(p)) + 
                             (p - 1) * sum(log(x)) - n * p)
