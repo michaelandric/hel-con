@@ -100,15 +100,23 @@ for (ss in subjects)
         Rsq <- round((cor(log10(out$cum.dist)[1:(out$nmax-2)],
                          log10(out$gamma.trace)[1:(out$nmax-2)]))^2, 4)
         rsquares <- c(rsquares, Rsq)
+#        plot(log10(cutoff:(out$nmax-1)),
+#             log10(out$cum.dist), pch=3,
+#             xlab='log(k)', ylab='log(cumulative distribution)',
+#             main=paste(ss,' ',condition_names[i],' // R^2=',
+#                        round(Rsq, 4), sep=''))
+#        plot(log10(cutoff:(out$nmax-1)),
+#              log10(out$gamma.trace)[1:(out$nmax-1)],
+#              lwd=2, col=thepalOrder[i])
+
         plot(log10(cutoff:(out$nmax-1)),
-             log10(out$cum.dist), pch=3,
+             log10(out$gamma.trace)[1:(out$nmax-1)],
+             lwd=2, col=thepalOrder[i],
              xlab='log(k)', ylab='log(cumulative distribution)',
              main=paste(ss,' ',condition_names[i],' // R^2=',
                         round(Rsq, 4), sep=''))
-        lines(log10(cutoff:(out$nmax-1)),
-              log10(out$gamma.trace)[1:(out$nmax-1)],
-              lwd=2, col=thepalOrder[i])
-        # system(paste('cp fitting.txt fitting_cond',i,'_',ss,'_5p.txt', sep=''))
+        points(log10(cutoff:(out$nmax-1)),
+             log10(out$cum.dist), pch=3)
     }
     rsquared_mat = matrix(rsquares, nrow=1, byrow=T)
 }
