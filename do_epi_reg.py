@@ -30,13 +30,13 @@ if __name__ == '__main__':
         anat_dir = os.path.join(os.environ['hel'], vol_dir_pref)
         wholet1 = os.path.join(anat_dir, 'T1_biascorr.nii.gz')
         extrt1 = os.path.join(anat_dir, 'T1_biascorr_brain.nii.gz')
-        epi_brain = "'%s/pb01_trim_despiked_%sr03+orig.[241]'" % (proc_dir, ss)
+        epi_brain = "'%s/pb02_trim_despiked_%sr03+orig.[241]'" % (proc_dir, ss)
         epi_nii_pref = '%s/pb02_%s_regslice' % (proc_dir, ss)
 #        gp.converttoNIFTI(proc_dir, epi_brain, epi_nii_pref)
 
         epi = '%s.nii.gz' % epi_nii_pref
         epi_reg_out = os.path.join(anat_dir, 'epi2anat_%s_reg' % ss)
-#        gp.epi_reg(ss, anat_dir, epi, wholet1, extrt1, epi_reg_out)
+        gp.epi_reg(ss, anat_dir, epi, wholet1, extrt1, epi_reg_out)
 
         for session in range(1, 3):
             epi_nii_pref = '%s/avg_corrZ_task_sess_%d_%s.ijk' % \
@@ -47,11 +47,11 @@ if __name__ == '__main__':
             in_fl = '%s.nii.gz' % epi_nii_pref
             premat = os.path.join(anat_dir, 'epi2anat_%s_reg.mat' % ss)
             out_fl = '%s_flirted_%s' % (epi_nii_pref, interpol)
-            gp.applywarpFLIRT(ss, anat_dir, in_fl,
-                              extrt1, out_fl, premat, interpol)
+#            gp.applywarpFLIRT(ss, anat_dir, in_fl,
+#                              extrt1, out_fl, premat, interpol)
 
             in_fn = '%s.nii.gz' % out_fl
             out_fn = '%s_fnirted_MNI2mm_%s' % (epi_nii_pref, interpol)
             fn_coef = os.path.join(anat_dir, 'T1_to_MNI_nonlin_coeff.nii.gz')
-            gp.applywarpFNIRT(ss, anat_dir, in_fn,
-                              out_fn, fn_coef, interpol)
+#            gp.applywarpFNIRT(ss, anat_dir, in_fn,
+#                              out_fn, fn_coef, interpol)
