@@ -21,7 +21,7 @@ if __name__ == '__main__':
     """
 
     top_dir = '%s/graph_analyses' % os.environ['hel']
-    for interpol in ['nn', 'sinc']:
+    for interpol in ['trilinear', 'spline']:
         for ss in ['hel2']:
             proc_dir = os.path.join(os.environ['hel'], ss, 'preprocessing')
             conn_dir = os.path.join(top_dir, '%s/global_connectivity' % ss)
