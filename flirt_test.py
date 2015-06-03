@@ -20,12 +20,12 @@ extrt1 = os.path.join(anat_dir, 'T1_biascorr_brain.nii.gz')
 epi_brain = "'%s/pb02_trim_despiked_%sr03+orig.[241]'" % (proc_dir, ss)
 epi_nii_pref = '%s/pb02_%s_regslice' % (proc_dir, ss)
 epi = '%s.nii.gz' % epi_nii_pref
-epi_reg_out = os.path.join(anat_dir, 'flirt_bbr_epi2anat_%s_reg' % ss)
+epi_reg_out = os.path.join(anat_dir, 'flirt2_bbr_epi2anat_%s_reg' % ss)
 wm_edge = os.path.join(anat_dir, 'epi2anat_%s_reg_fast_wmedge.nii.gz' % ss)
 
-f = open('%s/stdout_from_flirt_test.txt' % anat_dir, 'w')
+f = open('%s/stdout_from_flirt2_test.txt' % anat_dir, 'w')
 cmdargs = split('flirt -in %s -ref %s -cost bbr -wmseg %s \
-                -bbrtype local_abs -o %s' %
+                -o %s' %
                 (epi, extrt1, wm_edge, epi_reg_out))
 call(cmdargs, stdout=f, stderr=STDOUT)
 f.close()
