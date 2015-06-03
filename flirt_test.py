@@ -24,7 +24,7 @@ epi = '%s.nii.gz' % epi_nii_pref
 epi_reg_out = os.path.join(anat_dir, 'flirt3_nobbr_epi2anat_%s_reg' % ss)
 wm_edge = os.path.join(anat_dir, 'epi2anat_%s_reg_fast_wmedge.nii.gz' % ss)
 
-f = open('%s/stdout_from_flirt2_test.txt' % anat_dir, 'w')
+f = open('%s/stdout_from_flirt3_test.txt' % anat_dir, 'w')
 # cmdargs = split('flirt -in %s -ref %s -cost bbr -wmseg %s \
 #                 -o %s' %
 #                 (epi, extrt1, wm_edge, epi_reg_out))
