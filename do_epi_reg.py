@@ -22,7 +22,7 @@ if __name__ == '__main__':
 
     top_dir = '%s/graph_analyses' % os.environ['hel']
     interpol = 'trilinear'
-    for ss in subj_list:
+    for ss in ['hel19']:
         proc_dir = os.path.join(os.environ['hel'], ss, 'preprocessing')
         conn_dir = os.path.join(top_dir, '%s/global_connectivity' % ss)
         vol_dir_pref = '%s/volume.%s.anat' % (ss, ss)
@@ -38,7 +38,7 @@ if __name__ == '__main__':
                                    'flirt3_nobbr_epi2anat_%s_reg' % ss)
         wm_edge = os.path.join(anat_dir,
                                'epi2anat_%s_reg_fast_wmedge.nii.gz' % ss)
-        gp.flirt_solo(anat_dir, epi, extrt1, wm_edge, epi_reg_out)
+#        gp.flirt_solo(anat_dir, epi, extrt1, wm_edge, epi_reg_out)
 
         for session in range(1, 3):
             epi_nii_pref = '%s/avg_corrZ_task_sess_%d_%s.ijk' % \
@@ -47,13 +47,13 @@ if __name__ == '__main__':
 #            gp.converttoNIFTI(conn_dir, epi_in_pref, epi_nii_pref)
 
             in_fl = '%s.nii.gz' % epi_nii_pref
-#            premat = os.path.join(anat_dir, 'epi2anat_%s_reg.mat' % ss)
+            premat = '%s.mat' % epi_reg_out
             out_fl = '%s_flirted_%s' % (epi_nii_pref, interpol)
-#            gp.applywarpFLIRT(ss, anat_dir, in_fl,
-#                              extrt1, out_fl, premat, interpol)
+            gp.applywarpFLIRT(ss, anat_dir, in_fl,
+                              extrt1, out_fl, premat, interpol)
 
             in_fn = '%s.nii.gz' % out_fl
             out_fn = '%s_fnirted_MNI2mm_%s' % (epi_nii_pref, interpol)
             fn_coef = os.path.join(anat_dir, 'T1_to_MNI_nonlin_coeff.nii.gz')
-#            gp.applywarpFNIRT(ss, anat_dir, in_fn,
-#                              out_fn, fn_coef, interpol)
+            gp.applywarpFNIRT(ss, anat_dir, in_fn,
+                              out_fn, fn_coef, interpol)
