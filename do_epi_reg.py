@@ -47,13 +47,14 @@ if __name__ == '__main__':
 #            gp.converttoNIFTI(conn_dir, epi_in_pref, epi_nii_pref)
 
             in_fl = '%s.nii.gz' % epi_nii_pref
-            premat = '%s.mat' % epi_reg_out
-            out_fl = '%s_flirted_%s2' % (epi_nii_pref, interpol)
-            gp.applywarpFLIRT(ss, anat_dir, in_fl,
-                              extrt1, out_fl, premat, interpol)
+#            premat = '%s.mat' % epi_reg_out
+            out_fl = '%s_flirted_%s3' % (epi_nii_pref, interpol)
+#            gp.applywarpFLIRT(ss, anat_dir, in_fl,
+#                              extrt1, out_fl, premat, interpol)
+            gp.flirt_solo(anat_dir, in_fl, extrt1, wm_edge, out_fl)
 
             in_fn = '%s.nii.gz' % out_fl
-            out_fn = '%s_fnirted_MNI2mm_%s2' % (epi_nii_pref, interpol)
+            out_fn = '%s_fnirted_MNI2mm_%s3' % (epi_nii_pref, interpol)
             fn_coef = os.path.join(anat_dir, 'T1_to_MNI_nonlin_coeff.nii.gz')
             gp.applywarpFNIRT(ss, anat_dir, in_fn,
                               out_fn, fn_coef, interpol)
