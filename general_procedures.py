@@ -162,7 +162,7 @@ def applywarpFNIRT(ss, work_dir, input, out, coeff, interp=None):
         cmdargs = split('applywarp -i %s \
                         -r %s/data/standard/MNI152_T1_2mm.nii.gz \
                         -o %s -w %s' %
-                        (input, os.environ['FSLDIR'], out, coeff, interp))
+                        (input, os.environ['FSLDIR'], out, coeff))
     else:
         cmdargs = split('applywarp -i %s \
                         -r %s/data/standard/MNI152_T1_2mm.nii.gz \
