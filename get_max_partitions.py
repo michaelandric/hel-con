@@ -36,7 +36,7 @@ if __name__ == '__main__':
                 trees_fname = 'task_sess_%d_%s.dens_%s.trees' % \
                     (session, ss, thresh_dens)
                 trees = np.loadtxt(os.path.join(mod_dir, trees_fname))
-                best_tree = trees[:, iter_max]
+                best_tree = trees[:, iter_max]+1
                 best_tree_fname = 'task_sess_%d_%s.dens_%s.maxq_tree' % \
                     (session, ss, thresh_dens)
                 np.savetxt(os.path.join(mod_dir, best_tree_fname),
