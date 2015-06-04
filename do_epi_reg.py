@@ -21,7 +21,7 @@ if __name__ == '__main__':
     """
 
     top_dir = '%s/graph_analyses' % os.environ['hel']
-    for ss in ['hel19']:
+    for ss in subj_list:
         proc_dir = os.path.join(os.environ['hel'], ss, 'preprocessing')
         conn_dir = os.path.join(top_dir, '%s/global_connectivity' % ss)
         vol_dir_pref = '%s/volume.%s.anat' % (ss, ss)
