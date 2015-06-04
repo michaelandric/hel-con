@@ -18,8 +18,7 @@ from sklearn.metrics import normalized_mutual_info_score, adjusted_rand_score, j
 
 class Graphs(object):
 
-    def __init__(self, subjid, inputTS, thresh_density,
-                 graph_dir, edgelist_name):
+    def __init__(self, subjid, inputTS, thresh_density, graph_dir):
         """
         Initialize for hel
         :param subjid: subject identifier
@@ -31,10 +30,9 @@ class Graphs(object):
         self.dens = float(thresh_density)
         self.input = inputTS
         self.graph_dir = graph_dir
-        self.el_name = edgelist_name
         print 'Initializing. -- '+time.ctime()
 
-    def make_graph(self):
+    def make_graph(self, el_name):
         """
         Makes graph by pairwise correlation
         Threshold at density
@@ -57,15 +55,15 @@ class Graphs(object):
         n, v = np.where(ix)
         inds = np.array(zip(n, v), dtype=np.int32)
         print 'Got graph edges. \nWriting it to file -- '+time.ctime()
-        np.savetxt(self.el_name, inds, fmt='%d')
+        np.savetxt(el_name, inds, fmt='%d')
         print 'Graph edgelist written out. \nDONE. -- '+time.ctime()
         return np.mean(threshd)
 
-    def make_networkx_graph(self, n_nodes):
+    def make_networkx_graph(self, n_nodes, el_name):
         # setting it up for further use
         g = nx.Graph()
         g.add_nodes_from(range(n_nodes))
-        ed = nx.read_edgelist(os.path.join(self.graph_dir, self.el_name),
+        ed = nx.read_edgelist(os.path.join(self.graph_dir, el_name),
                               nodetype=int)
         g.add_edges_from(ed.edges())
         return g
