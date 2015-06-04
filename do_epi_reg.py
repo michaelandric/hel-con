@@ -23,7 +23,7 @@ if __name__ == '__main__':
 
     top_dir = '%s/graph_analyses' % os.environ['hel']
     interpol = 'trilinear'
-    for ss in ['hel1']:
+    for ss in ['hel3']:
         proc_dir = os.path.join(os.environ['hel'], ss, 'preprocessing')
         conn_dir = os.path.join(top_dir, '%s/global_connectivity' % ss)
         vol_dir_pref = '%s/volume.%s.anat' % (ss, ss)
@@ -35,8 +35,13 @@ if __name__ == '__main__':
 #        gp.converttoNIFTI(proc_dir, epi_brain, epi_nii_pref)
 
         epi = '%s.nii.gz' % epi_nii_pref
-        epi_reg_out = os.path.join(anat_dir, 'epi2anat_%s_reg' % ss)
-        gp.epi_reg(ss, anat_dir, epi, wholet1, extrt1, epi_reg_out)
+#        epi_reg_out = os.path.join(anat_dir, 'epi2anat_%s_reg' % ss)
+#        gp.epi_reg(ss, anat_dir, epi, wholet1, extrt1, epi_reg_out)
+        epi_reg_out = os.path.join(anat_dir,
+                                   'flirt3_nobbr_epi2anat_%s_reg' % ss)
+        wm_edge = os.path.join(anat_dir,
+                               'epi2anat_%s_reg_fast_wmedge.nii.gz' % ss)
+        gp.flirt_solo(anat_dir, epi, extrt1, wm_edge, epi_reg_out)
 
         for session in range(1, 3):
             epi_nii_pref = '%s/avg_corrZ_task_sess_%d_%s.ijk' % \
@@ -45,7 +50,7 @@ if __name__ == '__main__':
 #            gp.converttoNIFTI(conn_dir, epi_in_pref, epi_nii_pref)
 
             in_fl = '%s.nii.gz' % epi_nii_pref
-            premat = os.path.join(anat_dir, 'epi2anat_%s_reg.mat' % ss)
+#            premat = os.path.join(anat_dir, 'epi2anat_%s_reg.mat' % ss)
             out_fl = '%s_flirted_%s' % (epi_nii_pref, interpol)
 #            gp.applywarpFLIRT(ss, anat_dir, in_fl,
 #                              extrt1, out_fl, premat, interpol)

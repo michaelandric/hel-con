@@ -114,6 +114,22 @@ def epi_reg(ss, work_dir, epi, wholet1, extrt1, out):
     f.close()
 
 
+def flirt_solo(work_dir, epi, extrt1, wm_edge, epi_reg_out):
+    """
+    Doing flirt
+    """
+    print 'doing flirt for %s -- ' % epi+time.ctime()
+    stdout_dir = os.path.join(work_dir, 'stdout_files')
+    if not os.path.exists(stdout_dir):
+        os.makedirs(stdout_dir)
+    f = open('%s/stdout_from_applywarpFLIRT.txt' % stdout_dir, 'w')
+    cmdargs = split('flirt -in %s -ref %s -wmseg %s \
+                -omat %s.mat -o %s' %
+                    (epi, extrt1, wm_edge, epi_reg_out, epi_reg_out))
+    call(cmdargs, stdout=f, stderr=STDOUT)
+    f.close
+
+
 def applywarpFLIRT(ss, work_dir, input, extrt1, out, premat, interp='nn'):
     """
     Warp via linear transformation via fsl FLIRT
