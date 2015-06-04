@@ -21,7 +21,7 @@ if __name__ == '__main__':
     """
 
     top_dir = '%s/graph_analyses' % os.environ['hel']
-    for ss in ['hel19']:
+    for ss in subj_list:
         proc_dir = os.path.join(os.environ['hel'], ss, 'preprocessing')
         mod_dir = os.path.join(top_dir, '%s/modularity' % ss)
         vol_dir_pref = '%s/volume.%s.anat' % (ss, ss)
@@ -44,7 +44,7 @@ if __name__ == '__main__':
                 epi_nii_pref = '%s/task_sess_%d_%s.dens_%s.maxq_tree.ijk' % \
                     (mod_dir, session, ss, thresh_dens)
                 epi_in_pref = '%s+orig' % epi_nii_pref
-#                gp.converttoNIFTI(mod_dir, epi_in_pref, epi_nii_pref)
+                gp.converttoNIFTI(mod_dir, epi_in_pref, epi_nii_pref)
 
                 in_fl = '%s.nii.gz' % epi_nii_pref
                 out_fl = '%s_flirted' % (epi_nii_pref)
