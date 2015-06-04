@@ -44,15 +44,16 @@ if __name__ == '__main__':
                 epi_nii_pref = '%s/task_sess_%d_%s.dens_%s.maxq_tree.ijk' % \
                     (mod_dir, session, ss, thresh_dens)
                 epi_in_pref = '%s+orig' % epi_nii_pref
-                gp.converttoNIFTI(mod_dir, epi_in_pref, epi_nii_pref)
+#                gp.converttoNIFTI(mod_dir, epi_in_pref, epi_nii_pref)
 
                 in_fl = '%s.nii.gz' % epi_nii_pref
                 out_fl = '%s_flirted' % (epi_nii_pref)
-                gp.flirt_solo(anat_dir, in_fl, extrt1, wm_edge, out_fl)
+                gp.flirt_solo(anat_dir, in_fl, extrt1, wm_edge,
+                              out_fl, 'nearestneighbour')
 
                 in_fn = '%s.nii.gz' % out_fl
                 out_fn = '%s_fnirted_MNI2mm' % (epi_nii_pref)
                 fn_coef = os.path.join(anat_dir,
                                        'T1_to_MNI_nonlin_coeff.nii.gz')
                 gp.applywarpFNIRT(ss, anat_dir, in_fn,
-                                  out_fn, fn_coef)
+                                  out_fn, fn_coef, 'nn')

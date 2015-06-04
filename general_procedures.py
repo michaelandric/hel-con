@@ -12,7 +12,8 @@ from shlex import split
 from subprocess import call, STDOUT
 
 
-def undump(subjid, ijk_coords, datafilename, data_dir, master_file, dtype='short'):
+def undump(subjid, ijk_coords, datafilename, data_dir,
+           master_file, dtype='short'):
     """
     :param subjid: Subject identifier
     :param ijk_coords: IJK coordinates. GIVE FULL PATH
@@ -114,7 +115,7 @@ def epi_reg(ss, work_dir, epi, wholet1, extrt1, out):
     f.close()
 
 
-def flirt_solo(work_dir, epi, extrt1, wm_edge, epi_reg_out):
+def flirt_solo(work_dir, epi, extrt1, wm_edge, epi_reg_out, interp=None):
     """
     Doing flirt
     """
@@ -123,9 +124,15 @@ def flirt_solo(work_dir, epi, extrt1, wm_edge, epi_reg_out):
     if not os.path.exists(stdout_dir):
         os.makedirs(stdout_dir)
     f = open('%s/stdout_from_applywarpFLIRT.txt' % stdout_dir, 'w')
-    cmdargs = split('flirt -in %s -ref %s -wmseg %s \
-                -omat %s.mat -o %s' %
-                    (epi, extrt1, wm_edge, epi_reg_out, epi_reg_out))
+    if interp is None:
+        cmdargs = split('flirt -in %s -ref %s -wmseg %s \
+                    -omat %s.mat -o %s' %
+                        (epi, extrt1, wm_edge, epi_reg_out, epi_reg_out))
+    else:
+        cmdargs = split('flirt -in %s -ref %s -wmseg %s \
+                    -interp %s -omat %s.mat -o %s' %
+                        (epi, extrt1, wm_edge, interp,
+                         epi_reg_out, epi_reg_out))
     call(cmdargs, stdout=f, stderr=STDOUT)
     f.close
 
