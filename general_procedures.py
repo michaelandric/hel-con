@@ -12,7 +12,7 @@ from shlex import split
 from subprocess import call, STDOUT
 
 
-def undump(subjid, ijk_coords, datafilename, data_dir, master_file):
+def undump(subjid, ijk_coords, datafilename, data_dir, master_file, dtype='short'):
     """
     :param subjid: Subject identifier
     :param ijk_coords: IJK coordinates. GIVE FULL PATH
@@ -37,7 +37,7 @@ def undump(subjid, ijk_coords, datafilename, data_dir, master_file):
     f = open('%s/stdout_from_undump.txt' % stdout_dir, 'w')
     cmdargs = split('3dUndump -prefix %s -ijk \
                     -datum %s -master %s %s' %
-                    (data_ijk_outname, 'float',
+                    (data_ijk_outname, dtype,
                      master_file, data_ijk_outname))
     call(cmdargs, stdout=f, stderr=STDOUT)
     f.close()
