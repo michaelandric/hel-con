@@ -11,10 +11,9 @@ import general_procedures as gp
 
 if __name__ == '__main__':
     subj_list = []
-    for i in range(2, 20):
+    for i in range(4, 20):
         subj_list.append('hel%d' % i)
     subj_list.remove('hel9')   # because this is bad subj
-    subj_list.remove('hel2')   # because already did hel2
 
     """subj_list = []
     for i in range(15, 20):
@@ -23,20 +22,18 @@ if __name__ == '__main__':
 
     top_dir = '%s/graph_analyses' % os.environ['hel']
     interpol = 'trilinear'
-    for ss in ['hel3']:
+    for ss in subj_list:
         proc_dir = os.path.join(os.environ['hel'], ss, 'preprocessing')
         conn_dir = os.path.join(top_dir, '%s/global_connectivity' % ss)
         vol_dir_pref = '%s/volume.%s.anat' % (ss, ss)
         anat_dir = os.path.join(os.environ['hel'], vol_dir_pref)
         wholet1 = os.path.join(anat_dir, 'T1_biascorr.nii.gz')
         extrt1 = os.path.join(anat_dir, 'T1_biascorr_brain.nii.gz')
-        epi_brain = "'%s/pb02_trim_despiked_%sr03+orig.[241]'" % (proc_dir, ss)
+        epi_brain = "'%s/pb02_trim_despiked_%sr06+orig.[241]'" % (proc_dir, ss)
         epi_nii_pref = '%s/pb02_%s_regslice' % (proc_dir, ss)
 #        gp.converttoNIFTI(proc_dir, epi_brain, epi_nii_pref)
 
         epi = '%s.nii.gz' % epi_nii_pref
-#        epi_reg_out = os.path.join(anat_dir, 'epi2anat_%s_reg' % ss)
-#        gp.epi_reg(ss, anat_dir, epi, wholet1, extrt1, epi_reg_out)
         epi_reg_out = os.path.join(anat_dir,
                                    'flirt3_nobbr_epi2anat_%s_reg' % ss)
         wm_edge = os.path.join(anat_dir,
