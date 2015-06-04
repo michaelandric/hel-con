@@ -35,7 +35,7 @@ if __name__ == '__main__':
                 qval, iter_max = gr.max_q(os.path.join(mod_dir, q_fname))
                 trees_fname = 'task_sess_%d_%s.dens_%s.trees' % \
                     (session, ss, thresh_dens)
-                trees = np.loadtxt(trees_fname)
+                trees = np.loadtxt(os.path.join(mod_dir, trees_fname))
                 best_tree = trees[:, iter_max]
                 best_tree_fname = 'task_sess_%d_%s.dens_%s.maxq_tree' % \
                     (session, ss, thresh_dens)
