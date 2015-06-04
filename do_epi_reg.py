@@ -21,7 +21,6 @@ if __name__ == '__main__':
     """
 
     top_dir = '%s/graph_analyses' % os.environ['hel']
-    interpol = 'nn'
     for ss in ['hel19']:
         proc_dir = os.path.join(os.environ['hel'], ss, 'preprocessing')
         conn_dir = os.path.join(top_dir, '%s/global_connectivity' % ss)
@@ -47,14 +46,11 @@ if __name__ == '__main__':
 #            gp.converttoNIFTI(conn_dir, epi_in_pref, epi_nii_pref)
 
             in_fl = '%s.nii.gz' % epi_nii_pref
-#            premat = '%s.mat' % epi_reg_out
-            out_fl = '%s_flirted_%s3' % (epi_nii_pref, interpol)
-#            gp.applywarpFLIRT(ss, anat_dir, in_fl,
-#                              extrt1, out_fl, premat, interpol)
+            out_fl = '%s_flirted' % (epi_nii_pref)
             gp.flirt_solo(anat_dir, in_fl, extrt1, wm_edge, out_fl)
 
             in_fn = '%s.nii.gz' % out_fl
-            out_fn = '%s_fnirted_MNI2mm_%s3' % (epi_nii_pref, interpol)
+            out_fn = '%s_fnirted_MNI2mm' % (epi_nii_pref)
             fn_coef = os.path.join(anat_dir, 'T1_to_MNI_nonlin_coeff.nii.gz')
             gp.applywarpFNIRT(ss, anat_dir, in_fn,
-                              out_fn, fn_coef, interpol)
+                              out_fn, fn_coef)

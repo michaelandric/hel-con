@@ -130,7 +130,7 @@ def flirt_solo(work_dir, epi, extrt1, wm_edge, epi_reg_out):
     f.close
 
 
-def applywarpFLIRT(ss, work_dir, input, extrt1, out, premat, interp='nn'):
+def applywarpFLIRT(ss, work_dir, input, extrt1, out, premat, interp=None):
     """
     Warp via linear transformation via fsl FLIRT
     """
@@ -139,13 +139,17 @@ def applywarpFLIRT(ss, work_dir, input, extrt1, out, premat, interp='nn'):
     if not os.path.exists(stdout_dir):
         os.makedirs(stdout_dir)
     f = open('%s/stdout_from_applywarpFLIRT.txt' % stdout_dir, 'w')
-    cmdargs = split('applywarp -i %s -r %s -o %s --premat=%s --interp=%s' %
-                    (input, extrt1, out, premat, interp))
+    if interp is None:
+        cmdargs = split('applywarp -i %s -r %s -o %s --premat=%s' %
+                        (input, extrt1, out, premat))
+    else:
+        cmdargs = split('applywarp -i %s -r %s -o %s --premat=%s --interp=%s' %
+                        (input, extrt1, out, premat, interp))
     call(cmdargs, stdout=f, stderr=STDOUT)
     f.close()
 
 
-def applywarpFNIRT(ss, work_dir, input, out, coeff, interp='nn'):
+def applywarpFNIRT(ss, work_dir, input, out, coeff, interp=None):
     """
     Warp via nonlinear transformation via fsl FNIRT
     """
@@ -154,9 +158,15 @@ def applywarpFNIRT(ss, work_dir, input, out, coeff, interp='nn'):
     if not os.path.exists(stdout_dir):
         os.makedirs(stdout_dir)
     f = open('%s/stdout_from_applywarp.txt' % stdout_dir, 'w')
-    cmdargs = split('applywarp -i %s \
-                    -r %s/data/standard/MNI152_T1_2mm.nii.gz \
-                    -o %s -w %s --interp=%s' %
-                    (input, os.environ['FSLDIR'], out, coeff, interp))
+    if interp is None:
+        cmdargs = split('applywarp -i %s \
+                        -r %s/data/standard/MNI152_T1_2mm.nii.gz \
+                        -o %s -w %s' %
+                        (input, os.environ['FSLDIR'], out, coeff, interp))
+    else:
+        cmdargs = split('applywarp -i %s \
+                        -r %s/data/standard/MNI152_T1_2mm.nii.gz \
+                        -o %s -w %s --interp=%s' %
+                        (input, os.environ['FSLDIR'], out, coeff, interp))
     call(cmdargs, stdout=f, stderr=STDOUT)
     f.close()
