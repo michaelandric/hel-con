@@ -20,7 +20,7 @@ if __name__ == '__main__':
         os.makedirs(grp_dir)
 
     subj_masks = []
-    for ss in ['hel19']:
+    for ss in subj_list:
         vol_dir_pref = '%s/volume.%s.anat' % (ss, ss)
         anat_dir = os.path.join(os.environ['hel'], vol_dir_pref)
         epi_nii_pref = os.path.join(anat_dir, '%s_GMmask' % ss)
