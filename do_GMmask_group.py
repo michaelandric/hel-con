@@ -10,7 +10,7 @@ import general_procedures as gp
 
 if __name__ == '__main__':
     subj_list = []
-    for i in range(1, 19):
+    for i in range(2, 19):
         subj_list.append('hel%d' % i)
     subj_list.remove('hel9')   # because this is bad subj
 
