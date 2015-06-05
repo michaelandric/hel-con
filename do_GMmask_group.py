@@ -33,10 +33,10 @@ if __name__ == '__main__':
                                'T1_to_MNI_nonlin_coeff.nii.gz')
 #        gp.applywarpFNIRT(ss, anat_dir, in_fn, out_fn, fn_coef, 'nn')
 
-        ss_msk = '%s_GMmask_fnirted_MNI2mm.nii.gz' % ss
+        ss_msk = '%s_GMmask_frac_bin_fnirted_MNI2mm.nii.gz' % ss
         subj_masks.append(os.path.join(anat_dir, ss_msk))
     subj_masks_strlist = ' '.join(subj_masks)
-    grp_msk_pref = 'group_avg_GMmask_fnirted_MNI2mm'
+    grp_msk_pref = 'group_avg_GMmask_frac_bin_fnirted_MNI2mm'
     grp_msk_fname = os.path.join(grp_dir, '%s.nii.gz' % grp_msk_pref)
     gp.avgepis('group', subj_masks_strlist, grp_dir, grp_msk_fname)
 
