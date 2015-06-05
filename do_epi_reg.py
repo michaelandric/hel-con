@@ -21,7 +21,7 @@ if __name__ == '__main__':
     """
 
     top_dir = '%s/graph_analyses' % os.environ['hel']
-    for ss in ['hel19']:
+    for ss in subj_list:
         proc_dir = os.path.join(os.environ['hel'], ss, 'preprocessing')
         mod_dir = os.path.join(top_dir, '%s/modularity' % ss)
         vol_dir_pref = '%s/volume.%s.anat' % (ss, ss)
@@ -47,6 +47,8 @@ if __name__ == '__main__':
                gp.converttoNIFTI(mod_dir, epi_in_pref, epi_nii_pref)
         """
         epi_nii_pref = '%s/%s_GMmask_frac_bin' % (anat_dir, ss)
+        epi_in_pref = '%s+orig' % epi_nii_pref
+        gp.converttoNIFTI(anat_dir, epi_in_pref, epi_nii_pref)
         in_fl = '%s.nii.gz' % epi_nii_pref
         out_fl = '%s_flirted' % (epi_nii_pref)
         gp.flirt_solo(anat_dir, in_fl, extrt1, wm_edge,
