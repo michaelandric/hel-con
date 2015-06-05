@@ -21,7 +21,7 @@ if __name__ == '__main__':
     """
 
     top_dir = '%s/graph_analyses' % os.environ['hel']
-    for ss in subj_list:
+    for ss in ['hel19']:
         proc_dir = os.path.join(os.environ['hel'], ss, 'preprocessing')
         mod_dir = os.path.join(top_dir, '%s/modularity' % ss)
         vol_dir_pref = '%s/volume.%s.anat' % (ss, ss)
@@ -39,21 +39,22 @@ if __name__ == '__main__':
                                'epi2anat_%s_reg_fast_wmedge.nii.gz' % ss)
 #        gp.flirt_solo(anat_dir, epi, extrt1, wm_edge, epi_reg_out)
 
-        for session in range(1, 3):
-            for thresh_dens in [.05, .10, .15, .20]:
-                epi_nii_pref = '%s/task_sess_%d_%s.dens_%s.maxq_tree.ijk' % \
-                    (mod_dir, session, ss, thresh_dens)
-                epi_in_pref = '%s+orig' % epi_nii_pref
-                gp.converttoNIFTI(mod_dir, epi_in_pref, epi_nii_pref)
+        """for session in range(1, 3):
+           for thresh_dens in [.05, .10, .15, .20]:
+               epi_nii_pref = '%s/task_sess_%d_%s.dens_%s.maxq_tree.ijk' % \
+                  (mod_dir, session, ss, thresh_dens)
+               epi_in_pref = '%s+orig' % epi_nii_pref
+               gp.converttoNIFTI(mod_dir, epi_in_pref, epi_nii_pref)
+        """
+        epi_nii_pref = '%s/%s_GMmask_frac_bin'
+        in_fl = '%s.nii.gz' % epi_nii_pref
+        out_fl = '%s_flirted' % (epi_nii_pref)
+        gp.flirt_solo(anat_dir, in_fl, extrt1, wm_edge,
+                      out_fl, 'nearestneighbour')
 
-                in_fl = '%s.nii.gz' % epi_nii_pref
-                out_fl = '%s_flirted' % (epi_nii_pref)
-                gp.flirt_solo(anat_dir, in_fl, extrt1, wm_edge,
-                              out_fl, 'nearestneighbour')
-
-                in_fn = '%s.nii.gz' % out_fl
-                out_fn = '%s_fnirted_MNI2mm' % (epi_nii_pref)
-                fn_coef = os.path.join(anat_dir,
-                                       'T1_to_MNI_nonlin_coeff.nii.gz')
-                gp.applywarpFNIRT(ss, anat_dir, in_fn,
-                                  out_fn, fn_coef, 'nn')
+        in_fn = '%s.nii.gz' % out_fl
+        out_fn = '%s_fnirted_MNI2mm' % (epi_nii_pref)
+        fn_coef = os.path.join(anat_dir,
+                               'T1_to_MNI_nonlin_coeff.nii.gz')
+        gp.applywarpFNIRT(ss, anat_dir, in_fn,
+                          out_fn, fn_coef, 'nn')
