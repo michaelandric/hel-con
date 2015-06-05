@@ -25,7 +25,7 @@ if __name__ == '__main__':
         anat_dir = os.path.join(os.environ['hel'], vol_dir_pref)
         epi_nii_pref = os.path.join(anat_dir, '%s_GMmask' % ss)
         epi_in_pref = '%s+orig' % epi_nii_pref
-        gp.converttoNIFTI(anat_dir, epi_in_pref, epi_nii_pref)
+#        gp.converttoNIFTI(anat_dir, epi_in_pref, epi_nii_pref)
 
         in_fn = '%s.nii.gz' % epi_nii_pref
         out_fn = '%s_fnirted_MNI2mm' % (epi_nii_pref)
@@ -35,12 +35,12 @@ if __name__ == '__main__':
 
         ss_msk = '%s_GMmask_fnirted_MNI2mm.nii.gz' % ss
         subj_masks.append(os.path.join(anat_dir, ss_msk))
-    subj_masks_in = ' '.join(subj_masks)
+    subj_masks_strlist = ' '.join(subj_masks)
     grp_msk_pref = 'group_avg_GMmask_fnirted_MNI2mm'
     grp_msk_fname = os.path.join(grp_dir, grp_msk_pref)
-    gp.avgepis('group', subj_masks, grp_dir, grp_msk_fname)
+    gp.avgepis('group', subj_masks_strlist, grp_dir, grp_msk_fname)
 
     in_frac_fname = '%s+orig' % grp_msk_fname
     out_frac_pref = '%s_frac' % grp_msk_fname
-    template = '%s/data/standard/MNI152_T1_2mm.nii.gz' % os.environ['hel']
+    template = '%s/data/standard/MNI152_T1_2mm.nii.gz' % os.environ['FSLDIR']
     gp.fractionize(grp_dir, in_frac_fname, out_frac_pref, template)
