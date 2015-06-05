@@ -17,7 +17,7 @@ if __name__ == '__main__':
     for ss in subj_list:
         vol_dir_pref = '%s/volume.%s.anat' % (ss, ss)
         anat_dir = os.path.join(os.environ['hel'], vol_dir_pref)
-        epi_nii_pref = os.path.join(anat_dir, 'hel1_GMmask')
+        epi_nii_pref = os.path.join(anat_dir, '%s_GMmask' % ss)
         epi_in_pref = '%s+orig' % epi_nii_pref
         gp.converttoNIFTI(anat_dir, epi_in_pref, epi_nii_pref)
 
