@@ -46,7 +46,7 @@ if __name__ == '__main__':
                epi_in_pref = '%s+orig' % epi_nii_pref
                gp.converttoNIFTI(mod_dir, epi_in_pref, epi_nii_pref)
         """
-        epi_nii_pref = '%s/%s_GMmask_frac_bin'
+        epi_nii_pref = '%s/%s_GMmask_frac_bin' % (anat_dir, ss)
         in_fl = '%s.nii.gz' % epi_nii_pref
         out_fl = '%s_flirted' % (epi_nii_pref)
         gp.flirt_solo(anat_dir, in_fl, extrt1, wm_edge,
