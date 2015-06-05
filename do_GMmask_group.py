@@ -14,7 +14,7 @@ if __name__ == '__main__':
         subj_list.append('hel%d' % i)
     subj_list.remove('hel9')   # because this is bad subj
 
-    for ss in ['hel1']:
+    for ss in subj_list:
         vol_dir_pref = '%s/volume.%s.anat' % (ss, ss)
         anat_dir = os.path.join(os.environ['hel'], vol_dir_pref)
         epi_nii_pref = os.path.join(anat_dir, 'hel1_GMmask')
