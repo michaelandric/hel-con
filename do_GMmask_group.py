@@ -37,10 +37,9 @@ if __name__ == '__main__':
         subj_masks.append(os.path.join(anat_dir, ss_msk))
     subj_masks_strlist = ' '.join(subj_masks)
     grp_msk_pref = 'group_avg_GMmask_fnirted_MNI2mm'
-    grp_msk_fname = os.path.join(grp_dir, grp_msk_pref)
+    grp_msk_fname = os.path.join(grp_dir, '%s.nii.gz' % grp_msk_pref)
     gp.avgepis('group', subj_masks_strlist, grp_dir, grp_msk_fname)
 
-    in_frac_fname = '%s+orig' % grp_msk_fname
-    out_frac_pref = '%s_frac' % grp_msk_fname
+    out_frac_pref = '%s_frac.nii.gz' % os.path.join(grp_dir, grp_msk_pref)
     template = '%s/data/standard/MNI152_T1_2mm.nii.gz' % os.environ['FSLDIR']
-    gp.fractionize(grp_dir, in_frac_fname, out_frac_pref, template)
+    gp.fractionize(grp_dir, grp_msk_fname, out_frac_pref, template)
