@@ -35,7 +35,7 @@ if __name__ == '__main__':
 
         ss_msk = '%s_GMmask_fnirted_MNI2mm.nii.gz' % ss
         subj_masks.append(os.path.join(anat_dir, ss_msk))
-        subj_masks_in = ' '.join(subj_masks)
+    subj_masks_in = ' '.join(subj_masks)
     grp_msk_pref = 'group_avg_GMmask_fnirted_MNI2mm'
     grp_msk_fname = os.path.join(grp_dir, grp_msk_pref)
     gp.avgepis('group', subj_masks, grp_dir, grp_msk_fname)
