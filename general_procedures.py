@@ -185,3 +185,28 @@ def fractionize(stdout_dir, in_pref, out_pref, template):
         -prefix %s -clip 0.5' % (template, in_pref, out_pref))
     call(cmdargs, stdout=f, stderr=STDOUT)
     f.close()
+
+
+def maskdump(stdout_dir, mask, in_pref, out_pref, noijk=True):
+    outf = open(out_pref, 'w')
+    f = open('%s/stdout_from_maskdump.txt' % stdout_dir, 'w')
+    if noijk is True:
+        cmdargs = split('3dmaskdump -mask %s -noijk %s' % (mask, in_pref))
+    else:
+        cmdargs = split('3dmaskdump -mask %s %s' % (mask, in_pref))
+    call(cmdargs, stdout=outf, stderr=f)
+    outf.close()
+    f.close()
+
+
+def get_ijk(outname, mask=None):
+    print 'Getting IJK coordinates... '+time.ctime()
+    if mask is None:
+        print 'NOTT USING MASK. HUH?'
+        call("3dmaskdump %s | awk '{print $1, $2, $3}' > %s" %
+             (mask, outname), shell=True)
+    else:
+        print 'USING MASK: '+mask
+        call("3dmaskdump -mask %s %s | awk '{print $1, $2, $3}' > %s" %
+             (mask, mask, outname), shell=True)
+    print 'DONE. '+time.ctime()
