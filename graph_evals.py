@@ -220,7 +220,7 @@ class CommunityDetect(object):
 
 class Similarity(object):
 
-    def adj_rand(p1, p2):
+    def adj_rand(self, p1, p2):
         """
         Return the Adjusted Rand Index
         across two partitions
@@ -238,7 +238,7 @@ class Similarity(object):
         ari = adjusted_rand_score(p1, p2)
         return ari
 
-    def normalized_MI(p1, p2):
+    def normalized_MI(self, p1, p2):
         """
         Return the normalized mutual information
         across two partitions
@@ -255,6 +255,66 @@ class Similarity(object):
 
         nmi = normalized_mutual_info_score(p1, p2)
         return nmi
+
+    def snsc(self, input1, input2):
+        """
+        Get Single Node Set Consistency (SNSC)
+        between two partitions
+        Each input is a separate file, result of
+        tree output from modularity function
+        """
+        coms1 = np.loadtxt(input1)
+        coms2 = np.loadtxt(input2)
+        mod_dict1 = {}
+        mod_dict2 = {}
+        for i in np.unique(coms1):
+            mod_dict1[i] = [v for v, c in enumerate(coms1) if c == i]
+        for i in np.unique(coms2):
+            mod_dict2[i] = [v for v, c in enumerate(coms2) if c == i]
+
+        preservation = np.zeros(len(coms2))
+        """Return 777 if the community includes less than 20 voxels """
+        for i in xrange(len(coms2)):
+            if len(mod_dict2[coms2[i]]) < 20 or len(mod_dict1[coms1[i]]) < 20:
+                preservation[i] = 777
+            else:
+                set2 = set(mod_dict2[coms2[i]])
+                set1 = set(mod_dict1[coms1[i]])
+                inter = len(set2.intersection(set1))
+                preservation[i] = inter / float(len(mod_dict2[coms2[i]]))
+
+        return preservation
+
+    def jaccard_vw(self, input1, input2):
+        """
+        Jaccard similarity coefficient
+        between two partitions at voxel-by-voxel
+        Each input is a separate file, result of
+        tree output from modularity function
+        Similarity is intersection / union
+        """
+        coms1 = np.loadtxt(input1)
+        coms2 = np.loadtxt(input2)
+        mod_dict1 = {}
+        mod_dict2 = {}
+        for i in np.unique(coms1):
+            mod_dict1[i] = [v for v, c in enumerate(coms1) if c == i]
+        for i in np.unique(coms2):
+            mod_dict2[i] = [v for v, c in enumerate(coms2) if c == i]
+
+        jacc = np.zeros(len(coms2))
+        """Return 777 if the community includes less than 20 voxels """
+        for i in xrange(len(coms2)):
+            if len(mod_dict2[coms2[i]]) < 20 or len(mod_dict1[coms1[i]]) < 20:
+                jacc[i] = 777
+            else:
+                set2 = set(mod_dict2[coms2[i]])
+                set1 = set(mod_dict1[coms1[i]])
+                inter = len(set2.intersection(set1))
+                union = len(set2.union(set1))
+                jacc[i] = float(inter) / float(union)
+
+        return jacc
 
 
 def avg_global_connectivity(inputts, transform=True):

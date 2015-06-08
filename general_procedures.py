@@ -24,6 +24,7 @@ def undump(subjid, ijk_coords, datafilename, data_dir,
     Writes AFNI format Undumped file
     """
     print 'Doing undump... First pasting ijk to data'
+    print 'Data type is %s' % dtype
     print time.ctime()
     ijkfile = np.loadtxt(ijk_coords)
     data = np.loadtxt(datafilename)
