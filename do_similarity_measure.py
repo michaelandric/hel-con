@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sun May 31 18:12:20 2015
+Created on Sun Jun  7 21:49:46 2015
 
 @author: andric
 """
@@ -10,6 +10,14 @@ import sys
 import numpy as np
 from itertools import combinations
 from sklearn.metrics import normalized_mutual_info_score
+
+
+def file_len(fname):
+    with open(fname) as f:
+        for i, l in enumerate(f):
+            pass
+    return i + 1
+
 
 if __name__ == '__main__':
 
@@ -29,70 +37,48 @@ if __name__ == '__main__':
 
     niter = 100
     n_unique = (niter*(niter-1)) / 2.
+    n_vox = 157440
+    n_subj = len(subj_list)
 
+    tree_suff = 'maxq_tree.ijk_fnirted_MNI2mm.txt'
     for thresh_dens in [.05, .10, .15, .20]:
-        """for i, ss in enumerate(subj_list):
-            simil_dir = os.path.join(top_dir, '%s/similarity' % ss)
-            if not os.path.exists(simil_dir):
-                os.makedirs(simil_dir)
-            proc_dir = os.path.join(os.environ['hel'], ss, 'preprocessing')
+        sess1_mat = np.empty(n_vox*len(subj_list))
+        sess1_mat = sess1_mat.reshape(n_vox, len(subj_list))
+        sess2_mat = np.empty(n_vox*len(subj_list))
+        sess2_mat = sess2_mat.reshape(n_vox, len(subj_list))
+        sess1_scores = np.empty((n_subj*(n_subj-1))/2.)
+        sess2_scores = np.empty((n_subj*(n_subj-1))/2.)
+        btwn_scores = np.empty((n_subj*(n_subj-1))/2.)
+        for i, ss in enumerate(subj_list):
             mod_dir = os.path.join(top_dir, '%s/modularity' % ss)
-            for session in range(1, 3):
-                tree_fname = os.path.join(mod_dir,
-                                          'task_sess_%d_%s.dens_%s.trees' %
-                                          (session, ss, thresh_dens))
-                tree_file = np.loadtxt(tree_fname)
-                simil_scores = np.empty((niter*(niter-1)) / 2.)
-                for i, c in enumerate(combinations(range(niter), 2)):
-                    v1 = tree_file[:, c[0]]
-                    v2 = tree_file[:, c[1]]
-                    simil_scores[i] = normalized_mutual_info_score(v1, v2)
-                simil_name = 'within_task_sess_%d_%s.dens_%s_nmi.txt' % \
-                    (session, ss, thresh_dens)
-                simil_fname = os.path.join(simil_dir, simil_name)
-                np.savetxt(simil_fname, simil_scores, fmt='%.4f')
+            tree1_name = os.path.join(mod_dir,
+                                      'task_sess_%d_%s.dens_%s.%s' %
+                                      (1, ss, thresh_dens, tree_suff))
+            in_tree1 = np.loadtxt(tree1_name)
+            sess1_mat[:, i] = in_tree1
 
-            simil_scores_b = np.empty((niter*(niter-1)) / 2.)
-            trees_1_name = os.path.join(mod_dir,
-                                        'task_sess_%d_%s.dens_%s.trees' %
-                                        (1, ss, thresh_dens))
-            trees_sess1 = np.loadtxt(trees_1_name)
-            trees_2_name = os.path.join(mod_dir,
-                                        'task_sess_%d_%s.dens_%s.trees' %
-                                        (2, ss, thresh_dens))
-            trees_sess2 = np.loadtxt(trees_2_name)
-            for i, c in enumerate(combinations(range(niter), 2)):
-                v1 = trees_sess1[:, c[0]]
-                v2 = trees_sess2[:, c[1]]
-                simil_scores_b[i] = normalized_mutual_info_score(v1, v2)
-            simil_b_name = 'between_tasks_%s.dens_%s_nmi.txt' % \
-                (ss, thresh_dens)
-            simil_b_fname = os.path.join(simil_dir, simil_b_name)
-            np.savetxt(simil_b_fname, simil_scores_b, fmt='%.4f')"""
+            tree2_name = os.path.join(mod_dir,
+                                      'task_sess_%d_%s.dens_%s.%s' %
+                                      (2, ss, thresh_dens, tree_suff))
+            in_tree2 = np.loadtxt(tree2_name)
+            sess2_mat[:, i] = in_tree2
 
-        for session in range(1, 3):
-            agg_siml_scores_w = []
-            for ss in subj_list:
-                simil_dir = os.path.join(top_dir, '%s/similarity' % ss)
-                simil_name = 'within_task_sess_%d_%s.dens_%s_nmi.txt' % \
-                    (session, ss, thresh_dens)
-                simil_fname = os.path.join(simil_dir, simil_name)
-                dat = np.loadtxt(simil_fname)
-                agg_siml_scores_w = np.append(agg_siml_scores_w, dat)
-            agg_name = 'within_task_sess_%d_group.dens_%s_nmi.txt' % \
-                (session, thresh_dens)
-            agg_fname = os.path.join(group_siml_dir, agg_name)
-            np.savetxt(agg_fname, agg_siml_scores_w, fmt='%.4f')
-
-        agg_siml_scores_b = []
-        for ss in subj_list:
-            simil_dir = os.path.join(top_dir, '%s/similarity' % ss)
-            simil_b_name = 'between_tasks_%s.dens_%s_nmi.txt' % \
-                (ss, thresh_dens)
-            simil_b_fname = os.path.join(simil_dir, simil_b_name)
-            dat = np.loadtxt(simil_b_fname)
-            agg_siml_scores_b = np.append(agg_siml_scores_b, dat)
-        agg_name_b = 'between_task_sess_%d_group.dens_%s_nmi.txt' % \
-            (session, thresh_dens)
-        agg_fname_b = os.path.join(group_siml_dir, agg_name_b)
-        np.savetxt(agg_fname_b, agg_siml_scores_b, fmt='%.4f')
+        for i, c in enumerate(combinations(range(n_subj), 2)):
+            v1 = sess1_mat[:, c[0]]
+            v2 = sess1_mat[:, c[1]]
+            sess1_scores[i] = normalized_mutual_info_score(v1, v2)
+            v1 = sess2_mat[:, c[0]]
+            v2 = sess2_mat[:, c[1]]
+            sess2_scores[i] = normalized_mutual_info_score(v1, v2)
+            v1 = sess1_mat[:, c[0]]
+            v2 = sess2_mat[:, c[1]]
+            btwn_scores[i] = normalized_mutual_info_score(v1, v2)
+        sess1_pref = 'within_session%d_dens_%s_nmi.txt' % (1, thresh_dens)
+        sess1_fname = os.path.join(group_siml_dir, sess1_pref)
+        sess2_pref = 'within_session%d_dens_%s_nmi.txt' % (2, thresh_dens)
+        sess2_fname = os.path.join(group_siml_dir, sess2_pref)
+        btwn_pref = 'between_dens_%s_nmi.txt' % thresh_dens
+        btwn_fname = os.path.join(group_siml_dir, btwn_pref)
+        np.savetxt(sess1_fname, sess1_scores, fmt='%.4f')
+        np.savetxt(sess2_fname, sess2_scores, fmt='%.4f')
+        np.savetxt(btwn_fname, btwn_scores, fmt='%.4f')
