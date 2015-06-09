@@ -10,7 +10,7 @@ import os
 from subprocess import call, STDOUT
 from shlex import split
 
-ss = 'hel4'
+ss = 'hel19'
 
 proc_dir = os.path.join(os.environ['hel'], ss, 'preprocessing')
 vol_dir_pref = '%s/volume.%s.anat' % (ss, ss)
@@ -32,6 +32,7 @@ f = open('%s/stdout_files/stdout_from_applywarp_tests.txt' % anat_dir, 'w')
 # cmdargs = split('flirt -in %s -ref %s -wmseg %s \
 #                -omat %s.mat -o %s' %
 #                (epi, extrt1, wm_edge, epi_reg_out, epi_reg_out))
+"""
 top_dir = '%s/graph_analyses' % os.environ['hel']
 mod_dir = os.path.join(top_dir, '%s/modularity' % ss)
 epi_nii_pref = os.path.join(mod_dir, 'task_sess_%d_%s.dens_%s.maxq_tree.ijk' %
@@ -56,4 +57,16 @@ cmdargs2 = split('applywarp -i %s \
                  ('%s.nii.gz' % out_fl, os.environ['FSLDIR'],
                   out_fn, fn_coef, interp))
 call(cmdargs2, stdout=f, stderr=STDOUT)
+f.close()
+"""
+interp = 'nn'
+epi_nii_pref = '%s/%s_GMmask_frac_bin' % (anat_dir, ss)
+in_fl = '%s.nii.gz' % epi_nii_pref
+out_fl = '%s_4mmflirted' % (epi_nii_pref)
+
+cmdargs = split('flirt -in %s -ref %s -wmseg %s \
+            -interp %s -omat %s.mat -o %s -applyisoxfm 4' %
+                (in_fl, extrt1, wm_edge, 'nearestneighbour',
+                 out_fl, out_fl))
+call(cmdargs, stdout=f, stderr=STDOUT)
 f.close()
