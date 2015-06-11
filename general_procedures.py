@@ -213,7 +213,7 @@ def get_ijk(outname, mask=None):
     print 'DONE. '+time.ctime()
 
 
-def vol2surf_mni(hemi, parent, pn, outname):
+def vol2surf_mni(work_dir, hemi, parent, pn, outname):
     """
     Project to MNI surf.
     Make sure 'suma_dir' is set right
@@ -221,7 +221,7 @@ def vol2surf_mni(hemi, parent, pn, outname):
     print 'Doing maskdump -- %s' % time.ctime()
     print os.getcwd()
     suma_dir = '/cnari/normal_language/apps/suma_MNI_N27'
-    stdout_dir = 'stdout_files'
+    stdout_dir = '%s/stdout_files' % work_dir
     if not os.path.exists(stdout_dir):
         os.makedirs(stdout_dir)
     f = open('%s/stdout_from_vol2surf.txt' % stdout_dir, 'w')

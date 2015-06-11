@@ -18,6 +18,8 @@ if __name__ == '__main__':
         for hemi in ['lh', 'rh']:
             print 'Doing %s %s' % (hemi, thresh_dens)
             parent_pref = os.path.join(group_dir,
-                                       'jaccard_group_median_dens_%s.ijk' % thresh_dens)
+                                       'jaccard_group_median_dens_%s.ijk'
+                                       % thresh_dens)
             outname = '%s_%s_pn%s_MNI_N27.1D' % (parent_pref, hemi, pn)
-            gp.vol2surf_mni(hemi, '%s+tlrc' % parent_pref, pn, outname)
+            gp.vol2surf_mni(group_dir, hemi, '%s+tlrc' % parent_pref,
+                            pn, outname)
