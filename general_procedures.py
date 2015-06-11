@@ -211,3 +211,33 @@ def get_ijk(outname, mask=None):
         call("3dmaskdump -mask %s %s | awk '{print $1, $2, $3}' > %s" %
              (mask, mask, outname), shell=True)
     print 'DONE. '+time.ctime()
+
+
+def vol2surf_mni(hemi, parent, pn, outname):
+    """
+    Project to MNI surf.
+    Make sure 'suma_dir' is set right
+    """
+    print 'Doing maskdump -- %s' % time.ctime()
+    print os.getcwd()
+    suma_dir = '/cnari/normal_language/apps/suma_MNI_N27'
+    stdout_dir = 'stdout_files'
+    if not os.path.exists(stdout_dir):
+        os.makedirs(stdout_dir)
+    f = open('%s/stdout_from_vol2surf.txt' % stdout_dir, 'w')
+    spec_fname = 'MNI_N27_%s.spec' % hemi
+    spec = os.path.join(suma_dir, spec_fname)
+    surf_a = '%s.smoothwm.gii' % hemi
+    surf_b = '%s.pial.gii' % hemi
+    surfvol_name = 'MNI_N27_SurfVol.nii'
+    sv = os.path.join(suma_dir, surfvol_name)
+    cmdargs = split('3dVol2Surf -spec %s \
+                    -surf_A %s -surf_B %s \
+                    -sv %s -grid_parent %s \
+                    -map_func max -f_steps 10 -f_index voxels \
+                    -f_p1_fr -%s -f_pn_fr %s \
+                    -outcols_NSD_format -oob_index -1 -oob_value 0.0 \
+                    -out_1D %s' % (spec, surf_a, surf_b, sv,
+                                   parent, pn, pn, outname))
+    call(cmdargs, stdout=f, stderr=STDOUT)
+    f.close()
