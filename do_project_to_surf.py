@@ -13,8 +13,8 @@ group_dir = os.path.join(top_dir, 'group_jaccard')
 
 if __name__ == '__main__':
 
-    pn = '1.0'
-    for thresh_dens in [.10, .15, .20]:
+    pn = '2.0'
+    for thresh_dens in [.05, .10, .15, .20]:
         for hemi in ['lh', 'rh']:
             print 'Doing %s %s' % (hemi, thresh_dens)
             parent_pref = os.path.join(group_dir,
