@@ -37,7 +37,7 @@ class Masker(object):
         Doing 3dcalc to get the gray matter mask
         """
         print 'Calculating mask... '+time.ctime()
-        f = open('%s/stdout_from_allineate.txt' % self.stdoutdir, 'w')
+        f = open('%s/stdout_from_mask_calc.txt' % self.stdoutdir, 'w')
         calc_args = split("3dcalc -a %s -b %s -c %s -d %s \
                           -expr 'equals(a) + equals(b,8) + equals(b,47) \
                           + equals(c) + equals(d)' -prefix %s" %
@@ -46,21 +46,21 @@ class Masker(object):
         f.close()
 
     def resample(self, in_pref, out_pref):
-        f = open('%s/stdout_from_allineate.txt' % self.stdoutdir, 'w')
+        f = open('%s/stdout_from_3dresample.txt' % self.stdoutdir, 'w')
         cmdargs = split("3dresample -dxyz 4.0 4.0 4.0 -prefix %s \
             -rmode 'Li' -inset %s+orig" % (out_pref, in_pref))
         call(cmdargs, stdout=f, stderr=STDOUT)
         f.close()
 
     def fractionize(self, in_pref, out_pref, template):
-        f = open('%s/stdout_from_allineate.txt' % self.stdoutdir, 'w')
+        f = open('%s/stdout_from_3dfractionize.txt' % self.stdoutdir, 'w')
         cmdargs = split('3dfractionize -template %s+orig -input %s+orig \
             -prefix %s -clip 0.5' % (template, in_pref, out_pref))
         call(cmdargs, stdout=f, stderr=STDOUT)
         f.close()
 
     def mask_binary(self, in_pref, out_pref):
-        f = open('%s/stdout_from_allineate.txt' % self.stdoutdir, 'w')
+        f = open('%s/stdout_from_mask_binary.txt' % self.stdoutdir, 'w')
         cmdargs = split("3dcalc -a %s+orig -expr 'ispositive(a)' \
             -prefix %s" % (in_pref, out_pref))
         call(cmdargs, stdout=f, stderr=STDOUT)
@@ -73,7 +73,7 @@ if __name__ == '__main__':
         subj_list.append('hel%d' % i)
     subj_list.remove('hel9')   # because this is bad subj
 
-    for ss in subj_list:
+    for ss in ['hel19']:
         print 'Doing subject %s' % ss
         print time.ctime()
         ss_dir = os.path.join(os.environ['hel'],
@@ -95,7 +95,7 @@ if __name__ == '__main__':
         alin_file_prefs = []
         suma_dir = '%s/freesurfer_%s/%s/SUMA/' % (ss_dir, ss, ss)
         for h in ['lh', 'rh']:
-            alin_file_prefs.append('%s.ribbon.' % h)
+            alin_file_prefs.append('%s.ribbon' % h)
         alin_file_prefs.append('aseg')
 
         transmat = os.path.join(preproc_dir,
