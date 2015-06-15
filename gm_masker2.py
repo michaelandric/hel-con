@@ -39,17 +39,18 @@ class Masker(object):
         call(cmdargs, stdout=f, stderr=STDOUT)
         f.close()
 
-    def mask_calc(self, subcort, lhribbon, rhribbon, aseg, outpref):
+    def mask_calc(self, subcort, lhribbon, rhribbon, aseg, seg1, outpref):
         """
         Doing 3dcalc to get the gray matter mask
         """
         print 'Calculating mask... '+time.ctime()
         f = open('%s/stdout_from_mask_calc.txt' % self.stdoutdir, 'w')
-        calc_args = split("3dcalc -a %s -b %s -c %s -d %s \
+        calc_args = split("3dcalc -a %s -b %s -c %s -d %s -e %s \
                           -expr 'ispositive(ispositive(a) + equals(b,8) \
-                          + equals(b,47) + ispositive(c) + ispositive(d))' \
+                          + equals(b,47) + ispositive(c) \
+                          + ispositive(d) + ispositive(e))' \
                           -prefix %s" %
-                          (subcort, aseg, lhribbon, rhribbon, outpref))
+                          (subcort, aseg, lhribbon, rhribbon, seg1, outpref))
         call(calc_args, stdout=f, stderr=STDOUT)
         f.close()
 
@@ -118,12 +119,18 @@ if __name__ == '__main__':
                                         'T1_subcort_seg_reorient.nii.gz')
         msk.resample_reorient(subcort_seg, subcort_reorient)
 
+        seg1 = os.path.join(anat_dir,
+                            'T1_biascorr_brain_fast_out_seg_1.nii.gz')
+        reor_n = 'T1_biascorr_brain_fast_out_seg_1_reorient.nii.gz'
+        seg1_reorient = os.path.join(anat_dir, reor_n)
+        msk.resample_reorient(seg1, seg1_reorient)
+
         aseg = os.path.join(anat_dir, 'aseg_Alnd_Exp.nii.gz')
         lh_ribbon = os.path.join(anat_dir, 'lh.ribbon_Alnd_Exp.nii.gz')
         rh_ribbon = os.path.join(anat_dir, 'rh.ribbon_Alnd_Exp.nii.gz')
         outpref_mask = os.path.join(anat_dir, '%s_gm_mask.nii.gz' % ss)
         msk.mask_calc(subcort_reorient, lh_ribbon, rh_ribbon,
-                      aseg, outpref_mask)
+                      aseg, seg1_reorient, outpref_mask)
 
         frac_in_pref = os.path.join(anat_dir, '%s_gm_mask' % ss)
         frac_out_pref = '%s_frac' % frac_in_pref
