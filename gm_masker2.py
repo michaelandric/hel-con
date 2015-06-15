@@ -62,15 +62,15 @@ class Masker(object):
 
     def fractionize(self, in_pref, out_pref, template):
         f = open('%s/stdout_from_3dfractionize.txt' % self.stdoutdir, 'w')
-        cmdargs = split('3dfractionize -template %s+orig -input %s+orig \
+        cmdargs = split('3dfractionize -template %s -input %s \
             -prefix %s -clip 0.5' % (template, in_pref, out_pref))
         call(cmdargs, stdout=f, stderr=STDOUT)
         f.close()
 
     def mask_binary(self, in_pref, out_pref):
         f = open('%s/stdout_from_mask_binary.txt' % self.stdoutdir, 'w')
-        cmdargs = split("3dcalc -a %s+orig -expr 'ispositive(a)' \
-            -prefix %s.nii.gz" % (in_pref, out_pref))
+        cmdargs = split("3dcalc -a %s -expr 'ispositive(a)' \
+            -prefix %s" % (in_pref, out_pref))
         call(cmdargs, stdout=f, stderr=STDOUT)
         f.close()
 
@@ -130,7 +130,8 @@ if __name__ == '__main__':
         func_resamp_pref = 'cleanTS_%sr01_smth4mm_Liresamp4mm' % ss
         resamp_tmpl = os.path.join(preproc_dir, func_resamp_pref)
         msk.fractionize('%s.nii.gz' % frac_in_pref,
-                        '%s.nii.gz' % frac_out_pref, resamp_tmpl)
+                        '%s.nii.gz' % frac_out_pref,
+                        '%s+orig' % resamp_tmpl)
 
-        binary_out_pref = '%s_bin' % frac_out_pref
-        msk.mask_binary(frac_out_pref, binary_out_pref)
+        binary_out = '%s_bin' % frac_out_pref
+        msk.mask_binary('%s.nii.gz' % frac_out_pref, '%s.nii.gz' % binary_out)
