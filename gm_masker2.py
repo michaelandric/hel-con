@@ -32,6 +32,13 @@ class Masker(object):
         call(cmdargs, stdout=f, stderr=STDOUT)
         f.close()
 
+    def resample_reorient(self, inset, out_pref):
+        f = open('%s/stdout_from_3dresample.txt' % self.stdoutdir, 'w')
+        cmdargs = split("3dresample -master %s -prefix %s \
+            -inset %s" % (self.master_brain, out_pref, inset))
+        call(cmdargs, stdout=f, stderr=STDOUT)
+        f.close()
+
     def mask_calc(self, subcort, lhribbon, rhribbon, aseg, outpref):
         """
         Doing 3dcalc to get the gray matter mask
@@ -106,8 +113,13 @@ if __name__ == '__main__':
             msk.allineate(transmat, infile, out_pref)
 
         subcort_seg = os.path.join(anat_dir, 'T1_subcort_seg.nii.gz')
+        subcort_reorient = os.path.join(anat_dir,
+                                        'T1_subcort_seg_reorient.nii.gz')
+        msk.resample_reorient(subcort_seg, subcort_reorient)
+
         aseg = os.path.join(anat_dir, 'aseg_Alnd_Exp.nii.gz')
         lh_ribbon = os.path.join(anat_dir, 'lh.ribbon_Alnd_Exp.nii.gz')
         rh_ribbon = os.path.join(anat_dir, 'rh.ribbon_Alnd_Exp.nii.gz')
         outpref_mask = os.path.join(anat_dir, '%s_gm_mask.nii.gz' % ss)
-        msk.mask_calc(subcort_seg, lh_ribbon, rh_ribbon, aseg, outpref_mask)
+        msk.mask_calc(subcort_reorient, lh_ribbon, rh_ribbon,
+                      aseg, outpref_mask)
