@@ -46,9 +46,9 @@ class Masker(object):
         print 'Calculating mask... '+time.ctime()
         f = open('%s/stdout_from_mask_calc.txt' % self.stdoutdir, 'w')
         calc_args = split("3dcalc -a %s -b %s -c %s -d %s \
-                          -expr 'equals(a) + equals(b,8) + equals(b,47) \
-                          + equals(c) + equals(d)' -prefix %s" %
-                          (subcort, lhribbon, rhribbon, aseg, outpref))
+                          -expr 'ispositive(a) + equals(b,8) + equals(b,47) \
+                          + ispositive(c) + ispositive(d)' -prefix %s" %
+                          (subcort, aseg, lhribbon, rhribbon, outpref))
         call(calc_args, stdout=f, stderr=STDOUT)
         f.close()
 
