@@ -63,7 +63,7 @@ class Masker(object):
     def fractionize(self, in_pref, out_pref, template):
         f = open('%s/stdout_from_3dfractionize.txt' % self.stdoutdir, 'w')
         cmdargs = split('3dfractionize -template %s -input %s \
-            -prefix %s -clip 0.5' % (template, in_pref, out_pref))
+            -prefix %s -clip 0.25' % (template, in_pref, out_pref))
         call(cmdargs, stdout=f, stderr=STDOUT)
         f.close()
 
