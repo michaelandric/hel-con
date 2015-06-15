@@ -46,8 +46,9 @@ class Masker(object):
         print 'Calculating mask... '+time.ctime()
         f = open('%s/stdout_from_mask_calc.txt' % self.stdoutdir, 'w')
         calc_args = split("3dcalc -a %s -b %s -c %s -d %s \
-                          -expr 'ispositive(a) + equals(b,8) + equals(b,47) \
-                          + ispositive(c) + ispositive(d)' -prefix %s" %
+                          -expr 'ispositive(ispositive(a) + equals(b,8) \
+                          + equals(b,47) + ispositive(c) + ispositive(d))' \
+                          -prefix %s" %
                           (subcort, aseg, lhribbon, rhribbon, outpref))
         call(calc_args, stdout=f, stderr=STDOUT)
         f.close()
@@ -69,7 +70,7 @@ class Masker(object):
     def mask_binary(self, in_pref, out_pref):
         f = open('%s/stdout_from_mask_binary.txt' % self.stdoutdir, 'w')
         cmdargs = split("3dcalc -a %s+orig -expr 'ispositive(a)' \
-            -prefix %s" % (in_pref, out_pref))
+            -prefix %s.nii.gz" % (in_pref, out_pref))
         call(cmdargs, stdout=f, stderr=STDOUT)
         f.close()
 
@@ -123,3 +124,13 @@ if __name__ == '__main__':
         outpref_mask = os.path.join(anat_dir, '%s_gm_mask.nii.gz' % ss)
         msk.mask_calc(subcort_reorient, lh_ribbon, rh_ribbon,
                       aseg, outpref_mask)
+
+        frac_in_pref = os.path.join(anat_dir, '%s_gm_mask' % ss)
+        frac_out_pref = '%s_frac' % frac_in_pref
+        func_resamp_pref = 'cleanTS_%sr01_smth4mm_Liresamp4mm' % ss
+        resamp_tmpl = os.path.join(preproc_dir, func_resamp_pref)
+        msk.fractionize('%s.nii.gz' % frac_in_pref,
+                        '%s.nii.gz' % frac_out_pref, resamp_tmpl)
+
+        binary_out_pref = '%s_bin' % frac_out_pref
+        msk.mask_binary(frac_out_pref, binary_out_pref)
