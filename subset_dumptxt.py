@@ -99,7 +99,7 @@ if __name__ == '__main__':
             TScat(stdout_dir, in_list, cat_out_name)
 
             mask_dir = '%s/%s/volume.%s.anat/' % (os.environ['hel'], ss, ss)
-            mask_pref = os.path.join(mask_dir, '%_gm_mask_frac_bin' % ss)
+            mask_pref = os.path.join(mask_dir, '%s_gm_mask_frac_bin' % ss)
             mask = '%s.nii.gz' % mask_pref
             in_name = '%s+orig' % cat_out_name
             ts_outname = '%s.txt' % cat_out_name
