@@ -54,24 +54,6 @@ class Masker(object):
         call(calc_args, stdout=f, stderr=STDOUT)
         f.close()
 
-    def mask_calc_special(self, subcort, aseg, seg1, outpref):
-        """
-        Doing 3dcalc to get the gray matter mask
-        This goes for hel1...hel4
-        These subjs did not have *h.ribbon file
-        from recon-all.
-        Using aseg.nii cortex
-        """
-        print 'Calculating mask... '+time.ctime()
-        f = open('%s/stdout_from_mask_calc.txt' % self.stdoutdir, 'w')
-        calc_args = split("3dcalc -a %s -b %s -c %s \
-                          -expr 'ispositive(ispositive(a) + equals(b,8) \
-                          + equals(b,47) + equals(b,42) + equals(b,3) \
-                          + ispositive(c))' -prefix %s" %
-                          (subcort, aseg, seg1, outpref))
-        call(calc_args, stdout=f, stderr=STDOUT)
-        f.close()
-
     def resample(self, in_pref, out_pref):
         f = open('%s/stdout_from_3dresample.txt' % self.stdoutdir, 'w')
         cmdargs = split("3dresample -dxyz 4.0 4.0 4.0 -prefix %s \
@@ -93,6 +75,33 @@ class Masker(object):
         call(cmdargs, stdout=f, stderr=STDOUT)
         f.close()
 
+    def fast_reseg(self, input, templ_brain):
+        f = open('%s/stdout_from_fast_reseg.txt' % self.stdoutdir, 'w')
+        cmdargs = split('fast -o %s -n 4 -l 6 -g \
+            -B -t 1 --iter=10 -R 0.9 -H 0.5 -v %s' % (input, templ_brain))
+        call(cmdargs, stdout=f, stderr=STDOUT)
+        f.close()
+
+    def mask_calc_special(self, subcort, aseg, seg2, outpref):
+        """
+        Doing 3dcalc to get the gray matter mask
+        This goes for hel1...hel4
+        These subjs did not have *h.ribbon file
+        from recon-all.
+        Using aseg.nii cortex
+        d and e are fast_reseg segmentations
+        for gray matter
+        """
+        print 'Calculating mask... '+time.ctime()
+        f = open('%s/stdout_from_mask_calc.txt' % self.stdoutdir, 'w')
+        calc_args = split("3dcalc -a %s -b %s -c %s \
+                          -expr 'ispositive(ispositive(a) + equals(b,8) \
+                          + equals(b,47) + equals(b,42) + equals(b,3) \
+                          + ispositive(c))' -prefix %s" %
+                          (subcort, aseg, seg2, outpref))
+        call(calc_args, stdout=f, stderr=STDOUT)
+        f.close()
+
 
 if __name__ == '__main__':
     subj_list = []
@@ -100,7 +109,7 @@ if __name__ == '__main__':
         subj_list.append('hel%d' % i)
 #    subj_list.remove('hel9')   # because this is bad subj
 
-    for ss in subj_list:
+    for ss in ['hel2']:
         print 'Doing subject %s' % ss
         print time.ctime()
         ss_dir = os.path.join(os.environ['hel'],
@@ -137,10 +146,10 @@ if __name__ == '__main__':
                                         'T1_subcort_seg_reorient.nii.gz')
 #        msk.resample_reorient(subcort_seg, subcort_reorient)
 
-        seg1 = os.path.join(anat_dir,
-                            'T1_biascorr_brain_fast_out_seg_1.nii.gz')
-        reor_n = 'T1_biascorr_brain_fast_out_seg_1_reorient.nii.gz'
-        seg1_reorient = os.path.join(anat_dir, reor_n)
+#        seg1 = os.path.join(anat_dir,
+#                            'T1_biascorr_brain_fast_out_seg_1.nii.gz')
+#        reor_n = 'T1_biascorr_brain_fast_out_seg_1_reorient.nii.gz'
+#        seg1_reorient = os.path.join(anat_dir, reor_n)
 #        msk.resample_reorient(seg1, seg1_reorient)
 
         aseg = os.path.join(anat_dir, 'aseg_Alnd_Exp.nii.gz')
@@ -149,8 +158,23 @@ if __name__ == '__main__':
         outpref_mask = os.path.join(anat_dir, '%s_gm_mask.nii.gz' % ss)
 #        msk.mask_calc(subcort_reorient, lh_ribbon, rh_ribbon,
 #                      aseg, seg1_reorient, outpref_mask)
+
+        # below is for special subjs hel1...hel4
+        fast_tmpl = os.path.join(anat_dir, 'T1_biascorr_brain')
+        reseg_outpref = os.path.join(anat_dir, 'T1_fast_reseg')
+        msk.fast_reseg(reseg_outpref, fast_tmpl)
+        """seg1 = os.path.join(anat_dir, '%s_seg_1.nii.gz' % reseg_outpref)
+        seg1_reorient = os.path.join(anat_dir,
+                                     '%s_seg_1_reorient.nii.gz' %
+                                     reseg_outpref)
+        """
+        seg2 = os.path.join(anat_dir, '%s_seg_2.nii.gz' % reseg_outpref)
+        seg2_reorient = os.path.join(anat_dir,
+                                     '%s_seg_2_reorient.nii.gz' %
+                                     reseg_outpref)
+        msk.resample_reorient(seg2, seg2_reorient)
         msk.mask_calc_special(subcort_reorient, aseg,
-                              seg1_reorient, outpref_mask)
+                              seg2_reorient, outpref_mask)
 
         frac_in_pref = os.path.join(anat_dir, '%s_gm_mask' % ss)
         frac_out_pref = '%s_frac' % frac_in_pref
