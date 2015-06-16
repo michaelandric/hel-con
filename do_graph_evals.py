@@ -56,7 +56,8 @@ if __name__ == '__main__':
 
         for session in range(1, 3):
             ts_name = os.path.join(proc_dir,
-                                   'task_sess_%d_%s.txt' % (session, ss))
+                                   'task_sess_%d_%s_gm_mskd.txt' %
+                                   (session, ss))
             ts_file = np.loadtxt(ts_name)
             n_nodes = file_len(ts_name)
 
