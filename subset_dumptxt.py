@@ -64,12 +64,12 @@ def build_inputlist(subjid, proc_dir, sess):
     sub_dct = dict(zip(runs, subs))
     if sess == 1:
         for r in runs:
-            f = "'%s/cleanTS_%sr0%d_smth4mm_Liresamp4mm_mskd+orig[%s]'" % \
+            f = "'%s/cleanTS_%sr0%d_smth4mm_Liresamp4mm_gm_mskd+orig[%s]'" % \
                 (proc_dir, subjid, r, sub_dct[r])
             inp_list.append(f)
     elif sess == 2:
         for r in runs:
-            f = "'%s/cleanTS_%sr0%d_smth4mm_Liresamp4mm_mskd+orig[%s]'" % \
+            f = "'%s/cleanTS_%sr0%d_smth4mm_Liresamp4mm_gm_mskd+orig[%s]'" % \
                 (proc_dir, subjid, int(r+3), sub_dct[r])
             inp_list.append(f)
 
@@ -94,15 +94,16 @@ if __name__ == '__main__':
 
         for session in range(1, 3):
             in_list = build_inputlist(ss, preproc_dir, session)
-            cat_out_name = '%s/task_sess_%d_%s' % (preproc_dir, session, ss)
+            cat_out_name = '%s/task_sess_%d_%s_gm_mskd' % (preproc_dir,
+                                                           session, ss)
             TScat(stdout_dir, in_list, cat_out_name)
 
             mask_dir = '%s/%s/volume.%s.anat/' % (os.environ['hel'], ss, ss)
-            mask_pref = os.path.join(mask_dir, '%s_GMmask_frac_bin' % ss)
-            mask = '%s+orig.' % mask_pref
+            mask_pref = os.path.join(mask_dir, '%_gm_mask_frac_bin' % ss)
+            mask = '%s.nii.gz' % mask_pref
             in_name = '%s+orig' % cat_out_name
             ts_outname = '%s.txt' % cat_out_name
             maskdump(stdout_dir, mask, in_name, ts_outname)
 
         ijk_outname = '%s_ijk.txt' % mask_pref
-        # get_ijk(ijk_outname, mask)
+        get_ijk(ijk_outname, mask)
