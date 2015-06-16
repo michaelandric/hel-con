@@ -202,5 +202,5 @@ if __name__ == '__main__':
             out_blur_pref = '%s_smth4mm' % func_dat_pref
             out_resample_pref = '%s_Liresamp4mm' % out_blur_pref
             calc_mask_out_pref = '%s_gm_mskd' % out_resample_pref
-            msk.calc_masked_dat(frac_out_pref, out_resample_pref,
+            msk.calc_masked_dat(binary_out, out_resample_pref,
                                 calc_mask_out_pref)
