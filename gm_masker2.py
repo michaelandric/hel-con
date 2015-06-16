@@ -102,14 +102,21 @@ class Masker(object):
         call(calc_args, stdout=f, stderr=STDOUT)
         f.close()
 
+    def calc_masked_dat(self, a_pref, b_pref, out_pref):
+        f = open('%s/stdout_from_calc_masked.txt' % self.stdoutdir, 'w')
+        cmdargs = split("3dcalc -a %s+orig -b %s+orig \
+            -expr 'a*b' -datum float \
+            -prefix %s" % (a_pref, b_pref, out_pref))
+        call(cmdargs, stdout=f, stderr=STDOUT)
+
 
 if __name__ == '__main__':
     subj_list = []
-    for i in range(1, 5):
+    for i in range(1, 19):
         subj_list.append('hel%d' % i)
-#    subj_list.remove('hel9')   # because this is bad subj
+    subj_list.remove('hel9')   # because this is bad subj
 
-    for ss in ['hel2']:
+    for ss in subj_list:
         print 'Doing subject %s' % ss
         print time.ctime()
         ss_dir = os.path.join(os.environ['hel'],
@@ -162,7 +169,7 @@ if __name__ == '__main__':
         # below is for special subjs hel1...hel4
         fast_tmpl = os.path.join(anat_dir, 'T1_biascorr_brain')
         reseg_outpref = os.path.join(anat_dir, 'T1_fast_reseg')
-        msk.fast_reseg(reseg_outpref, fast_tmpl)
+#        msk.fast_reseg(reseg_outpref, fast_tmpl)
         """seg1 = os.path.join(anat_dir, '%s_seg_1.nii.gz' % reseg_outpref)
         seg1_reorient = os.path.join(anat_dir,
                                      '%s_seg_1_reorient.nii.gz' %
@@ -172,17 +179,28 @@ if __name__ == '__main__':
         seg2_reorient = os.path.join(anat_dir,
                                      '%s_seg_2_reorient.nii.gz' %
                                      reseg_outpref)
-        msk.resample_reorient(seg2, seg2_reorient)
-        msk.mask_calc_special(subcort_reorient, aseg,
-                              seg2_reorient, outpref_mask)
+#        msk.resample_reorient(seg2, seg2_reorient)
+#        msk.mask_calc_special(subcort_reorient, aseg,
+#                              seg2_reorient, outpref_mask)
 
         frac_in_pref = os.path.join(anat_dir, '%s_gm_mask' % ss)
         frac_out_pref = '%s_frac' % frac_in_pref
         func_resamp_pref = 'cleanTS_%sr01_smth4mm_Liresamp4mm' % ss
         resamp_tmpl = os.path.join(preproc_dir, func_resamp_pref)
-        msk.fractionize('%s.nii.gz' % frac_in_pref,
-                        '%s.nii.gz' % frac_out_pref,
-                        '%s+orig' % resamp_tmpl)
+#        msk.fractionize('%s.nii.gz' % frac_in_pref,
+#                        '%s.nii.gz' % frac_out_pref,
+#                        '%s+orig' % resamp_tmpl)
 
         binary_out = '%s_bin' % frac_out_pref
-        msk.mask_binary('%s.nii.gz' % frac_out_pref, '%s.nii.gz' % binary_out)
+#        msk.mask_binary('%s.nii.gz' % frac_out_pref, '%s.nii.gz' % binary_out)
+
+        for i in range(1, 7):
+            print 'Doing %s -- run %s ' % (ss, i)
+            print time.ctime()
+            func_dat_pref = os.path.join(preproc_dir,
+                                         'cleanTS_%sr0%s' % (ss, i))
+            out_blur_pref = '%s_smth4mm' % func_dat_pref
+            out_resample_pref = '%s_Liresamp4mm' % out_blur_pref
+            calc_mask_out_pref = '%s_gm_mskd' % out_resample_pref
+            msk.calc_masked_dat(frac_out_pref, out_resample_pref,
+                                calc_mask_out_pref)
