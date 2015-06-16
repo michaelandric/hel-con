@@ -66,14 +66,13 @@ if __name__ == '__main__':
                 print time.ctime()
                 graph_outname = 'task_sess_%d_%s.dens_%s.edgelist.gz' % \
                     (session, ss, thresh_dens)
-                gr = ge.Graphs(ss, ts_file,
-                               thresh_dens, graph_dir,
-                               os.path.join(graph_dir, graph_outname))
+                gr = ge.Graphs(ss, ts_file, thresh_dens, graph_dir)
 
                 # making graph:
                 print 'Making graph... '+time.ctime()
                 avg_r = np.zeros(1)
-                avg_r[0] = gr.make_graph()
+                edg_lst = os.path.join(graph_dir, graph_outname)
+                avg_r[0] = gr.make_graph(edg_lst)
                 avg_r_val_name = 'Avg_rval_task_sess_%d_%s.dens_%s.txt' % \
                     (session, ss, thresh_dens)
                 avg_r_out = os.path.join(graph_dir, avg_r_val_name)
