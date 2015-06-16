@@ -104,7 +104,7 @@ class Masker(object):
 
     def calc_masked_dat(self, a_pref, b_pref, out_pref):
         f = open('%s/stdout_from_calc_masked.txt' % self.stdoutdir, 'w')
-        cmdargs = split("3dcalc -a %s+orig -b %s+orig \
+        cmdargs = split("3dcalc -a %s.nii.gz -b %s+orig \
             -expr 'a*b' -datum float \
             -prefix %s" % (a_pref, b_pref, out_pref))
         call(cmdargs, stdout=f, stderr=STDOUT)
