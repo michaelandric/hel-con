@@ -20,6 +20,8 @@ if __name__ == '__main__':
     mask_n = 'group_avg_gm_mask_frac_bin_fnirted_MNI2mm_thr0.34.nii.gz'
     mask_fname = os.path.join(mask_dir, mask_n)
     for ss in subj_list:
+        vol_dir_pref = '%s/volume.%s.anat' % (ss, ss)
+        anat_dir = os.path.join(os.environ['hel'], vol_dir_pref)
         mod_dir = os.path.join(top_dir, '%s/modularity' % ss)
         st_odir = os.path.join(mod_dir, 'stdout_dir')
         if not os.path.exists(st_odir):
@@ -28,7 +30,15 @@ if __name__ == '__main__':
             for thresh_dens in [.05, .10, .15, .20]:
                 best_tree_name = 'task_sess_%d_%s.dens_%s.maxq_tree' % \
                     (session, ss, thresh_dens)
-                in_fn_pref = '%s.ijk_fnirted_MNI2mm' % best_tree_name
+                best_tree_fname = os.path.join(mod_dir, best_tree_name)
+                ijk_name = os.path.join(anat_dir,
+                                        '%s_gm_mask_frac_bin_ijk.txt' % ss)
+                master_file = os.path.join(anat_dir,
+                                           '%s_gm_mask_frac_bin.nii.gz' % ss)
+                gp.undump(ss, ijk_name, best_tree_fname, mod_dir,
+                          master_file)
+
+                """in_fn_pref = '%s.ijk_fnirted_MNI2mm' % best_tree_name
                 in_fn = os.path.join(mod_dir, '%s.nii.gz' % in_fn_pref)
                 out_fname = os.path.join(mod_dir, '%s.txt' % in_fn_pref)
-                gp.maskdump(st_odir, mask_fname, in_fn, out_fname)
+                gp.maskdump(st_odir, mask_fname, in_fn, out_fname)"""
