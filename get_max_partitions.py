@@ -26,7 +26,8 @@ if __name__ == '__main__':
 
         for session in range(1, 3):
             ts_name = os.path.join(proc_dir,
-                                   'task_sess_%d_%s.txt' % (session, ss))
+                                   'task_sess_%d_%s_gm_mskd.txt' %
+                                   (session, ss))
             graph_dir = os.path.join(top_dir, '%s/graphs' % ss)
             for thresh_dens in [.05, .10, .15, .20]:
                 gr = ge.Graphs(ss, ts_name, thresh_dens, graph_dir)
