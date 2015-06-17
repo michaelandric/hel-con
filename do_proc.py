@@ -11,13 +11,13 @@ import general_procedures as gp
 
 if __name__ == '__main__':
     subj_list = []
-    for i in range(1, 18):
+    for i in range(1, 20):
         subj_list.append('hel%d' % i)
     subj_list.remove('hel9')   # because this is bad subj
 
     top_dir = '%s/graph_analyses' % os.environ['hel']
     mask_dir = '%s/group_anat' % (os.environ['hel'])
-    mask_n = 'group_avg_GMmask_frac_bin_fnirted_MNI2mm_thr0.34.nii.gz'
+    mask_n = 'group_avg_gm_mask_frac_bin_fnirted_MNI2mm_thr0.34.nii.gz'
     mask_fname = os.path.join(mask_dir, mask_n)
     for ss in subj_list:
         mod_dir = os.path.join(top_dir, '%s/modularity' % ss)
