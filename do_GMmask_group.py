@@ -35,23 +35,13 @@ if __name__ == '__main__':
     for ss in subj_list:
         vol_dir_pref = '%s/volume.%s.anat' % (ss, ss)
         anat_dir = os.path.join(os.environ['hel'], vol_dir_pref)
-        epi_nii_pref = os.path.join(anat_dir, '%s_GMmask' % ss)
-        epi_in_pref = '%s+orig' % epi_nii_pref
-#        gp.converttoNIFTI(anat_dir, epi_in_pref, epi_nii_pref)
-
-        in_fn = '%s.nii.gz' % epi_nii_pref
-        out_fn = '%s_fnirted_MNI2mm' % (epi_nii_pref)
-        fn_coef = os.path.join(anat_dir,
-                               'T1_to_MNI_nonlin_coeff.nii.gz')
-#        gp.applywarpFNIRT(ss, anat_dir, in_fn, out_fn, fn_coef, 'nn')
-
-        ss_msk = '%s_GMmask_frac_bin_fnirted_MNI2mm.nii.gz' % ss
+        ss_msk = '%s_gm_mask_frac_bin_fnirted_MNI2mm.nii.gz' % ss
         subj_masks.append(os.path.join(anat_dir, ss_msk))
     subj_masks_strlist = ' '.join(subj_masks)
     grp_msk_pref = os.path.join(grp_dir,
-                                'group_avg_GMmask_frac_bin_fnirted_MNI2mm')
+                                'group_avg_gm_mask_frac_bin_fnirted_MNI2mm')
     grp_msk_fname = '%s.nii.gz' % grp_msk_pref
-#    gp.avgepis('group', subj_masks_strlist, grp_dir, grp_msk_fname)
+    gp.avgepis('group', subj_masks_strlist, grp_dir, grp_msk_fname)
 
     st_out_dir = os.path.join(grp_dir, 'stdout_dir')
     thr = .34
