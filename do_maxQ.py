@@ -38,11 +38,11 @@ if __name__ == "__main__":
             mod_dir = os.path.join(top_dir, '%s/modularity' % ss)
             for session in range(1, 3):
                 ts_name = os.path.join(proc_dir,
-                                       'task_sess_%d_%s.txt' % (session, ss))
+                                       'task_sess_%d_%s_gm_mskd.txt' %
+                                       (session, ss))
                 graph_outname = 'task_sess_%d_%s.dens_%s.edgelist.gz' % \
                     (session, ss, thresh_dens)
-                gr = ge.Graphs(ss, ts_name, thresh_dens, graph_dir,
-                               os.path.join(graph_dir, graph_outname))
+                gr = ge.Graphs(ss, ts_name, thresh_dens, graph_dir)
                 q_fname = 'task_sess_%d_%s.dens_%s.Qval' % \
                     (session, ss, thresh_dens)
                 qval, indx = gr.max_q(os.path.join(mod_dir, q_fname))
