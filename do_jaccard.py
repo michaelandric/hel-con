@@ -32,7 +32,7 @@ def jacc_evaluation(ss, density):
     return simil.jaccard_vw(tree1_name, tree2_name)
 
 
-def median_simil_777filt(subj_list, thresh_dens, mask, nvox=157440):
+def median_simil_777filt(subj_list, thresh_dens, mask, nvox=185456):
     """
     Get median value across participants
     """
