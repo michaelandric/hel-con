@@ -91,9 +91,9 @@ if __name__ == '__main__':
             vol_dir_pref = '%s/volume.%s.anat' % (ss, ss)
             anat_dir = os.path.join(os.environ['hel'], vol_dir_pref)
             ijk_name = os.path.join(anat_dir,
-                                    '%s_GMmask_frac_bin_ijk.txt' % ss)
+                                    '%s_gm_mask_frac_bin_ijk.txt' % ss)
             master_file = os.path.join(anat_dir,
-                                       '%s_GMmask_frac_bin+orig' % ss)
+                                       '%s_gm_mask_frac_bin.nii.gz' % ss)
             gp.undump(ss, ijk_name, simil_outf, simil_dir,
                       master_file, 'float')
 
@@ -103,7 +103,7 @@ if __name__ == '__main__':
 
             extrt1 = os.path.join(anat_dir, 'T1_biascorr_brain.nii.gz')
             premat = os.path.join(anat_dir,
-                                  '%s_GMmask_frac_bin_flirted.mat' % ss)
+                                  '%s_gm_mask_frac_bin_flirted.mat' % ss)
             in_fl = '%s.nii.gz' % epi_nii_pref
             out_fl = '%s_flirted' % epi_nii_pref
             gp.applywarpFLIRT(ss, simil_dir, in_fl, extrt1,
@@ -118,7 +118,7 @@ if __name__ == '__main__':
 
         # now getting median value across all ss
         mask_dir = '%s/group_anat' % (os.environ['hel'])
-        mask_pref = 'group_avg_GMmask_frac_bin_fnirted_MNI2mm_thr0.34'
+        mask_pref = 'group_avg_gm_mask_frac_bin_fnirted_MNI2mm_thr0.34'
         mask_fname = os.path.join(mask_dir, '%s.nii.gz' % mask_pref)
         group_simil = median_simil_777filt(subj_list, thresh_dens, mask_fname)
 
