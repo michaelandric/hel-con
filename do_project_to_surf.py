@@ -32,10 +32,8 @@ if __name__ == '__main__':
                                         'freesurfer_%s' % ss, ss, 'SUMA')
                 spec = os.path.join(suma_dir,
                                     'mesh140_%s_%s.spec' % (ss, hemi))
-                smoothwm = os.path.join(suma_dir,
-                                        'mesh140_%s.smoothwm.asc' % hemi)
-                pial = os.path.join(suma_dir,
-                                    'mesh140_%s.pial.asc' % hemi)
+                smoothwm = 'mesh140_%s.smoothwm.asc' % hemi
+                pial = 'mesh140_%s.pial.asc' % hemi
                 outname = os.path.join(jacc_dir,
                                        '%s_%s_mesh140.1D' %
                                        (parent_pref, hemi))
