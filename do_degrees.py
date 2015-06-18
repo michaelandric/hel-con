@@ -43,16 +43,18 @@ if __name__ == "__main__":
                 print 'Doing %s %s %s' % (thresh_dens, ss, session)
                 print time.ctime()
                 ts_name = os.path.join(proc_dir,
-                                       'task_sess_%d_%s.txt' % (session, ss))
+                                       'task_sess_%d_%s_gm_mskd.txt' %
+                                       (session, ss))
                 graph_outname = 'task_sess_%d_%s.dens_%s.edgelist.gz' % \
                     (session, ss, thresh_dens)
-                gr = ge.Graphs(ss, ts_name, thresh_dens, graph_dir,
-                               os.path.join(graph_dir, graph_outname))
+                gr = ge.Graphs(ss, ts_name, thresh_dens, graph_dir)
 
                 n_nodes = file_len(ts_name)
-                nx_graph = gr.make_networkx_graph(n_nodes)
+                edge_list = os.path.join(graph_dir, graph_outname)
+                nx_graph = gr.make_networkx_graph(n_nodes, edge_list)
                 degrees = np.array(nx_graph.degree().values())
-                deg_outname = 'task_sess_%d_%s.dens_%s.degrees.txt' % \
-                    (session, ss, thresh_dens)
-                deg_foutname = os.path.join(ss_deg_dir, deg_outname)
-                np.savetxt(deg_foutname, degrees, fmt='%i')
+                suffx = 'degrees.txt'
+                deg_fname = os.path.join(ss_deg_dir,
+                                         'task_sess_%d_%s.dens_%s.%s' %
+                                         (session, ss, thresh_dens, suffx))
+                np.savetxt(deg_fname, degrees, fmt='%i')
