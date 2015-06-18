@@ -27,7 +27,7 @@ if __name__ == '__main__':
                                        '%s_SurfVol_Alnd_Exp+orig.' % ss)
                 jacc_dir = os.path.join(top_dir, '%s/jaccard_res' % ss)
                 parent_pref = os.path.join(jacc_dir,
-                                           'jacc_%s_%s.ijk' % ss, thresh_dens)
+                                           'jacc_%s_%s.ijk' % (ss, thresh_dens))
                 suma_dir = os.path.join(ss_dir,
                                         'freesurfer_%s' % ss, ss, 'SUMA')
                 spec = os.path.join(suma_dir,
@@ -38,6 +38,6 @@ if __name__ == '__main__':
                                     'mesh140_%s.pial.asc' % hemi)
                 outname = os.path.join(jacc_dir,
                                        '%s_%s_mesh140.1D' %
-                                       parent_pref, hemi)
+                                       (parent_pref, hemi))
                 gp.vol2surf_indiv(jacc_dir, spec, smoothwm, pial,
                                   '%s+orig' % parent_pref, surfvol, outname)
