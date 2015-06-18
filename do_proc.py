@@ -47,6 +47,6 @@ if __name__ == '__main__':
                 gp.resamp_with_master(st_odir, '%s.nii.gz' % in_resamp_pref,
                                       mask_fname,
                                       '%s.nii.gz' % out_resamp_pref)
-                out_fname = os.path.join(mod_dir, '%s.txt' % in_resamp_pref)
+                out_fname = os.path.join(mod_dir, '%s.txt' % out_resamp_pref)
                 gp.maskdump(st_odir, mask_fname,
                             '%s.nii.gz' % out_resamp_pref, out_fname)
