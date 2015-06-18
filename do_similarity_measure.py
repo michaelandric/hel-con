@@ -37,7 +37,7 @@ if __name__ == '__main__':
 
     niter = 100
     n_unique = (niter*(niter-1)) / 2.
-    n_vox = 157440
+    n_vox = 185456
     n_subj = len(subj_list)
 
     tree_suff = 'maxq_tree.ijk_fnirted_MNI2mm.txt'

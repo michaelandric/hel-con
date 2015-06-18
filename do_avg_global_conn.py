@@ -26,7 +26,8 @@ if __name__ == '__main__':
             os.makedirs(conn_dir)
         for session in range(1, 3):
             ts_name = os.path.join(proc_dir,
-                                   'task_sess_%d_%s.txt' % (session, ss))
+                                   'task_sess_%d_%s_gm_mskd.txt' %
+                                   (session, ss))
             agc = ge.avg_global_connectivity(ts_name)
             out_name = 'avg_corrZ_task_sess_%d_%s' % (session, ss)
             out_fname = os.path.join(conn_dir, out_name)
