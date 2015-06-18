@@ -27,18 +27,26 @@ if __name__ == '__main__':
         if not os.path.exists(st_odir):
             os.makedirs(st_odir)
         for session in range(1, 3):
-            for thresh_dens in [.05, .10, .15, .20]:
-                best_tree_name = 'task_sess_%d_%s.dens_%s.maxq_tree' % \
+            for thresh_dens in [.05]:
+                tree_name = 'task_sess_%d_%s.dens_%s.maxq_tree' % \
                     (session, ss, thresh_dens)
-                best_tree_fname = os.path.join(mod_dir, best_tree_name)
+                """best_tree_fname = os.path.join(mod_dir, best_tree_name)
                 ijk_name = os.path.join(anat_dir,
                                         '%s_gm_mask_frac_bin_ijk.txt' % ss)
                 master_file = os.path.join(anat_dir,
                                            '%s_gm_mask_frac_bin.nii.gz' % ss)
                 gp.undump(ss, ijk_name, best_tree_fname, mod_dir,
-                          master_file)
+                          master_file)"""
 
-                """in_fn_pref = '%s.ijk_fnirted_MNI2mm' % best_tree_name
-                in_fn = os.path.join(mod_dir, '%s.nii.gz' % in_fn_pref)
-                out_fname = os.path.join(mod_dir, '%s.txt' % in_fn_pref)
-                gp.maskdump(st_odir, mask_fname, in_fn, out_fname)"""
+                in_resamp_pref = os.path.join(mod_dir,
+                                              '%s.ijk_fnirted_MNI2mm' %
+                                              tree_name)
+                out_resamp_pref = os.path.join(mod_dir,
+                                               '%.ijk_fnirted_MNI4mm' %
+                                               tree_name)
+                gp.resamp_with_master(st_odir, '%s.nii.gz' % in_resamp_pref,
+                                      mask_fname,
+                                      '%s.nii.gz' % out_resamp_pref)
+                out_fname = os.path.join(mod_dir, '%s.txt' % in_resamp_pref)
+                gp.maskdump(st_odir, mask_fname,
+                            '%s.nii.gz' % out_resamp_pref, out_fname)

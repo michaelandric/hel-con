@@ -262,3 +262,18 @@ def vol2surf_indiv(work_dir, spec, smoothwm, pial,
                     (spec, smoothwm, pial, surfvol, parent, outname))
     call(cmdargs, stdout=f, stderr=STDOUT)
     f.close()
+
+
+def resamp_with_master(stdout_dir, inset, master, out_pref):
+    """
+    resampling with master dset
+    """
+    print 'Doing resample -- %s' % time.ctime()
+    print os.getcwd()
+    if not os.path.exists(stdout_dir):
+        os.makedirs(stdout_dir)
+    f = open('%s/stdout_from_resamp.txt' % stdout_dir, 'w')
+    cmdargs = split('3dresample -master %s -prefix -inset %s' %
+                    (master, out_pref, inset))
+    call(cmdargs, stdout=f, stderr=STDOUT)
+    f.close()
