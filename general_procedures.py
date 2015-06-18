@@ -218,7 +218,7 @@ def vol2surf_mni(work_dir, hemi, parent, pn, outname):
     Project to MNI surf.
     Make sure 'suma_dir' is set right
     """
-    print 'Doing maskdump -- %s' % time.ctime()
+    print 'Doing vol2surf_mni -- %s' % time.ctime()
     print os.getcwd()
     suma_dir = '/cnari/normal_language/apps/suma_MNI_N27'
     stdout_dir = '%s/stdout_files' % work_dir
@@ -239,5 +239,26 @@ def vol2surf_mni(work_dir, hemi, parent, pn, outname):
                     -outcols_NSD_format -oob_index -1 -oob_value 0.0 \
                     -out_1D %s' % (spec, surf_a, surf_b, sv,
                                    parent, pn, pn, outname))
+    call(cmdargs, stdout=f, stderr=STDOUT)
+    f.close()
+
+
+def vol2surf_indiv(work_dir, spec, smoothwm, pial,
+                   parent, surfvol, outname):
+    """
+    """
+    print 'Doing vol2surf_indiv -- %s' % time.ctime()
+    print os.getcwd()
+    stdout_dir = '%s/stdout_files' % work_dir
+    if not os.path.exists(stdout_dir):
+        os.makedirs(stdout_dir)
+    f = open('%s/stdout_from_vol2surf.txt' % stdout_dir, 'w')
+    cmdargs = split('3dVol2Surf -spec %s \
+                    -surf_A ./%s -surf_B ./%s \
+                    -sv %s -grid_parent %s \
+                    -map_func max -f_steps 10 -f_index voxels \
+                    -outcols_NSD_format -oob_index -1 -oob_value 0.0 \
+                    -out_1D %s' %
+                    (spec, smoothwm, pial, surfvol, parent, outname))
     call(cmdargs, stdout=f, stderr=STDOUT)
     f.close()
