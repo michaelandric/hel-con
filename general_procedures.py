@@ -254,7 +254,7 @@ def vol2surf_indiv(work_dir, spec, smoothwm, pial,
         os.makedirs(stdout_dir)
     f = open('%s/stdout_from_vol2surf.txt' % stdout_dir, 'w')
     cmdargs = split('3dVol2Surf -spec %s \
-                    -surf_A ./%s -surf_B ./%s \
+                    -surf_A %s -surf_B %s \
                     -sv %s -grid_parent %s \
                     -map_func max -f_steps 10 -f_index voxels \
                     -outcols_NSD_format -oob_index -1 -oob_value 0.0 \
