@@ -24,7 +24,7 @@ for (td in seq(.05, .2, .05))
         }
         grp_med <- apply(group_mat, 1, median)
         grp_med_out <- cbind(seq(0, nnodes-1), grp_med)
-        outname <- paste(grp_jacc_dir, 'group_jaccard_median', h,'_mesh140_', td, '.1D', sep='')
+        outname <- paste(grp_jacc_dir, 'group_jaccard_median_', h,'_mesh140_', td, '.1D', sep='')
         write.table(grp_med_out, outname, row.names=FALSE, col.names=FALSE, quote=FALSE)
     }
 }
