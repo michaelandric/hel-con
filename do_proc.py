@@ -42,7 +42,7 @@ if __name__ == '__main__':
                                               '%s.ijk_fnirted_MNI2mm' %
                                               tree_name)
                 out_resamp_pref = os.path.join(mod_dir,
-                                               '%.ijk_fnirted_MNI4mm' %
+                                               '%s.ijk_fnirted_MNI4mm' %
                                                tree_name)
                 gp.resamp_with_master(st_odir, '%s.nii.gz' % in_resamp_pref,
                                       mask_fname,

@@ -273,7 +273,7 @@ def resamp_with_master(stdout_dir, inset, master, out_pref):
     if not os.path.exists(stdout_dir):
         os.makedirs(stdout_dir)
     f = open('%s/stdout_from_resamp.txt' % stdout_dir, 'w')
-    cmdargs = split('3dresample -master %s -prefix -inset %s' %
+    cmdargs = split('3dresample -master %s -prefix %s -inset %s' %
                     (master, out_pref, inset))
     call(cmdargs, stdout=f, stderr=STDOUT)
     f.close()
