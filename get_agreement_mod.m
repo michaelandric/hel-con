@@ -26,9 +26,19 @@ end
 % m_ag(ff) = 0;
 
 m_ag = agreement(M);
-[r, c] = find(m_ag > max(perm_vec));
+[mod, q] = community_louvain(m_ag);
+modfile = fopen('group_task_sess_1.dens_0.05.agreement.nothr.mods', 'w');
+for m in 1:length(mod)
+    fprintf(modfile, '%d\n', mods(m));
+end
+fclose(modfile);
+qfile = fopen('group_task_sess_1.dens_0.05.agreement.nothr.Qval', 'w');
+fprintf(qfile, '%d\n', q);
+fclose(qfile);
 
-fileID = fopen('group_task_sess_1.dens_0.05.agreement.edgelist', 'w');
+
+[r, c] = find(m_ag > max(perm_vec));
+fileID = fopen('group_task_sess_1.dens_0.05.agreement.thr.edgelist', 'w');
 for k = 1:length(r)
     fprintf(fileID, '%d %d\n', r(k), c(k));
 end
