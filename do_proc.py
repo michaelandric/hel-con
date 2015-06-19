@@ -17,7 +17,7 @@ if __name__ == '__main__':
 
     top_dir = '%s/graph_analyses' % os.environ['hel']
     mask_dir = '%s/group_anat' % (os.environ['hel'])
-    mask_n = 'group_avg_gm_mask_frac_bin_fnirted_MNI2mm_thr0.34.nii.gz'
+    mask_n = 'group_avg_gm_mask_frac_bin_fnirted_MNI4mm_thr0.34.nii.gz'
     mask_fname = os.path.join(mask_dir, mask_n)
     for ss in subj_list:
         vol_dir_pref = '%s/volume.%s.anat' % (ss, ss)
