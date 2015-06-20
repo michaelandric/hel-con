@@ -5,7 +5,11 @@
 
 path(path,'/home/andric/BCT2015');
 cd('/cnari/normal_language/HEL/graph_analyses/group_modularity');
-M = dlmread('group_task_sess_1.dens_0.05.maxq_tree.ijk_fnirted_MNI4mm.txt');
+session = 1
+td = .05
+
+fname = sprintf('group_task_sess_%d.dens_%g.maxq_tree.ijk_fnirted_MNI4mm.txt', session, td)
+M = dlmread(fname);
 M = M+1;
 
 [m, n] = size(M);
@@ -22,31 +26,45 @@ for ii = 1:n_perms
     perm_vec(ii) = max(ag_r(:));
 end
 
-% ff = find(m_ag > 14);
-% m_ag(ff) = 0;
+pv_fname = sprintf('group_task_sess_%d.dens_%g.agreement.perm_vec', session, td)
+perm_vec_file = fopen(pv_fname, 'W')
+for p = 1:n_perms
+    fprintf(perm_vec_file, '%d\n', perm_vec(p));
+end
+fclose(perm_vec_file);
 
 m_ag = agreement(M);
 [mod, q] = community_louvain(m_ag);
-modfile = fopen('group_task_sess_1.dens_0.05.agreement.nothr.mods', 'w');
-for m in 1:length(mod)
-    fprintf(modfile, '%d\n', mods(m));
+mod_fname = sprintf('group_task_sess_%d.dens_%g.agreement.nothr.mods', session, td)
+modfile = fopen(mod_fname, 'w');
+for m = 1:length(mod)
+    fprintf(modfile, '%d\n', mod(m));
 end
 fclose(modfile);
-qfile = fopen('group_task_sess_1.dens_0.05.agreement.nothr.Qval', 'w');
-fprintf(qfile, '%d\n', q);
+q_fname = sprintf('group_task_sess_%d.dens_%g.agreement.nothr.Qval', session, td)
+qfile = fopen(q_fname, 'w');
+fprintf(qfile, '%f\n', q);
 fclose(qfile);
 
 
-[r, c] = find(m_ag > max(perm_vec));
-fileID = fopen('group_task_sess_1.dens_0.05.agreement.thr.edgelist', 'w');
+% 14 is the value at 95/100 for session 1
+srt_pv = sort(perm_vec);
+thr = srt_pv(95);
+[r, c] = find(m_ag > thr);
+length(r)
+el_fname = sprintf('group_task_sess_%d.dens_%g.agreement.thr.edgelist', session, td)
+fileID = fopen(el_fname, 'w');
 for k = 1:length(r)
     fprintf(fileID, '%d %d\n', r(k), c(k));
 end
 fclose(fileID);
 
+
+
+
+% This below is scrap
+% ---------------------------
 % binary format
 %fileID = fopen('group_task_sess_1.dens_0.05.agreement.edgelist.bin', 'w');
 %fwrite(fileID, [r, c], 'integer*4');
 %fclose(fileID);
-
-% [mod, q] = community_louvain(m_ag);
