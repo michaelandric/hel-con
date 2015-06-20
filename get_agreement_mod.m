@@ -5,7 +5,7 @@
 
 path(path,'/home/andric/BCT2015');
 cd('/cnari/normal_language/HEL/graph_analyses/group_modularity');
-session = 1
+session = 2
 td = .05
 
 fname = sprintf('group_task_sess_%d.dens_%g.maxq_tree.ijk_fnirted_MNI4mm.txt', session, td)
