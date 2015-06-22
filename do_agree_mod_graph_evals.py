@@ -20,7 +20,7 @@ trees_all_levl_dir = os.path.join(grp_conn_dir, 'hierarchy_trees')
 if not os.path.exists(trees_all_levl_dir):
     os.makedirs(trees_all_levl_dir)
 
-n_nodes = 23154
+n_nodes = 23155
 
 for thresh_dens in [.05, .10, .15, .20]:
     el_suff = 'dens_%s.agreement.thr.edgelist' % thresh_dens
@@ -57,5 +57,5 @@ for thresh_dens in [.05, .10, .15, .20]:
             (session, thresh_dens)
         np.savetxt(os.path.join(mod_dir, nmods_outname),
                    nmods, fmt='%i')
-        bin_file = '%s.bin' % el_name
+        bin_file = '%s.bin' % edg_list
         os.remove(bin_file)
