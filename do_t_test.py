@@ -30,7 +30,7 @@ def t_test(stdoutdir, ss_list, outpref):
                     -mask %s/MNI152_T1_2mm_brain_mask_dil1.nii.gz \
                     -paired -prefix %s' %
                     (a_sets, b_sets,
-                     '%s/data/standard' % os.environ['hel'], outpref))
+                     '%s/data/standard' % os.environ['FSLDIR'], outpref))
     call(cmdargs, stdout=f, stderr=STDOUT)
     f.close()
 

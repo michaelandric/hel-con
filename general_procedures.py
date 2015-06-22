@@ -277,3 +277,43 @@ def resamp_with_master(stdout_dir, inset, master, out_pref):
                     (master, out_pref, inset))
     call(cmdargs, stdout=f, stderr=STDOUT)
     f.close()
+
+
+def fwhm_est(input_data, outname, mask=None):
+    """
+    Estiamte FWHM of data
+    Will return FWHM
+    """
+    print 'Doing fwhm_est -- %s' % time.ctime()
+    stdout_dir = 'stdout_files'
+    if not os.path.exists(stdout_dir):
+        os.makedirs(stdout_dir)
+    f = open('%s_fwhm_est_out.txt' % input_data, 'w')
+    if mask is None:
+        cmdargs = split('3dFWHMx -input %s -out %s' %
+                        (input_data, outname))
+    else:
+        cmdargs = split('3dFWHMx -mask %s -input %s -out %s' %
+                        (mask, input_data, outname))
+    call(cmdargs, stdout=f, stderr=STDOUT)
+    f.close()
+
+
+def clustsim(fwhm, mask=None):
+    """
+    Find the size of clusters by chance
+    """
+    print 'Running clustsim -- %s' % time.ctime()
+    stdout_dir = 'stdout_files'
+    if not os.path.exists(stdout_dir):
+        os.makedirs(stdout_dir)
+    f = open('ClustSim_FWHM_%f_%f_%f_out.txt' %
+             (fwhm[0], fwhm[1], fwhm[2]), 'w')
+    if mask is None:
+        cmdargs = split('3dClustSim -fwhmxyz %f %f %f' %
+                        (fwhm[0], fwhm[1], fwhm[2]))
+    else:
+        cmdargs = split('3dClustSim -NN 123 -mask %s -fwhmxyz %f %f %f' %
+                        (mask, fwhm[0], fwhm[1], fwhm[2]))
+    call(cmdargs, stdout=f, stderr=STDOUT)
+    f.close()
