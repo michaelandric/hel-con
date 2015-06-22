@@ -11,7 +11,7 @@ for td = [.05, .1, .15, .2]
     M1 = dlmread(fname1);
     fname2 = sprintf('group_task_sess_%d.dens_%g.maxq_tree.ijk_fnirted_MNI4mm.txt', 2, td)
     M2 = dlmread(fname2);
-    M = [M1, M2]
+    M = [M1, M2];
     M = M+1;
     disp(size(M))
     [m, n] = size(M);
