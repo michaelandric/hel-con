@@ -18,7 +18,7 @@ if __name__ == '__main__':
     mask_dir = '%s/group_anat' % (os.environ['hel'])
     mask_pref = 'group_avg_gm_mask_frac_bin_fnirted_MNI4mm_thr0.34'
     mask_fname = os.path.join(mask_dir, '%s.nii.gz' % mask_pref)
-    ijk_fname = os.path.join(mask_dir, '%_ijk.txt')
+    ijk_fname = os.path.join(mask_dir, '%s_ijk.txt' % mask_pref)
     anat_dir = os.path.join(os.environ['hel'], 'group_anat')
 
     grp_conn_dir = os.path.join(os.environ['hel'],
