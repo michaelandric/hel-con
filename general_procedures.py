@@ -299,7 +299,7 @@ def fwhm_est(input_data, outname, mask=None):
     f.close()
 
 
-def clustsim(fwhm, mask=None):
+def clustsim(fwhm, outdir, mask=None):
     """
     Find the size of clusters by chance
     """
@@ -307,8 +307,8 @@ def clustsim(fwhm, mask=None):
     stdout_dir = 'stdout_files'
     if not os.path.exists(stdout_dir):
         os.makedirs(stdout_dir)
-    f = open('ClustSim_FWHM_%f_%f_%f_out.txt' %
-             (fwhm[0], fwhm[1], fwhm[2]), 'w')
+    f = open('%s/ClustSim_FWHM_%f_%f_%f_out.txt' %
+             (outdir, fwhm[0], fwhm[1], fwhm[2]), 'w')
     if mask is None:
         cmdargs = split('3dClustSim -fwhmxyz %f %f %f' %
                         (fwhm[0], fwhm[1], fwhm[2]))
