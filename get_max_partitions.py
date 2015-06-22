@@ -22,19 +22,14 @@ if __name__ == '__main__':
         subj_list.append('hel%d' % i)
     subj_list.remove('hel9')   # because this is bad subj
 
-    for session in range(1, 3):
-
-        for thresh_dens in [.05]:
-            gr = ge.Graphs('group', 'agreement_stuff',
-                           thresh_dens, grp_conn_dir)
-            q_fname = 'task_sess_%d.dens_%s.Qval' % \
-                (session, thresh_dens)
-            qval, iter_max = gr.max_q(os.path.join(mod_dir, q_fname))
-            trees_fname = 'task_sess_%ddens_%s.trees' % \
-                (session, thresh_dens)
-            trees = np.loadtxt(os.path.join(mod_dir, trees_fname))
-            best_tree = trees[:, iter_max]+1
-            best_tree_fname = 'task_sess_%d.dens_%s.maxq_tree' % \
-                (session, thresh_dens)
-            np.savetxt(os.path.join(mod_dir, best_tree_fname),
-                       best_tree, fmt='%i')
+    for thresh_dens in [.05, .10, .15, .20]:
+        gr = ge.Graphs('group', 'agreement_stuff',
+                       thresh_dens, grp_conn_dir)
+        q_fname = 'task_2sess_dens_%s.Qval' % thresh_dens
+        qval, iter_max = gr.max_q(os.path.join(mod_dir, q_fname))
+        trees_fname = 'task_2sess_dens_%s.trees' % thresh_dens
+        trees = np.loadtxt(os.path.join(mod_dir, trees_fname))
+        best_tree = trees[:, iter_max]+1
+        best_tree_fname = 'task_sess_dens_%s.maxq_tree' % thresh_dens
+        np.savetxt(os.path.join(mod_dir, best_tree_fname),
+                   best_tree, fmt='%i')
