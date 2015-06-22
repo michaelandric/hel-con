@@ -30,10 +30,8 @@ if __name__ == '__main__':
         os.makedirs(st_odir)
 
     for thresh_dens in [.05, .10, .15, .20]:
-        for session in range(1, 3):
-            tree_name = 'group_task_sess_%d.dens_%s.agreement.nothr.mods' % \
-                        (session, thresh_dens)
-            best_tree_fname = os.path.join(grp_conn_dir, tree_name)
-            master_file = mask_fname
-            gp.undump('group', ijk_fname, best_tree_fname, grp_conn_dir,
-                      master_file)
+        tree_name = 'group_task_2sess_dens_%s.agreement.nothr.mods' % thresh_dens
+        best_tree_fname = os.path.join(grp_conn_dir, tree_name)
+        master_file = mask_fname
+        gp.undump('group', ijk_fname, best_tree_fname, grp_conn_dir,
+                  master_file)
