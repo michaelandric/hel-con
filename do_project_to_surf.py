@@ -25,7 +25,7 @@ if __name__ == '__main__':
         for hemi in ['lh', 'rh']:
             print 'Doing %s %s' % (hemi, thresh_dens)
             parent_pref = os.path.join(mod_dir,
-                                       'task_2sess_dens_%s.maxq_tree' %
+                                       'task_2sess_dens_%s.maxq_tree.ijk' %
                                        thresh_dens)
             outname = '%s_%s_pn%s_MNI_N27.1D' % (parent_pref, hemi, pn)
             gp.vol2surf_mni(mod_dir, hemi, '%s+tlrc' % parent_pref,
