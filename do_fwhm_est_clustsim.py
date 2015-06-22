@@ -44,6 +44,8 @@ for i, ss in enumerate(subj_list):
     xyz_mat[i, :] = [x, y, z]
 
 avg_fwhm = np.mean(xyz_mat, axis=0)
+print 'FWHM is:'
+print avg_fwhm
 out_pref = 'group_avg_corrZ_task_sess_2.ijk_fnirted_MNI2mm_fwhm_est_out'
 out_name = os.path.join(group_conn_dir, out_pref)
 np.savetxt(out_name, avg_fwhm.reshape(1, 3), fmt='%.4f %.4f %.4f')
