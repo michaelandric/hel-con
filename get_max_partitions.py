@@ -30,6 +30,6 @@ if __name__ == '__main__':
         trees_fname = 'task_2sess_dens_%s.trees' % thresh_dens
         trees = np.loadtxt(os.path.join(mod_dir, trees_fname))
         best_tree = trees[:, iter_max]+1
-        best_tree_fname = 'task_sess_dens_%s.maxq_tree' % thresh_dens
+        best_tree_fname = 'task_2sess_dens_%s.maxq_tree' % thresh_dens
         np.savetxt(os.path.join(mod_dir, best_tree_fname),
                    best_tree, fmt='%i')
