@@ -8,10 +8,8 @@ Created on Thu Jun 11 12:59:05 2015
 import os
 import general_procedures as gp
 
-grp_conn_dir = os.path.join(os.environ['hel'],
-                            'graph_analyses', 'group_modularity')
-mod_dir = os.path.join(grp_conn_dir, 'modularity_iters')
-
+graph_dir = os.path.join(os.environ['hel'], 'graph_analyses')
+conn_dir = os.path.join(graph_dir, 'group_global_connectivity')
 
 if __name__ == '__main__':
 
@@ -21,13 +19,10 @@ if __name__ == '__main__':
     subj_list.remove('hel9')   # because this is bad subj
 
     pn = '1.0'
-    for thresh_dens in [.05]:
-        for session in range(1, 3):
-            for hemi in ['lh', 'rh']:
-                print 'Doing %s %s' % (hemi, thresh_dens)
-                parent_pref = os.path.join(mod_dir,
-                                           'task_sess_%d.dens_%s.maxq_tree.ijk' %
-                                           (session, thresh_dens))
-                outname = '%s_%s_pn%s_MNI_N27.1D' % (parent_pref, hemi, pn)
-                gp.vol2surf_mni(mod_dir, hemi, '%s+tlrc' % parent_pref,
-                                pn, outname)
+
+    for hemi in ['lh', 'rh']:
+        print 'Doing %s ' % hemi
+        parent_pref = os.path.join(conn_dir, 'ttest_avg_corrZ_sess2valsPOS')
+        outname = '%s_%s_pn%s_MNI_N27.1D' % (parent_pref, hemi, pn)
+        gp.vol2surf_mni(conn_dir, hemi, '%s+tlrc' % parent_pref,
+                        pn, outname)
