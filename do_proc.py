@@ -28,24 +28,23 @@ if __name__ == '__main__':
     st_odir = os.path.join(mod_dir, 'stdout_dir')
     if not os.path.exists(st_odir):
         os.makedirs(st_odir)
-    for session in range(1, 3):
-        for thresh_dens in [.05]:
-            tree_name = 'task_sess_%d_dens_%s.maxq_tree' % \
-                (session, thresh_dens)
-            best_tree_fname = os.path.join(mod_dir, tree_name)
-            master_file = mask_fname
-            gp.undump('group', ijk_fname, best_tree_fname, mod_dir,
-                      master_file)
 
-            """in_resamp_pref = os.path.join(mod_dir,
-                                          '%s.ijk_fnirted_MNI2mm' %
-                                          tree_name)
-            out_resamp_pref = os.path.join(mod_dir,
-                                           '%s.ijk_fnirted_MNI4mm' %
-                                           tree_name)
-            gp.resamp_with_master(st_odir, '%s.nii.gz' % in_resamp_pref,
-                                  mask_fname,
-                                  '%s.nii.gz' % out_resamp_pref)
-            out_fname = os.path.join(mod_dir, '%s.txt' % out_resamp_pref)
-            gp.maskdump(st_odir, mask_fname,
-                        '%s.nii.gz' % out_resamp_pref, out_fname)"""
+    for thresh_dens in [.05, .10, .15, .20]:
+        tree_name = 'task_2sess_dens_%s.maxq_tree' % thresh_dens
+        best_tree_fname = os.path.join(mod_dir, tree_name)
+        master_file = mask_fname
+        gp.undump('group', ijk_fname, best_tree_fname, mod_dir,
+                  master_file)
+
+        """in_resamp_pref = os.path.join(mod_dir,
+                                      '%s.ijk_fnirted_MNI2mm' %
+                                      tree_name)
+        out_resamp_pref = os.path.join(mod_dir,
+                                       '%s.ijk_fnirted_MNI4mm' %
+                                       tree_name)
+        gp.resamp_with_master(st_odir, '%s.nii.gz' % in_resamp_pref,
+                              mask_fname,
+                              '%s.nii.gz' % out_resamp_pref)
+        out_fname = os.path.join(mod_dir, '%s.txt' % out_resamp_pref)
+        gp.maskdump(st_odir, mask_fname,
+                    '%s.nii.gz' % out_resamp_pref, out_fname)"""
