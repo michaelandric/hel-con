@@ -9,7 +9,7 @@ import os
 import general_procedures as gp
 
 graph_dir = os.path.join(os.environ['hel'], 'graph_analyses')
-conn_dir = os.path.join(graph_dir, 'group_global_connectivity')
+mod_dir = os.path.join(graph_dir, 'group_modularity')
 
 if __name__ == '__main__':
 
@@ -19,10 +19,11 @@ if __name__ == '__main__':
     subj_list.remove('hel9')   # because this is bad subj
 
     pn = '1.0'
-
-    for hemi in ['lh', 'rh']:
-        print 'Doing %s ' % hemi
-        parent_pref = os.path.join(conn_dir, 'ttest_avg_corrZ_sess2valsPOS')
-        outname = '%s_%s_pn%s_MNI_N27.1D' % (parent_pref, hemi, pn)
-        gp.vol2surf_mni(conn_dir, hemi, '%s+tlrc' % parent_pref,
-                        pn, outname)
+    for thresh_dens in [.05, .10, .15, .20]:
+        for hemi in ['lh', 'rh']:
+            print 'Doing %s ' % hemi
+            parent_pref = os.path.join(mod_dir,
+                                       'group_task_2sess_dens_%s.agreement.nothr.mods.ijk' % thresh_dens)
+            outname = '%s_%s_pn%s_MNI_N27.1D' % (parent_pref, hemi, pn)
+            gp.vol2surf_mni(mod_dir, hemi, '%s+tlrc' % parent_pref,
+                            pn, outname)
