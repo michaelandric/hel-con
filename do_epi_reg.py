@@ -27,7 +27,7 @@ if __name__ == '__main__':
         premat = os.path.join(anat_dir, '%s_gm_mask_frac_bin_flirted.mat' % ss)
         epi_nii_pref = 'tcorr_%s_gm_mskd_Z' % ss
         in_fl = os.path.join(proc_dir, '%s.nii.gz' % epi_nii_pref)
-        out_fl = os.path.join(proc_dir, '%_flirted' % epi_nii_pref)
+        out_fl = os.path.join(proc_dir, '%s_flirted' % epi_nii_pref)
         gp.applywarpFLIRT(ss, proc_dir, in_fl, extrt1,
                           out_fl, premat)
 
@@ -36,6 +36,5 @@ if __name__ == '__main__':
         in_fn = '%s.nii.gz' % out_fl
         out_fn = os.path.join(group_tcorr_dir,
                               '%s_fnirted_MNI2mm' % epi_nii_pref)
-        out_fn = '%s_fnirted_MNI2mm' % (epi_nii_pref)
         gp.applywarpFNIRT(ss, group_tcorr_dir, in_fn, out_fn,
                           fn_coef)
