@@ -22,7 +22,7 @@ def tcorr(stdoutdir, outpref, epi1, epi2):
 def fishertransform(stdoutdir, inputcor, outpref):
     f = open("%s/stdout_from_fishertransform.txt" % stdoutdir, "w")
     cmdargs = split("3dcalc -a %s -expr 'atanh(a)' \
-                    -prefix %s" % inputcor, outpref)
+                    -prefix %s" % (inputcor, outpref))
     call(cmdargs, stdout=f, stderr=STDOUT)
     f.close()
 
