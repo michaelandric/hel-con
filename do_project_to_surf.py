@@ -18,13 +18,13 @@ if __name__ == '__main__':
         subj_list.append('hel%d' % i)
     subj_list.remove('hel9')   # because this is bad subj
 
-    pn = '1.0'
+    pn = '2.0'
     for thresh_dens in [.05, .10, .15, .20]:
         for session in range(1, 3):
             for hemi in ['lh', 'rh']:
                 print 'Doing %s ' % hemi
                 parent_pref = os.path.join(mod_dir,
-                                           'group_task_sess_%d.dens_%s.agreement.nothr.mods.ijk' % thresh_dens)
+                                           'group_task_sess_%d.dens_%s.agreement.nothr.mods.ijk' % (session, thresh_dens))
                 outname = '%s_%s_pn%s_MNI_N27.1D' % (parent_pref, hemi, pn)
                 gp.vol2surf_mni(mod_dir, hemi, '%s+tlrc' % parent_pref,
                                 pn, outname)
