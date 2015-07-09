@@ -9,8 +9,8 @@ import os
 import numpy as np
 
 top_dir = '%s/graph_analyses' % os.environ['hel']
-nvox = 23154
-suff = 'maxq_tree.ijk_fnirted_MNI4mm.txt'
+nvox = 20071
+suff = 'maxq_tree.ijk_fnirted_MNI4mm_thr0.5.txt'
 
 if __name__ == '__main__':
     subj_list = []
@@ -32,5 +32,6 @@ if __name__ == '__main__':
                 grp_mat[:, i] = np.loadtxt(in_fname)
             out_f_name = 'group_task_sess_%s.dens_%s.%s' % (session,
                                                             thresh_dens, suff)
-            out_f = os.path.join(top_dir, 'group_modularity', out_f_name)
+            out_f = os.path.join(top_dir,
+                                 'group_modularity_thr0.5msk', out_f_name)
             np.savetxt(out_f, grp_mat, fmt='%i')
