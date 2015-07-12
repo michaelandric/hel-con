@@ -5,7 +5,7 @@
 path(path,'/home/andric/BCT2015');
 cd('/cnari/normal_language/HEL/graph_analyses/group_modularity_thr0.5msk');
 n_perms = 100;
-diff_thr = 6
+diff_thr = 7
 for td = [.05, .1, .15, .2]
     disp(td);
     disp(datestr(now))
