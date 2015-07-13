@@ -27,11 +27,10 @@ if __name__ == '__main__':
     if not os.path.exists(st_odir):
         os.makedirs(st_odir)
 
-    for session in range(1, 3):
-        pref = 'group_task_sess_%d' % session
-        for thresh_dens in [.05, .10, .15, .20]:
-            tree_fname = '%s.dens_%s.maxq_tree' % (pref, thresh_dens)
-            best_tree_fname = os.path.join(grp_conn_dir, tree_fname)
-            master_file = mask_fname
-            gp.undump('group', ijk_fname, best_tree_fname, grp_conn_dir,
-                      master_file)
+    pref = 'group_task_2sess'
+    for thresh_dens in [.05, .10, .15, .20]:
+        tree_fname = '%s_dens_%s.maxq_tree' % (pref, thresh_dens)
+        best_tree_fname = os.path.join(grp_conn_dir, tree_fname)
+        master_file = mask_fname
+        gp.undump('group', ijk_fname, best_tree_fname, grp_conn_dir,
+                  master_file)
