@@ -5,7 +5,7 @@
 path(path,'/home/andric/BCT2015');
 cd('/cnari/normal_language/HEL/graph_analyses/group_modularity_thr0.5msk');
 n_perms = 100;
-diff_thr = 7
+diff_thr = 6
 for td = [.05, .1, .15, .2]
     disp(td);
     disp(datestr(now))
@@ -19,7 +19,7 @@ for td = [.05, .1, .15, .2]
     m_ag2 = agreement(M2);
     m_diff = m_ag1 - m_ag2;
     m_diff = abs(m_diff);
-    m_diff(m_diff < diff_thr) = 0;
+    m_diff(m_diff > diff_thr) = 0;
 
     [m, n] = size(m_diff);
     q_vec = zeros(n_perms, 1);
