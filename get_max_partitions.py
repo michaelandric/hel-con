@@ -26,9 +26,9 @@ if __name__ == '__main__':
         q_fname = '%s_dens_%s.%s' % (pref, thresh_dens, qsuff)
         qval, iter_max = gr.max_q(os.path.join(mod_dir, q_fname))
         tsuff = 'agreement.nothr.mod_arr'
-        trees_fname = '%s.dens_%s.%s' % (pref, thresh_dens, tsuff)
+        trees_fname = '%s_dens_%s.%s' % (pref, thresh_dens, tsuff)
         trees = np.loadtxt(os.path.join(mod_dir, trees_fname))
         best_tree = trees[:, iter_max]+1
-        best_tree_fname = '%s.dens_%s.maxq_tree' % (pref, thresh_dens)
+        best_tree_fname = '%s_dens_%s.maxq_tree' % (pref, thresh_dens)
         np.savetxt(os.path.join(mod_dir, best_tree_fname),
                    best_tree, fmt='%i')
