@@ -27,9 +27,9 @@ if __name__ == '__main__':
     if not os.path.exists(st_odir):
         os.makedirs(st_odir)
 
-    pref = 'group_task_2sess'
+    pref = 'group_task_diff_component'
     for thresh_dens in [.05, .10, .15, .20]:
-        tree_fname = '%s_dens_%s.maxq_tree' % (pref, thresh_dens)
+        tree_fname = '%s_dens_%s.vals' % (pref, thresh_dens)
         best_tree_fname = os.path.join(grp_conn_dir, tree_fname)
         master_file = mask_fname
         gp.undump('group', ijk_fname, best_tree_fname, grp_conn_dir,
