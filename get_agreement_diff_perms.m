@@ -14,7 +14,7 @@ perm_b = dlmread('perm_mat_b.txt');
 [perms_available, nsubj] = size(perm_a);
 
 % for td = [.05, .1, .15, .2]
-for td = [.1]
+for td = [.05, .15]
     disp(td);
     disp(datestr(now))
     fname1 = sprintf('group_task_sess_%d.dens_%g.maxq_tree.ijk_fnirted_MNI4mm_thr0.5.txt', 1, td);
@@ -69,7 +69,7 @@ for td = [.1]
     pv_outname = sprintf('group_task_diff_thr%d_component_dens_%g.perm_vec', diff_thr, td)
     pv_file = fopen(pv_outname, 'w');
     for pv = 1:length(sorted_perm_vec)
-        fprintf(pv_file, '%d\n', perm_vec(pv));
+        fprintf(pv_file, '%d\n', sorted_perm_vec(pv));
     end
     fclose(pv_file);
 end
