@@ -1,4 +1,4 @@
-% Derive consensus graph
+% Derive agg graph
 % over n_perms number iterations
 % write out the difference component
 % write out the max component size
@@ -7,13 +7,14 @@
 path(path,'/home/andric/BCT2015');
 cd('/cnari/normal_language/HEL/graph_analyses/group_modularity_thr0.5msk');
 
-diff_thr = 6
-n_perms = 100;
+diff_thr = 8
+n_perms = 1000;
 perm_a = dlmread('perm_mat_a.txt');
 perm_b = dlmread('perm_mat_b.txt');
 [perms_available, nsubj] = size(perm_a);
 
-for td = [.05, .1, .15, .2]
+% for td = [.05, .1, .15, .2]
+for td = [.1]
     disp(td);
     disp(datestr(now))
     fname1 = sprintf('group_task_sess_%d.dens_%g.maxq_tree.ijk_fnirted_MNI4mm_thr0.5.txt', 1, td);
@@ -30,7 +31,12 @@ for td = [.05, .1, .15, .2]
     m_diff(m_diff <= diff_thr) = 0;
     m_diff(m_diff > 0) = 1;
     [cmp, cmp_sz] = get_components(m_diff);
-    cmp_outname = sprintf('group_task_diff_component_dens_%g.vals', td)
+
+    oo = find(cmp_sz(:) == 1);
+    [~, vv] = ismember(oo, cmp);
+    cmp(vv) = 0;
+
+    cmp_outname = sprintf('group_task_diff_thr%d_component_dens_%g.vals', diff_thr, td)
 
     cmp_file = fopen(cmp_outname, 'w');
     for c = 1:length(cmp)
@@ -38,7 +44,7 @@ for td = [.05, .1, .15, .2]
     end
     fclose(cmp_file);
 
-    cmp_size_name = sprintf('group_task_diff_component_dens_%g.cmp_size', td)
+    cmp_size_name = sprintf('group_task_diff_thr%d_component_dens_%g.cmp_size', diff_thr, td)
     cmp_size_file = fopen(cmp_size_name, 'w');
     fprintf(cmp_size_file, '%d\n', max(cmp_sz));
     fclose(cmp_size_file);
@@ -60,7 +66,7 @@ for td = [.05, .1, .15, .2]
 
     sorted_perm_vec = sort(perm_vec);
 
-    pv_outname = sprintf('group_task_diff_component_dens_%g.perm_vec', td)
+    pv_outname = sprintf('group_task_diff_thr%d_component_dens_%g.perm_vec', diff_thr, td)
     pv_file = fopen(pv_outname, 'w');
     for pv = 1:length(sorted_perm_vec)
         fprintf(pv_file, '%d\n', perm_vec(pv));
