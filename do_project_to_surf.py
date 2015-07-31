@@ -8,9 +8,8 @@ Created on Thu Jun 11 12:59:05 2015
 import os
 import general_procedures as gp
 
-# graph_dir = os.path.join(os.environ['hel'], 'graph_analyses')
-# mod_dir = os.path.join(graph_dir, 'group_modularity')
-tcorr_dir = os.path.join(os.environ['hel'], 'tcorr_group')
+mod_dir = os.path.join(os.environ['hel'],
+                       'graph_analyses', 'group_modularity_thr0.5msk')
 
 if __name__ == '__main__':
 
@@ -22,9 +21,18 @@ if __name__ == '__main__':
     pn = '1.0'
 
     for hemi in ['lh', 'rh']:
-        print 'Doing %s ' % hemi
-        parent_pref = os.path.join(tcorr_dir,
-                                   'ttest_tcorr_Z_vals')
-        outname = '%s_%s_pn%s_MNI_N27.1D' % (parent_pref, hemi, pn)
-        gp.vol2surf_mni(tcorr_dir, hemi, '%s+tlrc' % parent_pref,
-                        pn, outname)
+        for thresh_dens in [.05, .10, .15, .20]:
+            fname = 'group_task_2sess_dens_%s.maxq_tree.ijk' % \
+                    thresh_dens
+            parent_pref = os.path.join(mod_dir, fname)
+            outname = '%s_%s_pn%s_MNI_N27.1D' % (parent_pref, hemi, pn)
+            gp.vol2surf_mni(mod_dir, hemi, '%s+tlrc' % parent_pref,
+                            pn, outname)
+            for session in range(1, 3):
+                print 'Doing %s ' % hemi
+                fname = 'group_task_sess_%d.dens_%s.maxq_tree.ijk' % \
+                        (session, thresh_dens)
+                parent_pref = os.path.join(mod_dir, fname)
+                outname = '%s_%s_pn%s_MNI_N27.1D' % (parent_pref, hemi, pn)
+                gp.vol2surf_mni(mod_dir, hemi, '%s+tlrc' % parent_pref,
+                                pn, outname)
