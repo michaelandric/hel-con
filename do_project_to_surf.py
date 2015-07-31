@@ -21,18 +21,10 @@ if __name__ == '__main__':
     pn = '1.0'
 
     for hemi in ['lh', 'rh']:
-        for thresh_dens in [.05, .10, .15, .20]:
-            fname = 'group_task_2sess_dens_%s.maxq_tree.ijk' % \
+        for thresh_dens in [.05, .10, .15]:
+            fname = 'group_task_diff_thr8_component_dens_%s.vals_sig.ijk' % \
                     thresh_dens
             parent_pref = os.path.join(mod_dir, fname)
             outname = '%s_%s_pn%s_MNI_N27.1D' % (parent_pref, hemi, pn)
             gp.vol2surf_mni(mod_dir, hemi, '%s+tlrc' % parent_pref,
                             pn, outname)
-            for session in range(1, 3):
-                print 'Doing %s ' % hemi
-                fname = 'group_task_sess_%d.dens_%s.maxq_tree.ijk' % \
-                        (session, thresh_dens)
-                parent_pref = os.path.join(mod_dir, fname)
-                outname = '%s_%s_pn%s_MNI_N27.1D' % (parent_pref, hemi, pn)
-                gp.vol2surf_mni(mod_dir, hemi, '%s+tlrc' % parent_pref,
-                                pn, outname)
