@@ -24,6 +24,8 @@ end
 % STARTING HERE
 path(path,'/home/andric/BCT2015');
 
+nperms = 100;
+
 ss = 'hel1';
 session = 1;
 dens = .05;
@@ -45,4 +47,12 @@ m = sparse(el(:, 1), el(:, 2), w, n_nodes, n_nodes);
 mm = full(m);
 % FILL OUT THE TRIUL GET COMPLETE ADJ MATRIX
 A = mm + triu(mm, 1)';
+
+for i = 1:nperms
+    randA = randmio_und(A, 4);
+    [ci, q] = community_louvain(randA);
+    
+
+tic; randA = randmio_und(A, 4); [ci, q] = community_louvain(randA); toc;
+[ci, q] = community_louvain(randA);
 
