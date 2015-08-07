@@ -117,6 +117,10 @@ class Graphs(object):
         n_mods = len(cnts[np.where(cnts > 1)])
         return n_mods
 
+    def make_random_graph(self, nnodes, outname):
+        rg = nx.fast_gnp_random_graph(nnodes, self.dens)
+        nx.write_edgelist(rg, outname, data=False)
+
 
 class CommunityDetect(object):
     """
