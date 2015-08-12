@@ -18,8 +18,7 @@ for (cl in clusters)
         error_vec <- c(error_vec, er)
     }
     # error_vec <- error_vec[c(1, 2, 4, 3)]
-    # ylim <- c(0, 1.21 * max(tmp_means + error_vec))
-    ylim <- c(0, max(tmp_means + error_vec))
+    ylim <- c(0, 1.21 * max(tmp_means + error_vec))
     # ab = barplot(tmp_means, beside = TRUE, ylim = ylim, ylab = "Avg. Global Connectivity")
     ab = barplot(tmp_means, beside = TRUE, ylim = ylim)
     segments(x0 = ab, x1 = ab, y0 = tmp_means, y1 = tmp_means + error_vec)
