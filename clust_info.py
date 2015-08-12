@@ -34,7 +34,7 @@ def get_clust_info(subj_list, conditions, maskname, method='mean'):
                 elif method is 'median':
                     vals.append(np.median(subj_dat[np.where(mask == cl)]))
 
-    subj_vec = subj_list*(len(clusters)*len(conditions))
+    subj_vec = np.repeat(subj_list, len(clusters)*len(conditions))
     cnd_set = np.tile(np.repeat(conditions, len(clusters)), len(subj_list))
     cond_vec = np.array(cnd_set, dtype=np.int16)
     cl_set = np.tile(np.tile(clusters, len(conditions)), len(subj_list))
