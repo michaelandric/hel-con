@@ -28,7 +28,8 @@ if __name__ == '__main__':
     out_suff = 'ijk_fnirted_MNI2mm.txt'
 
     for ss in subj_list:
-        conn_dir = os.path.join(os.environ['hel'], ss, 'global_connectivity')
+        conn_dir = os.path.join(os.environ['hel'], 'graph_analyses',
+                                ss, 'global_connectivity')
         st_odir = os.path.join(conn_dir, 'stdout_dir')
 
         for session in range(1, 3):
