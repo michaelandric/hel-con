@@ -353,7 +353,7 @@ def mnispace_to_origspace(stdout, matfile, invmat,
                      (flirtd_brain, region_msk, rev_fnirt,
                       region_msk_out_flirt))
     call(cmdargs1, stdout=f, stderr=STDOUT)
-    cmdargs2 = split('applywarp -ref=%s --in=%s --postmat=%s \
+    cmdargs2 = split('applywarp --ref=%s --in=%s --postmat=%s \
                      --out=%s --interp=nn' %
                      (msk_frac_bin_orig, region_msk_out_flirt,
                       invmat, region_msk_out_orig))
