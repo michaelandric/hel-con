@@ -336,8 +336,8 @@ def convert_inversemat(matfile, outfile, stdf=None):
 def mnispace_to_origspace(stdout, matfile, invmat,
                           rev_fnirt, flirtd_brain,
                           region_msk, coeff,
-                          region_msk_out_flirt, msk_frac_bin_orig,
-                          region_msk_out_orig, final_msk_outpref):
+                          region_msk_out_flirt, region_msk_out_orig,
+                          msk_frac_bin_orig, final_msk_outpref):
     """
     1. convert flirt mat to inverse
     2. use invwarp to get inverse of warp (fnirt'd)
