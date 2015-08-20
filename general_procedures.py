@@ -317,3 +317,46 @@ def clustsim(fwhm, outdir, mask=None):
                         (mask, fwhm[0], fwhm[1], fwhm[2]))
     call(cmdargs, stdout=f, stderr=STDOUT)
     f.close()
+
+
+def convert_inversemat(matfile, outfile, stdf=None):
+    if stdf is not None:
+        stdout_dir = 'stdout_files'
+        if not os.path.exists(stdout_dir):
+            os.makedirs(stdout_dir)
+    cmdargs = split('convert_xfm -omat %s -inverse %s' % (outfile, matfile))
+    if stdf is not None:
+        f = open(stdf, 'w')
+        call(cmdargs, stdout=f, stderr=STDOUT)
+        f.close()
+    else:
+        call(cmdargs)
+
+
+def mnispace_to_origspace(stdout, matfile, invmat,
+                          rev_fnirt, flirtd_brain,
+                          region_msk, coeff,
+                          region_msk_out_flirt, msk_frac_bin_orig,
+                          region_msk_out_orig, final_msk_outpref):
+    """
+    1. convert flirt mat to inverse
+    2. use invwarp to get inverse of warp (fnirt'd)
+    3. applywarp
+    """
+    convert_inversemat(matfile, invmat)
+    f = open(stdout, 'w')
+    inv_args = split('invwarp --ref=%s --warp=%s --out=%s' %
+                     (flirtd_brain, coeff, rev_fnirt))
+    call(inv_args, stdout=f, stderr=STDOUT)
+    cmdargs1 = split('applywarp --ref=%s --in=%s --warp=%s \
+                    --out=%s --interp=nn' %
+                     (flirtd_brain, region_msk, rev_fnirt,
+                      region_msk_out_flirt))
+    call(cmdargs1, stdout=f, stderr=STDOUT)
+    cmdargs2 = split('applywarp -ref=%s --in=%s --postmat=%s \
+                     --out=%s --interp=nn' %
+                     (msk_frac_bin_orig, region_msk_out_flirt,
+                      invmat, region_msk_out_orig))
+    call(cmdargs2, stdout=f, stderr=STDOUT)
+    maskdump(stdout, msk_frac_bin_orig, region_msk_out_orig, final_msk_outpref)
+    f.close()
