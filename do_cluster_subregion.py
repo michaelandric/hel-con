@@ -13,6 +13,7 @@ import general_procedures as gp
 
 
 def cluster_subreg(ss, nclust):
+    print 'Subject: %s' % ss
     """These will be used for undump"""
     anat_dir = os.path.join(os.environ['hel'], ss, 'volume.%s.anat' % ss)
     ijk = os.path.join(anat_dir, '%s_gm_mask_frac_bin_ijk.txt' % ss)
@@ -26,12 +27,14 @@ def cluster_subreg(ss, nclust):
     clusters = np.unique(msk)[np.unique(msk) != 0]
     ts = np.loadtxt(ts_name)
     ts_corr = np.corrcoef(ts)
+    ts_corr[np.isnan(ts_corr)] = 0
     outnames = []
     for cl in clusters:
+        print 'Cluster #%d' % cl
         clst_dat = ts_corr[np.where(msk == cl)]
         nvox_in_clst = clst_dat.shape[0]
         neighb = int(round(np.sqrt(nvox_in_clst)))
-        knn = kneighbors_graph(ts_corr[np.where(msk == cl)], neighb)
+        knn = kneighbors_graph(clst_dat, neighb)
         w = AgglomerativeClustering(n_clusters=nclust,
                                     connectivity=knn, linkage="ward")
         w.fit(clst_dat)
@@ -47,7 +50,7 @@ def cluster_subreg(ss, nclust):
         np.savetxt(cl_outname, outlabels, fmt='%d')
         gp.undump(ss, ijk, cl_outname, out_dir, master)
 
-        return outnames
+    return outnames
 
 
 if __name__ == '__main__':
@@ -75,7 +78,8 @@ if __name__ == '__main__':
                                    'T1_to_MNI_nonlin_coeff.nii.gz')
             in_fn = '%s.nii.gz' % out_fl
             out_fn = '%s.ijk_fnirted_MNI2mm' % oo
-            gp.applywarpFNIRT(ss, out_dir, in_fn, out_fn, fn_coef)
-            maskn = 'group_avg_gm_mask_frac_bin_fnirted_MNI2mm_thr0.5.nii.gz'
-            mask = os.path.join(os.environ['hel'], 'group_anat', maskn)
+            gp.applywarpFNIRT(ss, out_dir, in_fn, out_fn, fn_coef, 'nn')
+            maskn = 'MNI152_T1_2mm_brain_mask_dil1.nii.gz'
+            mask = os.path.join(os.environ['FSLDIR'], 'data', 'standard',
+                                maskn)
             gp.maskdump(out_dir, mask, '%s.nii.gz' % out_fn, '%s.txt' % out_fn)
