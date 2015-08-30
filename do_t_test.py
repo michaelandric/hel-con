@@ -43,7 +43,7 @@ def tcorr_t_test(stdoutdir, ss_list, outpref):
     a_set = []
     tcorr_dir = os.path.join(os.environ['hel'], 'tcorr_group')
     for ss in ss_list:
-        pref = 'tcorr_%s_gm_mskd_Z_fnirted_MNI2mm.nii.gz' % ss
+        pref = 'tcorr_prsn_%s_gm_mskd_Z_fnirted_MNI2mm.nii.gz' % ss
         a_set.append(os.path.join(tcorr_dir, pref))
     a_set = ' '.join(a_set)
 
@@ -65,5 +65,5 @@ if __name__ == '__main__':
     stdout_dir = os.path.join(out_dir, 'stdout_files')
     if not os.path.exists(stdout_dir):
         os.makedirs(stdout_dir)
-    outpref = os.path.join(out_dir, 'ttest_tcorr_Z')
+    outpref = os.path.join(out_dir, 'ttest_tcorr_prsn_Z')
     tcorr_t_test(stdout_dir, subj_list, outpref)
