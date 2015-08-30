@@ -25,7 +25,7 @@ if __name__ == '__main__':
         extrt1 = os.path.join(anat_dir, 'T1_biascorr_brain.nii.gz')
 
         premat = os.path.join(anat_dir, '%s_gm_mask_frac_bin_flirted.mat' % ss)
-        epi_nii_pref = 'tcorr_%s_gm_mskd_Z' % ss
+        epi_nii_pref = 'tcorr_prsn_%s_gm_mskd_Z' % ss
         in_fl = os.path.join(proc_dir, '%s.nii.gz' % epi_nii_pref)
         out_fl = os.path.join(proc_dir, '%s_flirted' % epi_nii_pref)
         gp.applywarpFLIRT(ss, proc_dir, in_fl, extrt1,
