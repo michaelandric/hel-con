@@ -15,25 +15,23 @@ if __name__ == '__main__':
         subj_list.append('hel%d' % i)
     subj_list.remove('hel9')   # because this is bad subj
 
-    """
-    mask_dir = '%s/group_anat' % (os.environ['hel'])
-    mask_pref = 'group_avg_gm_mask_frac_bin_fnirted_MNI4mm_thr0.5'
-    mask_fname = os.path.join(mask_dir, '%s.nii.gz' % mask_pref)
-    ijk_fname = os.path.join(mask_dir, '%s_ijk.txt' % mask_pref)
-    """
-    mask_dir = '%s/data/standard' % os.environ['FSLDIR']
-    mask_fname = os.path.join(mask_dir, 'MNI152_T1_2mm_brain_mask_dil1.nii.gz')
-
-    in_suff = 'ijk_fnirted_MNI2mm.nii.gz'
-    out_suff = 'ijk_fnirted_MNI2mm.txt'
-
+    graph_dir = os.path.join(os.environ['hel'], 'graph_analyses')
     for ss in subj_list:
-        conn_dir = os.path.join(os.environ['hel'], 'graph_analyses',
-                                ss, 'global_connectivity')
+        vol_dir_pref = '%s/volume.%s.anat' % (ss, ss)
+        anat_dir = os.path.join(os.environ['hel'], vol_dir_pref)
+        conn_dir = os.path.join(graph_dir, '%s/global_connectivity' % ss)
         st_odir = os.path.join(conn_dir, 'stdout_dir')
-
+        if not os.path.exists(st_odir):
+            os.makedirs(st_odir)
         for session in range(1, 3):
-            in_pref = 'avg_corrZ_task_sess_%d_%s' % (session, ss)
-            in_fname = os.path.join(conn_dir, '%s.%s' % (in_pref, in_suff))
-            out_fname = os.path.join(conn_dir, '%s.%s' % (in_pref, out_suff))
-            gp.maskdump(st_odir, mask_fname, in_fname, out_fname)
+            # because there are 3 subclusters:
+            for clst in range(1, 4):
+                corr_z_pref = 'knnward_clst1_mskd_subclust%d_corrZ_sess_%s_%s' % \
+                    (clst, session, ss)
+                corr_z_fname = os.path.join(conn_dir, corr_z_pref)
+                ijk_name = os.path.join(anat_dir,
+                                        '%s_gm_mask_frac_bin_ijk.txt' % ss)
+                master_file = os.path.join(anat_dir,
+                                           '%s_gm_mask_frac_bin.nii.gz' % ss)
+                gp.undump(ss, ijk_name, corr_z_fname, conn_dir,
+                          master_file, 'float')

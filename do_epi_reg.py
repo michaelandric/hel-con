@@ -15,9 +15,11 @@ if __name__ == '__main__':
         subj_list.append('hel%d' % i)
     subj_list.remove('hel9')   # because this is bad subj
 
-    group_tcorr_dir = os.path.join(os.environ['hel'], 'tcorr_group')
-    interpol = 'nn'
+    graph_dir = os.path.join(os.environ['hel'], 'graph_analyses')
+    group_conn_dir = os.path.join(graph_dir, 'group_global_connectivity')
+
     for ss in subj_list:
+        conn_dir = os.path.join(graph_dir, '%s/global_connectivity' % ss)
         proc_dir = os.path.join(os.environ['hel'], ss, 'preprocessing')
         vol_dir_pref = '%s/volume.%s.anat' % (ss, ss)
         anat_dir = os.path.join(os.environ['hel'], vol_dir_pref)
@@ -25,16 +27,23 @@ if __name__ == '__main__':
         extrt1 = os.path.join(anat_dir, 'T1_biascorr_brain.nii.gz')
 
         premat = os.path.join(anat_dir, '%s_gm_mask_frac_bin_flirted.mat' % ss)
-        epi_nii_pref = 'tcorr_prsn_%s_gm_mskd_Z' % ss
-        in_fl = os.path.join(proc_dir, '%s.nii.gz' % epi_nii_pref)
-        out_fl = os.path.join(proc_dir, '%s_flirted' % epi_nii_pref)
-        gp.applywarpFLIRT(ss, proc_dir, in_fl, extrt1,
-                          out_fl, premat)
-
-        fn_coef = os.path.join(anat_dir,
-                               'T1_to_MNI_nonlin_coeff.nii.gz')
-        in_fn = '%s.nii.gz' % out_fl
-        out_fn = os.path.join(group_tcorr_dir,
-                              '%s_fnirted_MNI2mm' % epi_nii_pref)
-        gp.applywarpFNIRT(ss, group_tcorr_dir, in_fn, out_fn,
-                          fn_coef)
+        for session in range(1, 3):
+            # because there are 3 subclusters:
+            for clst in range(1, 4):
+                epi_pref = 'knnward_clst1_mskd_subclust%d_corrZ_sess_%s_%s' % \
+                    (clst, session, ss)
+                epi_nii_pref = os.path.join(conn_dir, epi_pref)
+                gp.converttoNIFTI(conn_dir, '%s+orig' % epi_nii_pref,
+                                  epi_nii_pref)
+                in_fl = os.path.join(proc_dir, '%s.nii.gz' % epi_nii_pref)
+                out_fl = os.path.join(proc_dir, '%s_flirted' % epi_nii_pref)
+                gp.applywarpFLIRT(ss, proc_dir, in_fl, extrt1,
+                                  out_fl, premat)
+        
+                fn_coef = os.path.join(anat_dir,
+                                       'T1_to_MNI_nonlin_coeff.nii.gz')
+                in_fn = '%s.nii.gz' % out_fl
+                out_fn = os.path.join(group_conn_dir,
+                                      '%s_fnirted_MNI2mm' % epi_nii_pref)
+                gp.applywarpFNIRT(ss, group_conn_dir, in_fn, out_fn,
+                                  fn_coef)

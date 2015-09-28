@@ -345,18 +345,6 @@ def avg_global_connectivity(inputts, transform=True):
         return corr_avg
 
 
-def seeded_connectivity(seedts, inputts, transform=True):
-    """
-    Correlate seed time series against every other
-    """
-    print 'Doing seed correlation'
-    print time.ctime()
-    print 'Input ts: %s' % inputts
-    ts = np.loadtxt(inputts)
-    seed = np.loadtxt(inputts)
-    
-
-
 def dummyvar(cis, return_sparse=False):
     '''
     This is an efficient implementation of matlab's "dummyvar" command
