@@ -345,9 +345,9 @@ def mnispace_to_origspace(stdout, matfile, invmat,
     """
     convert_inversemat(matfile, invmat)
     f = open('%s/stdout_from_mnispace_to_origspace.txt' % stdout, 'w')
-    inv_args = split('invwarp --ref=%s --warp=%s --out=%s' %
-                     (flirtd_brain, coeff, rev_fnirt))
-    call(inv_args, stdout=f, stderr=STDOUT)
+#    inv_args = split('invwarp --ref=%s --warp=%s --out=%s' %
+#                     (flirtd_brain, coeff, rev_fnirt))
+#    call(inv_args, stdout=f, stderr=STDOUT)
     cmdargs1 = split('applywarp --ref=%s --in=%s --warp=%s \
                     --out=%s --interp=nn' %
                      (flirtd_brain, region_msk, rev_fnirt,

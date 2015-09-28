@@ -28,9 +28,9 @@ if __name__ == '__main__':
                                    '%s_gm_mask_frac_bin_flirted.nii.gz' % ss)
         reg_msk = os.path.join(os.environ['hel'], 'graph_analyses',
                                'group_global_connectivity',
-                               'Clust_mask.nii.gz')
+                               'consensus_prtn_knnward_clst1_mskd.ijk.nii.gz')
         coeff = os.path.join(anat_dir, 'T1_to_MNI_nonlin_coeff.nii.gz')
-        msk_out_pref = '%s_Clust_msk_glob_conn' % ss
+        msk_out_pref = '%s_consensus_prtn_knnward_clst1_mskd' % ss
         region_msk_out_flirt = os.path.join(anat_dir, '%s_flrtspace.nii.gz'
                                             % msk_out_pref)
         region_msk_out_orig = os.path.join(anat_dir, '%s_origspace.nii.gz'
