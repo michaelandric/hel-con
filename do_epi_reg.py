@@ -16,7 +16,6 @@ if __name__ == '__main__':
     subj_list.remove('hel9')   # because this is bad subj
 
     graph_dir = os.path.join(os.environ['hel'], 'graph_analyses')
-    group_conn_dir = os.path.join(graph_dir, 'group_global_connectivity')
 
     for ss in subj_list:
         conn_dir = os.path.join(graph_dir, '%s/global_connectivity' % ss)
@@ -30,7 +29,7 @@ if __name__ == '__main__':
         for session in range(1, 3):
             # because there are 3 subclusters:
             for clst in range(1, 4):
-                epi_pref = 'knnward_clst1_mskd_subclust%d_corrZ_sess_%s_%s' % \
+                epi_pref = 'knnward_clst1_mskd_subclust%d_corrZ_sess_%s_%s.ijk' % \
                     (clst, session, ss)
                 epi_nii_pref = os.path.join(conn_dir, epi_pref)
                 gp.converttoNIFTI(conn_dir, '%s+orig' % epi_nii_pref,
@@ -39,11 +38,11 @@ if __name__ == '__main__':
                 out_fl = os.path.join(proc_dir, '%s_flirted' % epi_nii_pref)
                 gp.applywarpFLIRT(ss, proc_dir, in_fl, extrt1,
                                   out_fl, premat)
-        
+
                 fn_coef = os.path.join(anat_dir,
                                        'T1_to_MNI_nonlin_coeff.nii.gz')
                 in_fn = '%s.nii.gz' % out_fl
-                out_fn = os.path.join(group_conn_dir,
+                out_fn = os.path.join(conn_dir,
                                       '%s_fnirted_MNI2mm' % epi_nii_pref)
-                gp.applywarpFNIRT(ss, group_conn_dir, in_fn, out_fn,
+                gp.applywarpFNIRT(ss, conn_dir, in_fn, out_fn,
                                   fn_coef)
