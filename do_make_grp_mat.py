@@ -20,14 +20,18 @@ if __name__ == '__main__':
 
     top_dir = '%s/graph_analyses' % os.environ['hel']
 
-    grp_mat = np.zeros(nvox*len(subj_list))
-    grp_mat = grp_mat.reshape(nvox, len(subj_list))
-    for i, ss in enumerate(subj_list):
-        conn_dir = os.path.join(top_dir, '%s/global_connectivity' % ss)
-        f_name = '%s_Clust_msk_glob_conn_knnward_clst1.ijk_fnirted_MNI2mm.txt' % ss
-        in_fname = os.path.join(conn_dir, f_name)
-        grp_mat[:, i] = np.loadtxt(in_fname)
-    out_f_name = 'group_Clust_msk_glob_conn_knnward_clst1'
-    out_f = os.path.join(top_dir,
-                         'group_global_connectivity', out_f_name)
-    np.savetxt(out_f, grp_mat, fmt='%i')
+    suff = 'ijk_fnirted_MNI2mm.txt'
+    for clst in [2, 3]:
+        # already did clst1
+        grp_mat = np.zeros(nvox*len(subj_list))
+        grp_mat = grp_mat.reshape(nvox, len(subj_list))
+        for i, ss in enumerate(subj_list):
+            conn_dir = os.path.join(top_dir, '%s/global_connectivity' % ss)
+            f_name = '%s_Clust_msk_glob_conn_knnward_clst%d.%s' % \
+                     (ss, clst, suff)
+            in_fname = os.path.join(conn_dir, f_name)
+            grp_mat[:, i] = np.loadtxt(in_fname)
+        out_f_name = 'group_Clust_msk_glob_conn_knnward_clst%d' % clst
+        out_f = os.path.join(top_dir,
+                             'group_global_connectivity', out_f_name)
+        np.savetxt(out_f, grp_mat, fmt='%i')
