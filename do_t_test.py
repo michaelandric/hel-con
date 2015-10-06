@@ -6,6 +6,7 @@ Created on Sat Jun 20 17:12:16 2015
 """
 
 import os
+import numpy as np
 from shlex import split
 from subprocess import call, STDOUT
 
@@ -35,7 +36,7 @@ def t_test(stdoutdir, ss_list, outpref):
     f.close()
 
 
-def t_test_subclust(stdoutdir, ss_list, clst, outpref):
+def t_test_subclust(stdoutdir, ss_list, cl, clst, outpref):
     """
     test between conditions
     """
@@ -44,10 +45,10 @@ def t_test_subclust(stdoutdir, ss_list, clst, outpref):
     a_sets = []
     b_sets = []
     for ss in ss_list:
-        pref_a = 'knnward_clst1_mskd_subclust%d_corrZ_sess_1_%s.%s' % \
-                 (clst, ss, suff)
-        pref_b = 'knnward_clst1_mskd_subclust%d_corrZ_sess_2_%s.%s' % \
-                 (clst, ss, suff)
+        pref_a = 'knnward_clst%d_mskd_subclust%d_corrZ_sess_1_%s.%s' % \
+                 (cl, clst, ss, suff)
+        pref_b = 'knnward_clst%d_mskd_subclust%d_corrZ_sess_2_%s.%s' % \
+                 (cl, clst, ss, suff)
         a_sets.append(os.path.join(top_dir, ss,
                                    'global_connectivity', pref_a))
         b_sets.append(os.path.join(top_dir, ss,
@@ -97,7 +98,16 @@ if __name__ == '__main__':
     stdout_dir = os.path.join(out_dir, 'stdout_files')
     if not os.path.exists(stdout_dir):
         os.makedirs(stdout_dir)
-    for clst in range(1, 4):
-        outpref = os.path.join(out_dir,
-                               'knnward_clst1_mskd_subclust%d_corrZ' % clst)
-        t_test_subclust(stdout_dir, subj_list, clst, outpref)
+
+    graph_dir = os.path.join(os.environ['hel'], 'graph_analyses')
+    for cl in [2, 3]:
+        maskfname = 'consensus_prtn_knnward_clst%d_mskd' % cl
+        maskf = os.path.join(graph_dir, 'group_global_connectivity',
+                             maskfname)
+        msk = np.loadtxt(maskf)
+        subclusters = np.unique(msk[msk != 0])
+        for clst in subclusters:
+            outpref = os.path.join(out_dir,
+                                   'knnward_clst%d_mskd_subclust%d_corrZ' %
+                                   (cl, clst))
+            t_test_subclust(stdout_dir, subj_list, cl, clst, outpref)
