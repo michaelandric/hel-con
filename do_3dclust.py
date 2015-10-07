@@ -15,7 +15,7 @@ def clust_msk(stdoutdir, infile, thresh, vxl, outmskpref):
     cluster correct a result
     """
     f = open('%s/stdout_files/stdout_from_3dclust.txt' % stdoutdir, 'w')
-    clst1d = open('%s/%s.txt' % (stdoutdir, outmskpref), 'w')
+    clst1d = open('%s.txt' % outmskpref, 'w')
     cl_args = "3dclust -1Dformat -nosum -1dindex 1 -1tindex 1 \
                 -2thresh -%.3f %.3f -dxyz=1 \
                 -savemask %s 1.44 %.1f %s" % \
