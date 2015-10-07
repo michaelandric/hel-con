@@ -41,7 +41,8 @@ if __name__ == '__main__':
     graph_dir = os.path.join(os.environ['hel'], 'graph_analyses')
     conn_dir = os.path.join(graph_dir, 'group_global_connectivity')
 
-    thresh_dict = {2.898: 234}
+#    thresh_dict = {2.898: 234}
+    thresh_dict = {3.965: 71, 3.222: 156}
 
     for thr in thresh_dict:
         for cl in range(1, 4):
