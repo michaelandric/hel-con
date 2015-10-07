@@ -30,7 +30,7 @@ def thresh_clust(stdoutdir, msk, infile, outfilepref):
     create masked thresholded map
     """
     f = open('%s/stdout_files/stdout_from_thresh_clust.txt' % stdoutdir, 'w')
-    tc_args = "3dcalc -a Clust_mask_%s -b '%s[1]' -expr 'ispositive(a)*b*-1' \
+    tc_args = "3dcalc -a %s -b '%s[1]' -expr 'ispositive(a)*b*-1' \
                 -prefix %s" % (msk, infile, outfilepref)
     call(tc_args, stdout=f, stderr=STDOUT, shell=True)
     f.close()
