@@ -81,7 +81,7 @@ if __name__ == '__main__':
                                      np.array(np.hstack([ts1, ts2])))
         outname_v = 'ccf_vals_out_%s_gm_mskd' % ss
         outfname_v = os.path.join(conn_dir, outname_v)
-        np.savetxt(outfname_v, outcor[:, 0], fmt='%.4f')
+        np.savetxt(outfname_v, np.arctanh(outcor[:, 0]), fmt='%.4f')
         outname_lag = 'ccf_lag_out_%s_gm_mskd' % ss
         outfname_lag = os.path.join(conn_dir, outname_lag)
         np.savetxt(outfname_lag, outcor[:, 1], fmt='%i')
