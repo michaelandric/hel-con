@@ -18,8 +18,10 @@ for (ss in 1:length(subjects))
 }
 
 oo <- apply(group_mat, 1, wilcox.test, correct=FALSE)
+med_vals <- apply(group_mat, 1, median)
 pvals <- sapply(seq_along(1:nvox), function(i)oo[[i]]$p.value[[1]]) 
 stats <- sapply(seq_along(1:nvox), function(i)oo[[i]]$statistic[[1]]) 
 
 write.table(stats, paste('ccf_',lb,'_out_group_gm_mskd_wilcox_stats', sep=''), row.names=F, col.names=F, quote=F)
 write.table(pvals, paste('ccf_',lb,'_out_group_gm_mskd_wilcox_pvals', sep=''), row.names=F, col.names=F, quote=F)
+write.table(med_vals, paste('ccf_',lb,'_out_group_gm_mskd_median_vals', sep=''), row.names=F, col.names=F, quote=F)
