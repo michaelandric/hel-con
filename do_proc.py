@@ -32,4 +32,5 @@ if __name__ == '__main__':
             epi_nii_pref = os.path.join(conn_dir,
                                         'ccf_%s_out_%s_gm_mskd.ijk' % (lb, ss))
             out_fn = '%s_fnirted_MNI2mm' % epi_nii_pref
-            gp.maskdump(conn_dir, mask, '%s.nii.gz' % out_fn)
+            gp.maskdump(conn_dir, mask, '%s.nii.gz' % out_fn,
+                        '%s.txt' % out_fn)
