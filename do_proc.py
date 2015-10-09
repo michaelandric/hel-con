@@ -34,4 +34,4 @@ if __name__ == '__main__':
             master_file = os.path.join(anat_dir,
                                        '%s_gm_mask_frac_bin.nii.gz' % ss)
             gp.undump(ss, ijk_name, corr_z_fname, conn_dir,
-                      master_file, t_dict[t])
+                      master_file, t_dict[lb])
