@@ -116,8 +116,7 @@ if __name__ == '__main__':
         subj_list.append('hel%d' % i)
     subj_list.remove('hel9')   # because this is bad subj
 
-    out_dir = os.path.join(os.environ['hel'],
-                           'graph_analyses', 'group_global_connectivity')
+    out_dir = os.path.join(os.environ['hel'], 'tcorr_group')
     stdout_dir = os.path.join(out_dir, 'stdout_files')
     if not os.path.exists(stdout_dir):
         os.makedirs(stdout_dir)
