@@ -37,5 +37,8 @@ if __name__ == '__main__':
                                           '%s.ijk_fnirted_MNI2mm' % epi_nii_pref)
             out_resamp_pref = os.path.join(conn_dir,
                                            '%s.%s' % (epi_nii_pref, out_res_suff))
-            gp.resamp_with_master(conn_dir, '%s.nii.gz' % in_resamp_pref,
-                                  mask_fname, '%s.nii.gz' % out_resamp_pref)
+#            gp.resamp_with_master(conn_dir, '%s.nii.gz' % in_resamp_pref,
+#                                  mask_fname, '%s.nii.gz' % out_resamp_pref)
+            out_fname = os.path.join(conn_dir, '%s.txt' % out_resamp_pref)
+            gp.maskdump(st_odir, mask_fname,
+                        '%s.nii.gz' % out_resamp_pref, out_fname)
