@@ -87,6 +87,29 @@ def tcorr_t_test(stdoutdir, ss_list, outpref):
     call(cmdargs, stdout=f, stderr=STDOUT)
     f.close()
 
+
+def tcorr_ccf_t_test(stdoutdir, ss_list, outpref):
+    """
+    Testing whether biaseless ISC values
+    differ from 0
+    """
+    a_set = []
+    for ss in ss_list:
+        ss_corr_dir = os.path.join(os.environ['hel'], 'graph_analyses',
+                                   ss, 'global_connectivity')
+        pref = 'ccf_vals_out_%s_gm_mskd.ijk_fnirted_MNI2mm.nii.gz' % ss
+        a_set.append(os.path.join(ss_corr_dir, pref))
+    a_set = ' '.join(a_set)
+
+    f = open('%s/stdout_from_3dttest++.txt' % stdoutdir, 'w')
+    cmdargs = split('3dttest++ -setA %s \
+                    -mask %s/MNI152_T1_2mm_brain_mask_dil1.nii.gz \
+                    -prefix %s' %
+                    (a_set, '%s/data/standard' % os.environ['FSLDIR'],
+                     outpref))
+    call(cmdargs, stdout=f, stderr=STDOUT)
+    f.close()
+
 if __name__ == '__main__':
     subj_list = []
     for i in range(1, 20):
@@ -98,16 +121,6 @@ if __name__ == '__main__':
     stdout_dir = os.path.join(out_dir, 'stdout_files')
     if not os.path.exists(stdout_dir):
         os.makedirs(stdout_dir)
-
     graph_dir = os.path.join(os.environ['hel'], 'graph_analyses')
-    for cl in [2, 3]:
-        maskfname = 'consensus_prtn_knnward_clst%d_mskd' % cl
-        maskf = os.path.join(graph_dir, 'group_global_connectivity',
-                             maskfname)
-        msk = np.loadtxt(maskf)
-        subclusters = np.unique(msk[msk != 0])
-        for clst in subclusters:
-            outpref = os.path.join(out_dir,
-                                   'knnward_clst%d_mskd_subclust%d_corrZ' %
-                                   (cl, clst))
-            t_test_subclust(stdout_dir, subj_list, cl, clst, outpref)
+    outpref = os.path.join(out_dir, 'tcorr_ttest_ccf_vals')
+    tcorr_ccf_t_test(stdout_dir, subj_list, outpref)
