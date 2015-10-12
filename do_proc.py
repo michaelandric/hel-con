@@ -32,7 +32,7 @@ if __name__ == '__main__':
             os.makedirs(st_odir)
         for lb in t_dict:
             epi_nii_pref = os.path.join(conn_dir,
-                                        'ccf_%s_out_%s_gm_mskd.ijk' % (lb, ss))
+                                        'ccf_%s_out_%s_gm_mskd' % (lb, ss))
             in_resamp_pref = os.path.join(conn_dir,
                                           '%s.ijk_fnirted_MNI2mm' % epi_nii_pref)
             out_resamp_pref = os.path.join(conn_dir,
