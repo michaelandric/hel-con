@@ -18,27 +18,19 @@ if __name__ == '__main__':
     graph_dir = os.path.join(os.environ['hel'], 'graph_analyses')
     t_dict = {'vals': 'float', 'lag': 'short'}
 
-    mask_dir = '%s/group_anat' % (os.environ['hel'])
-    mask_n = 'group_avg_gm_mask_frac_bin_fnirted_MNI4mm_thr0.5.nii.gz'
-    mask_fname = os.path.join(mask_dir, mask_n)
-
-    out_res_suff = 'ijk_fnirted_MNI4mm_thr0.5'
     for ss in subj_list:
         vol_dir_pref = '%s/volume.%s.anat' % (ss, ss)
         anat_dir = os.path.join(os.environ['hel'], vol_dir_pref)
-        conn_dir = os.path.join(graph_dir, '%s/global_connectivity' % ss)
+        conn_dir = os.path.join(os.environ['hel'], 'ccf_cor')
         st_odir = os.path.join(conn_dir, 'stdout_dir')
         if not os.path.exists(st_odir):
             os.makedirs(st_odir)
         for lb in t_dict:
-            epi_nii_pref = os.path.join(conn_dir,
-                                        'ccf_%s_out_%s_gm_mskd' % (lb, ss))
-            in_resamp_pref = os.path.join(conn_dir,
-                                          '%s.ijk_fnirted_MNI2mm' % epi_nii_pref)
-            out_resamp_pref = os.path.join(conn_dir,
-                                           '%s.%s' % (epi_nii_pref, out_res_suff))
-#            gp.resamp_with_master(conn_dir, '%s.nii.gz' % in_resamp_pref,
-#                                  mask_fname, '%s.nii.gz' % out_resamp_pref)
-            out_fname = os.path.join(conn_dir, '%s.txt' % out_resamp_pref)
-            gp.maskdump(st_odir, mask_fname,
-                        '%s.nii.gz' % out_resamp_pref, out_fname)
+            corr_z_pref = 'ccf_abs_%s_out_%s_gm_mskd' % (lb, ss)
+            corr_z_fname = os.path.join(conn_dir, corr_z_pref)
+            ijk_name = os.path.join(anat_dir,
+                                    '%s_gm_mask_frac_bin_ijk.txt' % ss)
+            master_file = os.path.join(anat_dir,
+                                       '%s_gm_mask_frac_bin.nii.gz' % ss)
+            gp.undump(ss, ijk_name, corr_z_fname, conn_dir,
+                      master_file, t_dict[lb])
