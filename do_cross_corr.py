@@ -57,7 +57,7 @@ def ccf_xcorr_matapply(v, mode='same'):
     lags = lags[269:278]
     lags[np.isnan(r)] = 0
     r[np.isnan(r)] = 0
-    return (r.max(), lags[r.argmax()])
+    return (abs(r).max(), lags[abs(r).argmax()])
 
 
 if __name__ == '__main__':
@@ -70,8 +70,7 @@ if __name__ == '__main__':
         ss_dir = os.path.join(os.environ['hel'], ss)
         proc_dir = os.path.join(ss_dir, 'preprocessing')
         anat_dir = os.path.join(ss_dir, 'volume.%s.anat' % ss)
-        conn_dir = os.path.join(os.environ['hel'], 'graph_analyses',
-                                '%s/global_connectivity' % ss)
+        conn_dir = os.path.join(os.environ['hel'], 'ccf_cor')
 
         ts1_fname = os.path.join(proc_dir, 'task_sess_1_%s_gm_mskd.txt' % ss)
         ts2_fname = os.path.join(proc_dir, 'task_sess_2_%s_gm_mskd.txt' % ss)
@@ -79,9 +78,9 @@ if __name__ == '__main__':
         ts2 = np.loadtxt(ts2_fname)
         outcor = np.apply_along_axis(ccf_xcorr_matapply, 1,
                                      np.array(np.hstack([ts1, ts2])))
-        outname_v = 'ccf_vals_out_%s_gm_mskd' % ss
+        outname_v = 'ccf_abs_vals_out_%s_gm_mskd' % ss
         outfname_v = os.path.join(conn_dir, outname_v)
         np.savetxt(outfname_v, np.arctanh(outcor[:, 0]), fmt='%.4f')
-        outname_lag = 'ccf_lag_out_%s_gm_mskd' % ss
+        outname_lag = 'ccf_abs_lag_out_%s_gm_mskd' % ss
         outfname_lag = os.path.join(conn_dir, outname_lag)
         np.savetxt(outfname_lag, outcor[:, 1], fmt='%i')
