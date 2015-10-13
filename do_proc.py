@@ -17,20 +17,19 @@ if __name__ == '__main__':
 
     graph_dir = os.path.join(os.environ['hel'], 'graph_analyses')
     t_dict = {'vals': 'float', 'lag': 'short'}
+    mask = os.path.join(os.environ['hel'], 'group_anat',
+                        'MNI152_T1_2mm_brain_mask_dil1.nii.gz')
 
+    conn_dir = os.path.join(os.environ['hel'], 'ccf_cor')
     for ss in subj_list:
         vol_dir_pref = '%s/volume.%s.anat' % (ss, ss)
         anat_dir = os.path.join(os.environ['hel'], vol_dir_pref)
-        conn_dir = os.path.join(os.environ['hel'], 'ccf_cor')
         st_odir = os.path.join(conn_dir, 'stdout_dir')
         if not os.path.exists(st_odir):
             os.makedirs(st_odir)
         for lb in t_dict:
-            corr_z_pref = 'ccf_abs_%s_out_%s_gm_mskd' % (lb, ss)
-            corr_z_fname = os.path.join(conn_dir, corr_z_pref)
-            ijk_name = os.path.join(anat_dir,
-                                    '%s_gm_mask_frac_bin_ijk.txt' % ss)
-            master_file = os.path.join(anat_dir,
-                                       '%s_gm_mask_frac_bin.nii.gz' % ss)
-            gp.undump(ss, ijk_name, corr_z_fname, conn_dir,
-                      master_file, t_dict[lb])
+            epi_nii_pref = os.path.join(conn_dir,
+                                        'ccf_%s_out_%s_gm_mskd.ijk' % (lb, ss))
+            out_fn = '%s_fnirted_MNI2mm' % epi_nii_pref
+            gp.maskdump(conn_dir, mask, '%s.nii.gz' % out_fn,
+                        '%s.txt' % out_fn)
