@@ -16,10 +16,10 @@ if __name__ == '__main__':
     subj_list.remove('hel9')   # because this is bad subj
 
     graph_dir = os.path.join(os.environ['hel'], 'graph_analyses')
+    conn_dir = os.path.join(os.environ['hel'], 'ccf_cor')
 
     t_dict = {'vals': 'trilinear', 'lag': 'nn'}
     for ss in subj_list:
-        conn_dir = os.path.join(graph_dir, '%s/global_connectivity' % ss)
         vol_dir_pref = '%s/volume.%s.anat' % (ss, ss)
         anat_dir = os.path.join(os.environ['hel'], vol_dir_pref)
         wholet1 = os.path.join(anat_dir, 'T1_biascorr.nii.gz')
@@ -29,7 +29,7 @@ if __name__ == '__main__':
                               '%s_gm_mask_frac_bin_flirted.mat' % ss)
         for lb in t_dict:
             epi_nii_pref = os.path.join(conn_dir,
-                                        'ccf_%s_out_%s_gm_mskd.ijk' % (lb, ss))
+                                        'ccf_abs_%s_out_%s_gm_mskd.ijk' % (lb, ss))
             gp.converttoNIFTI(conn_dir, '%s+orig' % epi_nii_pref,
                               epi_nii_pref)
             in_fl = '%s.nii.gz' % epi_nii_pref
