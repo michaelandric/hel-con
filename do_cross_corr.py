@@ -57,7 +57,7 @@ def ccf_xcorr_matapply(v, mode='same'):
     lags = lags[269:278]
     lags[np.isnan(r)] = 0
     r[np.isnan(r)] = 0
-    return (abs(r).max(), lags[abs(r).argmax()])
+    return (r[abs(r).max()], lags[abs(r).argmax()])
 
 
 if __name__ == '__main__':
