@@ -93,12 +93,11 @@ def tcorr_ccf_t_test(stdoutdir, ss_list, outpref):
     Testing whether biaseless ISC values
     differ from 0
     """
+    corr_dir = os.path.join(os.environ['hel'], 'ccf_cor')
     a_set = []
     for ss in ss_list:
-        ss_corr_dir = os.path.join(os.environ['hel'], 'graph_analyses',
-                                   ss, 'global_connectivity')
-        pref = 'ccf_vals_out_%s_gm_mskd.ijk_fnirted_MNI2mm.nii.gz' % ss
-        a_set.append(os.path.join(ss_corr_dir, pref))
+        pref = 'ccf_abs_vals_out_%s_gm_mskd.ijk_fnirted_MNI2mm.nii.gz' % ss
+        a_set.append(os.path.join(corr_dir, pref))
     a_set = ' '.join(a_set)
 
     f = open('%s/stdout_from_3dttest++.txt' % stdoutdir, 'w')
@@ -116,10 +115,10 @@ if __name__ == '__main__':
         subj_list.append('hel%d' % i)
     subj_list.remove('hel9')   # because this is bad subj
 
-    out_dir = os.path.join(os.environ['hel'], 'tcorr_group')
+    out_dir = os.path.join(os.environ['hel'], 'ccf_cor')
     stdout_dir = os.path.join(out_dir, 'stdout_files')
     if not os.path.exists(stdout_dir):
         os.makedirs(stdout_dir)
     graph_dir = os.path.join(os.environ['hel'], 'graph_analyses')
-    outpref = os.path.join(out_dir, 'tcorr_ttest_ccf_vals')
+    outpref = os.path.join(out_dir, 'tcorr_ttest_ccf_abs_vals')
     tcorr_ccf_t_test(stdout_dir, subj_list, outpref)
