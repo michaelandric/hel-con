@@ -8,8 +8,7 @@ Created on Thu Jun 11 12:59:05 2015
 import os
 import general_procedures as gp
 
-mod_dir = os.path.join(os.environ['hel'],
-                        'graph_analyses/group_modularity_thr0.5msk')
+conn_dir = os.path.join(os.environ['hel'], 'ccf_cor')
 
 if __name__ == '__main__':
 
@@ -22,8 +21,8 @@ if __name__ == '__main__':
 
     for hemi in ['lh', 'rh']:
         print 'Doing %s ' % hemi
-        parent_pref = os.path.join(mod_dir,
-                                   'degrees_group_task_diff_thr8_component_dens_0.1.vals.ijk')
+        parent_pref = os.path.join(conn_dir,
+                                   'ccf_abs_lag_out_group_gm_mskd_wilcox_bucket')
         outname = '%s_%s_pn%s_MNI_N27.1D' % (parent_pref, hemi, pn)
-        gp.vol2surf_mni(mod_dir, hemi, '%s+tlrc' % parent_pref,
+        gp.vol2surf_mni(conn_dir, hemi, '%s+tlrc' % parent_pref,
                         pn, outname)
