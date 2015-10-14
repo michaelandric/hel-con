@@ -7,6 +7,7 @@ cd(ccfdir);
 
 subjs = linspace(1, 19, 19);
 subjs(9) = []
+disp(subjs)
 
 n_vox = 20071;
 subj_mat = zeros(length(subjs), n_vox);
@@ -26,7 +27,7 @@ n_perms = 100;
 q_vec = zeros(n_perms, 1);
 mod_arr = zeros(n_vox, n_perms);
 for i = 1:n_perms
-    disp('iter %d', i)
+    disp(sprintf('iter %d', i))
     disp(datestr(now))
     [mem, qual] = modularity_louvain_und_sign(rho);
     q_vec(i) = qual;
