@@ -6,7 +6,7 @@ ccfdir = sprintf('/home/cnari/cnari_projects/normal_language/HEL/ccf_cor/');
 cd(ccfdir);
 
 subjs = linspace(1, 19, 19);
-subjs(9) = []
+subjs(9) = [];
 disp(subjs)
 
 n_vox = 20071;
@@ -17,7 +17,7 @@ for s = 1:length(subjs)
 end
 
 rho = corr(subj_mat, 'Type', 'Spearman');
-rho(rho < 0) = 0;
+% rho(rho < 0) = 0;
 
 % [mem, qual] = community_louvain(rho);
 % below function accepts negative weights
@@ -29,7 +29,7 @@ mod_arr = zeros(n_vox, n_perms);
 for i = 1:n_perms
     disp(sprintf('iter %d', i))
     disp(datestr(now))
-    [mem, qual] = modularity_louvain_und_sign(rho);
+    [mem qual] = modularity_louvain_und_sign(rho);
     q_vec(i) = qual;
     mod_arr(:, i) = mem;
 end
