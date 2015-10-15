@@ -38,9 +38,27 @@ mod_fname = sprintf('ccf_abs_lag_out.no_thresh.mod_arr')
 dlmwrite(mod_fname, mod_arr, ' ');
 
 q_fname = sprintf('ccf_abs_lag_out.no_thresh.qval')
-qfile = open(q_fname, 'w');
+qfile = fopen(q_fname, 'w');
 for qn = 1:length(q_vec)
     fprintf(qfile, '%f\n', q_vec(qn));
 end
 fclose(qfile);
+
+[m, id] = max(q_vec)
+max_mod_arr = mod_arr(:, id);
+max_mod_fname = sprintf('ccf_abs_lag_out.no_thresh.mod_arr_max');
+mmfile = fopen(max_mod_fname, 'w');
+for ma = 1:n_vox
+    fprintf(mmfile, '%d\n', max_mod_arr(ma));
+end
+fclose(mmfile);
+
+% module map came out looking like noise
+% testing other ways of achieving
+% [mem, qual] = community_louvain(rho2);
+% dlmwrite(sprintf('pos_thresh.ccf_lag_out.mod'), mem, '\n');
+
+% ag_mod = agreement(mod_arr);
+% ag_mod = ag_mod / n_perms;
+% ag_cons = consensus_und(ag_mod, .3, 50);
 

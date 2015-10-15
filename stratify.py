@@ -31,17 +31,17 @@ def assigner(inputname, outname):
     for i, v in enumerate(vertvals):
         if v == 777:
             binvals[i] = 4
-        elif v < .35:
+        elif v < .4:
             binvals[i] = 5
-        elif v > .35 and v <= .4:
-            binvals[i] = 6
         elif v > .4 and v <= .45:
-            binvals[i] = 7
+            binvals[i] = 6
         elif v > .45 and v <= .5:
-            binvals[i] = 8
+            binvals[i] = 7
         elif v > .5 and v <= .55:
+            binvals[i] = 8
+        elif v > .55 and v <= .6:
             binvals[i] = 9
-        elif v > .55:
+        elif v > .6:
             binvals[i] = 10
 
     binvals = map(int, binvals)
