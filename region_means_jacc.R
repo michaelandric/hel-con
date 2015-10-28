@@ -50,8 +50,10 @@ for (h in c('lh', 'rh'))
                 ss_mat[, ss] <- read.table(paste(graphdir, subjects[ss],
                                                  '/jaccard_res/jacc_', subjects[ss], '_', td, '.ijk_', h, '_mesh140.1D', sep=''))$V2
             }
-            reg_dat_vec <- c(reg_dat_vec, apply(ss_mat[which(rnodes==1),], 2, mean))
-            print(reg_dat_vec)
+            rnode_set <- filter(data.frame(ss_mat), rnodes==1)
+            rnode_set[rnode_set==777] = NA
+            reg_dat_vec <- c(reg_dat_vec, as.numeric(colMeans(rnode_set, na.rm=TRUE)))
+            # print(reg_dat_vec)
             reg_name_vec <- c(reg_name_vec, rep(reg, length(subjects)))
             dens_vec <- c(dens_vec, rep(td, length(subjects)))
         }
