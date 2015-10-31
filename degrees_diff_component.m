@@ -5,7 +5,7 @@ cd('/cnari/normal_language/HEL/graph_analyses/group_modularity_thr0.5msk');
 
 diff_thr = 8
 
-td = .1
+td = .15
 fname1 = sprintf('group_task_sess_%d.dens_%g.maxq_tree.ijk_fnirted_MNI4mm_thr0.5.txt', 1, td);
 M1 = dlmread(fname1);
 M1 = M1+1;
