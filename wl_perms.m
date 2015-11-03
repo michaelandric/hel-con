@@ -4,6 +4,7 @@
 path(path,'/home/andric/BCT2015');
 path(path,'/home/andric/graphkernels');
 path(path,'/home/andric/graphkernels/labeled');
+path(path,'/home/andric/graphkernels/svm');
 
 cd('/cnari/normal_language/HEL/graph_analyses/group_modularity_thr0.5msk');
 
@@ -37,8 +38,8 @@ for i = 1:n_perms
     ags(2).am = b_ag;
     ags(1).al = cellfun(@(x) find(x),num2cell(a_ag,2),'un',0);
     ags(2).al = cellfun(@(x) find(x),num2cell(b_ag,2),'un',0);
-    [km, rt] = WL(ags, 1, 0);
-    nrm_km = normalizekm(km{1});
+    [km, rt] = WL(ags, 2, 0);
+    nrm_km = normalizekm(km{3});
     perm_vec(i) = nrm_km(1, 2);
     toc;
 
@@ -63,8 +64,8 @@ ags(2).am = m_ag2;
 ags(1).al = cellfun(@(x) find(x),num2cell(m_ag1,2),'un',0)
 ags(2).al = cellfun(@(x) find(x),num2cell(m_ag2,2),'un',0)
 
-[km, rts] = WL(ags, 1, 0);
-val_nrm_km = normalizekm(km{1});
+[km, rts] = WL(ags, 2, 0);
+val_nrm_km = normalizekm(km{3});
 km_simval_name = sprintf('wl_similarity_diffthr%d_dens_%g.wl_simval', diff_thr, td);
 km_simval_file = fopen(km_simval_name, 'w');
 fprintf(km_simval_file, '%d\n', val_nrm_km(1, 2));
