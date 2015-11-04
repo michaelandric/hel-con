@@ -49,7 +49,7 @@ sorted_perm_vec = sort(perm_vec);
 pv_outname = sprintf('wl_similarity_diffthr%d_dens_%g.perm_vec', diff_thr, td)
 pv_file = fopen(pv_outname, 'w');
 for pv = 1:length(sorted_perm_vec)
-    fprintf(pv_file, '%d\n', sorted_perm_vec(pv));
+    fprintf(pv_file, '%g\n', sorted_perm_vec(pv));
 end
 fclose(pv_file);
 
@@ -68,6 +68,6 @@ ags(2).al = cellfun(@(x) find(x),num2cell(m_ag2,2),'un',0)
 val_nrm_km = normalizekm(km{3});
 km_simval_name = sprintf('wl_similarity_diffthr%d_dens_%g.wl_simval', diff_thr, td);
 km_simval_file = fopen(km_simval_name, 'w');
-fprintf(km_simval_file, '%d\n', val_nrm_km(1, 2));
+fprintf(km_simval_file, '%g\n', val_nrm_km(1, 2));
 fclose(km_simval_file);
 
