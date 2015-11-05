@@ -24,8 +24,6 @@ M = [M1, M2];
 perm_vec = zeros(n_perms, 1);
 rp = randperm(perms_available);
 for i = 1:n_perms
-    tic;
-%    r = randperm(perms_available, 1);
     r = rp(i);
     M_a = M(:,perm_a(r, :));
     M_b = M(:,perm_b(r, :));
@@ -43,8 +41,6 @@ for i = 1:n_perms
     [km, rt] = WL(ags, 2, 0);
     nrm_km = normalizekm(km{3});
     perm_vec(i) = nrm_km(1, 2);
-    toc;
-
 end
 
 sorted_perm_vec = sort(perm_vec);
