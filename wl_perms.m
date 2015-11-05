@@ -2,9 +2,7 @@
 % http://www.jmlr.org/papers/volume12/shervashidze11a/shervashidze11a.pdf
 % http://mlcb.is.tuebingen.mpg.de/Mitarbeiter/Nino/Graphkernels/
 path(path,'/home/andric/BCT2015');
-path(path,'/home/andric/graphkernels');
-path(path,'/home/andric/graphkernels/labeled');
-path(path,'/home/andric/graphkernels/svm');
+addpath(genpath('/home/andric/graphkernels'));
 
 cd('/cnari/normal_language/HEL/graph_analyses/group_modularity_thr0.5msk');
 
@@ -24,15 +22,19 @@ M2 = M2+1;
 M = [M1, M2];
 
 perm_vec = zeros(n_perms, 1);
+rp = randperm(perms_available);
 for i = 1:n_perms
     tic;
-    r = randperm(perms_available, 1);
+%    r = randperm(perms_available, 1);
+    r = rp(i);
     M_a = M(:,perm_a(r, :));
     M_b = M(:,perm_b(r, :));
     a_ag = agreement(M_a);
-    a_ag(a_ag < diff_thr) = 0;
+    a_ag(a_ag <= diff_thr) = 0;
+    a_ag(a_ag > 0) = 1;
     b_ag = agreement(M_b);
-    b_ag(b_ag < diff_thr) = 0;
+    b_ag(b_ag <= diff_thr) = 0;
+    b_ag(b_ag > 0) = 1;
     ags = struct('am', {}, 'al', {});
     ags(1).am = a_ag;
     ags(2).am = b_ag;
@@ -55,14 +57,16 @@ fclose(pv_file);
 
 
 m_ag1 = agreement(M1);
+m_ag1(m_ag1 <= diff_thr) = 0;
+m_ag1(m_ag1 > 0) = 1;
 m_ag2 = agreement(M2);
-m_ag1(m_ag1 < diff_thr) = 0;
-m_ag2(m_ag2 < diff_thr) = 0;
+m_ag2(m_ag2 <= diff_thr) = 0;
+m_ag2(m_ag2 > 0) = 1;
 ags = struct('am', {}, 'al', {})
 ags(1).am = m_ag1;
 ags(2).am = m_ag2;
-ags(1).al = cellfun(@(x) find(x),num2cell(m_ag1,2),'un',0)
-ags(2).al = cellfun(@(x) find(x),num2cell(m_ag2,2),'un',0)
+ags(1).al = cellfun(@(x) find(x),num2cell(m_ag1,2),'un',0);
+ags(2).al = cellfun(@(x) find(x),num2cell(m_ag2,2),'un',0);
 
 [km, rts] = WL(ags, 2, 0);
 val_nrm_km = normalizekm(km{3});
