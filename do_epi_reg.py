@@ -36,7 +36,7 @@ if __name__ == '__main__':
             in_fl = '%s.nii.gz' % epi_nii_pref
             out_fl = '%s_flirted' % epi_nii_pref
             gp.applywarpFLIRT(ss, ava_dir, in_fl, extrt1,
-                              out_fl, premat, 'nn')
+                              out_fl, premat, 'trilinear')
 
             fn_coef = os.path.join(anat_dir,
                                    'T1_to_MNI_nonlin_coeff.nii.gz')
