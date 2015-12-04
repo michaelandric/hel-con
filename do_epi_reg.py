@@ -26,22 +26,21 @@ if __name__ == '__main__':
         premat = os.path.join(anat_dir,
                               '%s_gm_mask_frac_bin_flirted.mat' % ss)
         
-        deg_dir = os.path.join(graph_dir, ss, 'degrees')
+        ava_dir = os.path.join(os.environ['hel'], 'ava')
         for i in range(1, 3):
-            for thr in [.05, .1, .15, .2]:
-                epi_nii_pref = os.path.join(deg_dir,
-                                            'task_sess_%s_%s.dens_%s.degrees.txt.ijk' %
-                                            (i, ss, thr))
-                gp.converttoNIFTI(deg_dir, '%s+orig' % epi_nii_pref,
-                                  epi_nii_pref)
-                in_fl = '%s.nii.gz' % epi_nii_pref
-                out_fl = '%s_flirted' % epi_nii_pref
-                gp.applywarpFLIRT(ss, deg_dir, in_fl, extrt1,
-                                  out_fl, premat, 'nn')
-    
-                fn_coef = os.path.join(anat_dir,
-                                       'T1_to_MNI_nonlin_coeff.nii.gz')
-                in_fn = '%s.nii.gz' % out_fl
-                out_fn = '%s_fnirted_MNI2mm' % epi_nii_pref
-                gp.applywarpFNIRT(ss, deg_dir, in_fn, out_fn,
-                                  fn_coef, 'nn')
+            epi_nii_pref = os.path.join(ava_dir,
+                                        'ava_task_sess_%s_%s_gm_mskd.txt.ijk' %
+                                        (i, ss))
+            gp.converttoNIFTI(ava_dir, '%s+orig' % epi_nii_pref,
+                              epi_nii_pref)
+            in_fl = '%s.nii.gz' % epi_nii_pref
+            out_fl = '%s_flirted' % epi_nii_pref
+            gp.applywarpFLIRT(ss, ava_dir, in_fl, extrt1,
+                              out_fl, premat, 'nn')
+
+            fn_coef = os.path.join(anat_dir,
+                                   'T1_to_MNI_nonlin_coeff.nii.gz')
+            in_fn = '%s.nii.gz' % out_fl
+            out_fn = '%s_fnirted_MNI2mm' % epi_nii_pref
+            gp.applywarpFNIRT(ss, ava_dir, in_fn, out_fn,
+                              fn_coef, 'trilinear')
