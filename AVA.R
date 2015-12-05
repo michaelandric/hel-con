@@ -3,14 +3,17 @@
 ## Dec 2015. updated version by MJA
 library(pastecs)
 ssname <- commandArgs(trailingOnly=T)
+s <- c(.5, 1, .5)   # this for smoothing
+s <- s/sum(s)
 
 tps_func <- function(x)
 {
-    tps <- turnpoints(x)
+    xflt <- na.omit(filter(x, sides=2, s)) 
+    tps <- turnpoints(xflt)
     peaksLocation <- which(tps$peaks==TRUE)
     pitsLocation <- which(tps$pits==TRUE)
-    peaks_vec <- x[peaksLocation]
-    pits_vec <- x[pitsLocation]
+    peaks_vec <- xflt[peaksLocation]
+    pits_vec <- xflt[pitsLocation]
     varPeaks <- var(peaks_vec)
     varPits <- var(pits_vec)
     logratio <- log(varPeaks/varPits)
@@ -24,7 +27,7 @@ for (i in seq(2))
     inName <- paste('task_sess_',i,'_',ssname,'_gm_mskd.txt', sep='')
     inFile <- paste(inPath, inName, sep='')
     outPath <- inPath
-    outName <- paste('ava_task_sess_',i,'_',ssname,'_gm_mskd.txt', sep='')
+    outName <- paste('ava_smth_task_sess_',i,'_',ssname,'_gm_mskd.txt', sep='')
     outFile <- paste(outPath, outName, sep='')
 
     myts <- as.matrix(read.table(inFile))
