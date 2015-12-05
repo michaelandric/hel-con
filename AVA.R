@@ -6,7 +6,7 @@ ssname <- commandArgs(trailingOnly=T)
 s <- c(.5, 1, .5)   # this for smoothing
 s <- s/sum(s)
 
-tps_func <- function(x)
+tps_func <- function(x, s)
 {
     xflt <- na.omit(filter(x, sides=2, s)) 
     tps <- turnpoints(xflt)
@@ -31,7 +31,7 @@ for (i in seq(2))
     outFile <- paste(outPath, outName, sep='')
 
     myts <- as.matrix(read.table(inFile))
-    outvec <- apply(myts, 1, tps_func)
+    outvec <- apply(myts, 1, tps_func, s)
     outvec[is.na(outvec)] <- 0
 
     write.table(round(outvec, 4), outFile, row.names=FALSE, col.names=FALSE)
