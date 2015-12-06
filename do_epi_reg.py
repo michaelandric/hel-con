@@ -29,7 +29,7 @@ if __name__ == '__main__':
         ava_dir = os.path.join(os.environ['hel'], 'ava')
         for i in range(1, 3):
             epi_nii_pref = os.path.join(ava_dir,
-                                        'ava_task_sess_%s_%s_gm_mskd.txt.ijk' %
+                                        'ava_smth_task_sess_%s_%s_gm_mskd.txt.ijk' %
                                         (i, ss))
             gp.converttoNIFTI(ava_dir, '%s+orig' % epi_nii_pref,
                               epi_nii_pref)
