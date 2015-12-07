@@ -24,6 +24,7 @@ sfx = 'txt.ijk_fnirted_MNI4mm_thr0.5.txt'
 
 for thr in [.05, .1, .15, .2]:
     for r in range(1, 3):
+        print('Doing deg mat thr: %s, run %s' % (thr, r))
         deg_mat = np.zeros(nvox*len(subj_list)).reshape(nvox, len(subj_list))
         for i, ss in enumerate(subj_list):
             deg_dir = os.path.join(graph_dir, ss, 'degrees')
@@ -35,6 +36,7 @@ for thr in [.05, .1, .15, .2]:
         np.savetxt(out_f, deg_mat, fmt='%i')
 
 for r in range(1, 3):
+    print('Doing ava mat, run %s' % r)
     # ava_mat1 is smth data
     # ava_mat2 is not smth data
     ava_mat1 = np.zeros(nvox*len(subj_list)).reshape(nvox, len(subj_list))
