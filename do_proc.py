@@ -32,7 +32,7 @@ if __name__ == '__main__':
             os.makedirs(st_odir)
         for i in range(1, 3):
             epi_nii_pref = os.path.join(ava_dir,
-                                        'ava_task_sess_%s_%s_gm_mskd.txt' %
+                                        'ava_smth_task_sess_%s_%s_gm_mskd.txt' %
                                         (i, ss))
             in_resamp_pref = os.path.join(ava_dir,
                                           '%s.ijk_fnirted_MNI2mm' % epi_nii_pref)
