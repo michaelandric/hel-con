@@ -6,7 +6,6 @@ Created on Sat Jun 20 17:12:16 2015
 """
 
 import os
-import numpy as np
 from shlex import split
 from subprocess import call, STDOUT
 
@@ -108,6 +107,31 @@ def tcorr_ccf_t_test(stdoutdir, ss_list, outpref):
                      outpref))
     call(cmdargs, stdout=f, stderr=STDOUT)
     f.close()
+    
+def ava_main(stdoutdir, ss_list, outpref):
+    """
+    Test ava in each task_sess_1 (VIEW1) and task_sess_2 (VIEW2)
+    """
+    ava_dir = os.path.join(os.environ['hel'], 'ava')
+    a_set = []
+    b_set = []
+    for ss in ss_list:
+        pref_a = 'ava_smth_task_sess_1_%s_gm_mskd.txt.ijk_fnirted_MNI2mm.nii.gz' % ss
+        pref_b = 'ava_smth_task_sess_2_%s_gm_mskd.txt.ijk_fnirted_MNI2mm.nii.gz' % ss
+        a_set.append(os.path.join(ava_dir, pref_a))
+        b_set.append(os.path.join(ava_dir, pref_b))
+    a_set = ' '.join(a_set)
+    b_set = ' '.join(b_set)
+    f = open('%s/stdout_from_3dttest++.txt' % stdoutdir, 'w')
+    cmdargs = split('3dttest++ -setA %s -labelA ava_sess_1 -setB %s -labelB ava_sess_2 \
+                    -mask %s/MNI152_T1_2mm_brain_mask_dil1.nii.gz \
+                    -paired -prefix %s' %
+                    (a_set, b_set,
+                     '%s/data/standard' % os.environ['FSLDIR'], outpref))
+    call(cmdargs, stdout=f, stderr=STDOUT)
+    f.close()
+
+
 
 if __name__ == '__main__':
     subj_list = []
@@ -115,10 +139,10 @@ if __name__ == '__main__':
         subj_list.append('hel%d' % i)
     subj_list.remove('hel9')   # because this is bad subj
 
-    out_dir = os.path.join(os.environ['hel'], 'ccf_cor')
+    out_dir = os.path.join(os.environ['hel'], 'ava')
     stdout_dir = os.path.join(out_dir, 'stdout_files')
     if not os.path.exists(stdout_dir):
         os.makedirs(stdout_dir)
-    graph_dir = os.path.join(os.environ['hel'], 'graph_analyses')
-    outpref = os.path.join(out_dir, 'tcorr_ttest_ccf_abs_vals')
-    tcorr_ccf_t_test(stdout_dir, subj_list, outpref)
+
+    outpref = os.path.join(out_dir, 'ttest_out_ava_smth')
+    ava_main(stdout_dir, subj_list, outpref)
