@@ -41,7 +41,7 @@ for r in range(1, 3):
     # ava_mat2 is not smth data
     ava_mat1 = np.zeros(nvox*len(subj_list)).reshape(nvox, len(subj_list))
     ava_mat2 = np.zeros(nvox*len(subj_list)).reshape(nvox, len(subj_list))
-    for i, ss in subj_list:
+    for i, ss in enumerate(subj_list):
         ava_name1 = 'ava_smth_task_sess_%s_%s_gm_mskd.%s' % (r, ss, sfx)
         ava_name2 = 'ava_task_sess_%s_%s_gm_mskd.%s' % (r, ss, sfx)
         ava_mat1[:, i] = np.loadtxt(os.path.join(ava_dir, ava_name1))
