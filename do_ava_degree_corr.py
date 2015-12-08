@@ -9,8 +9,6 @@ import os
 import numpy as np
 
 
-nvox = 20071
-
 def rw_corr_coeff(A, B):
     """
     inspiration from
@@ -48,3 +46,5 @@ if __name__ == '__main__':
             
             corr_out = rw_corr_coeff(ava_mat, deg_mat)
             outname = 'ava_deg_corr_sess_%s_dens_%s_out' % (r, thr)
+            outf = os.path.join(ava_dir, outname)
+            np.savetxt(outf, corr_out, fmt='%.4f')
