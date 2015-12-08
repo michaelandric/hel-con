@@ -45,6 +45,6 @@ if __name__ == '__main__':
             deg_mat = np.loadtxt(os.path.join(grp_deg_dir, deg_name))
             
             corr_out = rw_corr_coeff(ava_mat, deg_mat)
-            outname = 'ava_deg_corr_sess_%s_dens_%s_out' % (r, thr)
+            outname = 'ava_smth_deg_corr_sess_%s_dens_%s_out' % (r, thr)
             outf = os.path.join(ava_dir, outname)
             np.savetxt(outf, corr_out, fmt='%.4f')
