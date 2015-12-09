@@ -6,8 +6,10 @@ Created on Sat Jun 20 17:12:16 2015
 """
 
 import os
+import sys
 from shlex import split
 from subprocess import call, STDOUT
+import logging
 
 
 def t_test(stdoutdir, ss_list, outpref):
@@ -129,9 +131,8 @@ def ava_main(stdoutdir, ss_list, outpref):
                     (a_set, b_set,
                      '%s/data/standard' % os.environ['FSLDIR'], outpref))
     call(cmdargs, stdout=f, stderr=STDOUT)
-    f.close()
-
-
+    f.close()    
+    
 
 if __name__ == '__main__':
     subj_list = []
