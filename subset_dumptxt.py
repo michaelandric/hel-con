@@ -84,7 +84,6 @@ def build_subset_runs(subjid, proc_dir, runs):
     this cuts to runs 1 and 3 (and 4 and 6)
     """
     inp_list = []
-#    runs = [1, 3, 4, 6]
     subs = ['9..78, 108..210', '9..40, 63..131, 155..220']
     sub_dct = dict(zip(runs[:2], subs))
     sub_dct.update(dict(zip(runs[2:], subs)))
@@ -116,7 +115,7 @@ if __name__ == '__main__':
         for r in runs:
             in_list = build_subset_runs(ss, preproc_dir, runs)
             cat_out_name = os.path.join(preproc_dir,
-                                        'task_sess_r0{}_{}_gm_mskd'.format(r, ss))
+                                        'task_r0{}_{}_gm_mskd'.format(r, ss))
             TScat(stdout_dir, in_list, cat_out_name)
 
             mask_dir = '%s/%s/volume.%s.anat/' % (os.environ['hel'], ss, ss)
