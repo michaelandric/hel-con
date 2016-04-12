@@ -28,10 +28,7 @@ if __name__ == '__main__':
         master_file = os.path.join(anat_dir,
                                    '{}_gm_mask_frac_bin.nii.gz'.format(ss))
 
-        first_name = os.path.join(conn_dir,
-                                  'avg_corrZ_task_runs1and3_{}'.format(ss))
-        second_name = os.path.join(conn_dir,
-                                   'avg_corrZ_task_runs4and6_{}'.format(ss))
+        for r in [1, 3, 4, 6]:
+            fname = os.path.join(conn_dir, 'avg_corrZ_task_r0{}_{}'.format(r, ss))
+            gp.undump(ss, ijk_name, fname, conn_dir, master_file, 'float')
 
-        gp.undump(ss, ijk_name, first_name, conn_dir, master_file, 'float')
-        gp.undump(ss, ijk_name, second_name, conn_dir, master_file, 'float')
