@@ -33,5 +33,5 @@ if __name__ == '__main__':
         second_name = os.path.join(conn_dir,
                                    'avg_corrZ_task_runs4and6_{}'.format(ss))
 
-        gp.undump(ss, ijk_name, first_name, conn_dir, master_file)
-        gp.undump(ss, ijk_name, second_name, conn_dir, master_file)
+        gp.undump(ss, ijk_name, first_name, conn_dir, master_file, 'float')
+        gp.undump(ss, ijk_name, second_name, conn_dir, master_file, 'float')
