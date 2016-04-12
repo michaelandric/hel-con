@@ -40,9 +40,11 @@ if __name__ == '__main__':
             os.path.join(conn_dir, 'avg_corrZ_task_r0{}_{}'.format(r, ss))))
 
         first = np.array([corrZ_files[0], corrZ_files[1]]).mean(0)
-        first_name = 'avg_corrZ_task_runs1and3_{}'.format(ss)
+        first_name = os.path.join(conn_dir,
+                                  'avg_corrZ_task_runs1and3_{}'.format(ss))
         np.savetxt(first_name, first, fmt='%.4f')
 
         second = np.array([corrZ_files[2], corrZ_files[3]]).mean(0)
-        second_name = 'avg_corrZ_task_runs4and6_{}'.format(ss)
+        second_name = os.path.join(conn_dir,
+                                   'avg_corrZ_task_runs4and6_{}'.format(ss))
         np.savetxt(second_name, second, fmt='%.4f')
