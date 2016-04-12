@@ -27,6 +27,14 @@ def TScat(stdout_dir, input_list, out_pref):
     call(cmdargs, stdout=f, stderr=STDOUT)
     f.close
 
+def TScat_single(stdout_dir, input_sub, out_pref):
+    """
+    Takes one input (with sub-bricks indicated)
+    """
+    f = open('%s/stdout_from_TScat.txt' % stdout_dir, 'w')
+    cmdargs = split('3dTcat -prefix {} {}'.format(out_pref, input_sub))
+    call(cmdargs, stdout=f, stderr=STDOUT)
+    f.close
 
 def maskdump(stdout_dir, mask, in_pref, out_pref):
     outf = open(out_pref, 'w')
@@ -105,7 +113,7 @@ if __name__ == '__main__':
             preproc_dir, ss, int(r), sub_dct[r])
             cat_out_name = os.path.join(preproc_dir,
                                         'task_r0{}_{}_gm_mskd'.format(r, ss))
-            TScat(stdout_dir, f, cat_out_name)
+            TScat_single(stdout_dir, f, cat_out_name)
 
             mask_dir = '%s/%s/volume.%s.anat/' % (os.environ['hel'], ss, ss)
             mask_pref = os.path.join(mask_dir, '%s_gm_mask_frac_bin' % ss)
