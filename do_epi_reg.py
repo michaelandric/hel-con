@@ -27,9 +27,13 @@ if __name__ == '__main__':
         conn_dir = os.path.join(graph_dir,
                                 '{}/single_run_global_connectivity'.format(ss))
 
-        for r in [1, 3, 4, 6]:
-            epi_nii_pref = os.path.join(conn_dir,
-                                        'avg_corrZ_task_r0{}_{}'.format(r, ss))
+        first_name = os.path.join(conn_dir,
+                                  'avg_corrZ_task_runs1and3_{}.ijk'.format(ss))
+        second_name = os.path.join(conn_dir,
+                                   'avg_corrZ_task_runs4and6_{}.ijk'.format(ss))
+
+        name_list = [first_name, second_name]
+        for epi_nii_pref in name_list:
             gp.converttoNIFTI(conn_dir, '{}+orig'.format(epi_nii_pref),
                               epi_nii_pref)
             in_fl = '{}.nii.gz'.format(epi_nii_pref)
