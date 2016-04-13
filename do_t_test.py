@@ -43,8 +43,8 @@ def t_test_subruns(stdoutdir, ss_list, outpref):
     a_sets = []
     b_sets = []
     for ss in ss_list:
-        pref_a = 'avg_corrZ_task_runs1and3_{}.ijk'.format(ss)
-        pref_b = 'avg_corrZ_task_runs4and6_{}.ijk'.format(ss)
+        pref_a = 'avg_corrZ_task_runs1and3_{}.ijk_fnirted_MNI2mm.nii.gz'.format(ss)
+        pref_b = 'avg_corrZ_task_runs4and6_{}.ijk_fnirted_MNI2mm.nii.gz'.format(ss)
 
         a_sets.append(os.path.join(top_dir, ss,
                                    'single_run_global_connectivity', pref_a))
