@@ -10,9 +10,7 @@ import general_procedures as gp
 
 
 if __name__ == '__main__':
-    subj_list = []
-    for i in range(1, 19):
-        subj_list.append('hel%d' % i)
+    subj_list = ['hel{}'.format(i) for i in range(1, 20)]
     subj_list.remove('hel9')   # because this is bad subj
 
     graph_dir = os.path.join(os.environ['hel'], 'graph_analyses')
@@ -24,23 +22,24 @@ if __name__ == '__main__':
         extrt1 = os.path.join(anat_dir, 'T1_biascorr_brain.nii.gz')
 
         premat = os.path.join(anat_dir,
-                              '%s_gm_mask_frac_bin_flirted.mat' % ss)
+                              '{}_gm_mask_frac_bin_flirted.mat'.format(ss))
         
-        ava_dir = os.path.join(os.environ['hel'], 'ava')
-        for i in range(1, 3):
-            epi_nii_pref = os.path.join(ava_dir,
-                                        'ava_smth_task_sess_%s_%s_gm_mskd.txt.ijk' %
-                                        (i, ss))
-            gp.converttoNIFTI(ava_dir, '%s+orig' % epi_nii_pref,
+        conn_dir = os.path.join(graph_dir,
+                                '{}/single_run_global_connectivity'.format(ss))
+
+        for r in [1, 3, 4, 6]:
+            epi_nii_pref = os.path.join(conn_dir,
+                                        'avg_corrZ_task_r0{}_{}'.format(r, ss))
+            gp.converttoNIFTI(conn_dir, '{}+orig'.format(epi_nii_pref),
                               epi_nii_pref)
-            in_fl = '%s.nii.gz' % epi_nii_pref
-            out_fl = '%s_flirted' % epi_nii_pref
-            gp.applywarpFLIRT(ss, ava_dir, in_fl, extrt1,
+            in_fl = '{}.nii.gz'.format(epi_nii_pref)
+            out_fl = '{}_flirted'.format(epi_nii_pref)
+            gp.applywarpFLIRT(ss, conn_dir, in_fl, extrt1,
                               out_fl, premat, 'trilinear')
 
             fn_coef = os.path.join(anat_dir,
                                    'T1_to_MNI_nonlin_coeff.nii.gz')
-            in_fn = '%s.nii.gz' % out_fl
-            out_fn = '%s_fnirted_MNI2mm' % epi_nii_pref
-            gp.applywarpFNIRT(ss, ava_dir, in_fn, out_fn,
+            in_fn = '{}.nii.gz'.format(out_fl)
+            out_fn = '{}_fnirted_MNI2mm'.format(epi_nii_pref)
+            gp.applywarpFNIRT(ss, conn_dir, in_fn, out_fn,
                               fn_coef, 'trilinear')
