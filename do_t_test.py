@@ -43,7 +43,7 @@ def t_test_subruns(stdoutdir, ss_list, outpref):
     a_sets = []
     b_sets = []
     for ss in ss_list:
-        pref_a = 'diff_avg_corrZ_task_runs4and6_{}+tlrc'.format(ss)
+        pref_a = 'diff_avg_corrZ_task_runs1and3_{}+tlrc'.format(ss)
         pref_b = 'diff_avg_corrZ_task_runs4and6_{}+tlrc'.format(ss)
 
         a_sets.append(os.path.join(top_dir, ss,
