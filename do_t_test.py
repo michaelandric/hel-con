@@ -43,8 +43,8 @@ def t_test_subruns(stdoutdir, ss_list, outpref):
     a_sets = []
     b_sets = []
     for ss in ss_list:
-        pref_a = 'diff_avg_corrZ_task_runs1and3_{}+tlrc'.format(ss)
-        pref_b = 'diff_avg_corrZ_task_runs4and6_{}+tlrc'.format(ss)
+        pref_a = 'mean_avg_corrZ_task_runs1and4_{}+tlrc'.format(ss)
+        pref_b = 'mean_avg_corrZ_task_runs3and6_{}+tlrc'.format(ss)
 
         a_sets.append(os.path.join(top_dir, ss,
                                    'single_run_global_connectivity', pref_a))
@@ -54,7 +54,7 @@ def t_test_subruns(stdoutdir, ss_list, outpref):
     b_sets = ' '.join(b_sets)
 
     f = open(os.path.join(stdoutdir, 'stdout_from_3dttest++.txt'), 'w')
-    cmdargs = split('3dttest++ -setA {} -labelA sess_1 -setB {} -labelB sess_2 \
+    cmdargs = split('3dttest++ -setA {} -labelA sess_1and3 -setB {} -labelB sess_4and6 \
                     -mask {} -paired -prefix {}'.format(
                     a_sets, b_sets,
                     os.path.join(os.environ['FSLDIR'],
@@ -172,5 +172,5 @@ if __name__ == '__main__':
     if not os.path.exists(stdout_dir):
         os.makedirs(stdout_dir)
 
-    outpref = os.path.join(out_dir, 'diff_ttest_subruns')
+    outpref = os.path.join(out_dir, 'mean_ttest_subruns')
     t_test_subruns(stdout_dir, subj_list, outpref)
