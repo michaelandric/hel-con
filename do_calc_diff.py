@@ -37,10 +37,12 @@ if __name__ == '__main__':
 
         f1 = os.path.join(conn_dir, 'avg_corrZ_task_r01_{}.{}'.format(ss, sfx))
         f3 = os.path.join(conn_dir, 'avg_corrZ_task_r03_{}.{}'.format(ss, sfx))
-        calc(f1, f3, os.path.join(conn_dir, 'diff_avg_corrZ_task_runs1and3'))
+        calc(f1, f3, os.path.join(conn_dir,
+                                  'diff_avg_corrZ_task_runs1and3_{}'.format(ss)))
 
         f4 = os.path.join(conn_dir, 'avg_corrZ_task_r04_{}.{}'.format(ss, sfx))
         f6 = os.path.join(conn_dir, 'avg_corrZ_task_r06_{}.{}'.format(ss, sfx))        
-        calc(f4, f6, os.path.join(conn_dir, 'diff_avg_corrZ_task_runs4and6'))
+        calc(f4, f6, os.path.join(conn_dir,
+                                  'diff_avg_corrZ_task_runs4and6_{}'.format(ss)))
 
     logging.info('3dcalc done')
