@@ -47,11 +47,13 @@ if __name__ == '__main__':
         f1 = os.path.join(conn_dir, 'avg_corrZ_task_r01_{}.{}'.format(ss, sfx))
         f3 = os.path.join(conn_dir, 'avg_corrZ_task_r03_{}.{}'.format(ss, sfx))
         f4 = os.path.join(conn_dir, 'avg_corrZ_task_r04_{}.{}'.format(ss, sfx))
-        f6 = os.path.join(conn_dir, 'avg_corrZ_task_r06_{}.{}'.format(ss, sfx))        
-        calc_mean(f1, f4, os.path.join(conn_dir,
-                                       'mean_avg_corrZ_task_runs1and4_{}'.format(ss)))
-        calc_mean(f3, f6, os.path.join(conn_dir,
-                                       'mean_avg_corrZ_task_runs3and6_{}'.format(ss)))
+        f6 = os.path.join(conn_dir, 'avg_corrZ_task_r06_{}.{}'.format(ss, sfx))
+        diff1and3 = os.path.join(conn_dir,
+                                 'diff_avg_corrZ_task_runs1and3_{}+tlrc'.format(ss))
+        diff4and6 = os.path.join(conn_dir,
+                                 'diff_avg_corrZ_task_runs4and6_{}+tlrc'.format(ss))
+        calc_mean(diff1and3, diff4and6,
+                  os.path.join(conn_dir, 'mean_diff_corrZ_task_{}'.format(ss)))
 
 
     logging.info('3dcalc done')

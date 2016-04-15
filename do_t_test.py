@@ -65,6 +65,30 @@ def t_test_subruns(stdoutdir, ss_list, outpref):
     f.close()
 
 
+def t_test_subruns_mean_diff(stdoutdir, ss_list, outpref):
+    """
+    testing 1st and 3rd run diff average with 4th and 6th diff
+    """
+    top_dir = os.path.join(os.environ['hel'], 'graph_analyses')
+    a_sets = []
+    for ss in ss_list:
+        pref_a = 'mean_diff_corrZ_task_{}+tlrc'.format(ss)
+        a_sets.append(os.path.join(top_dir, ss,
+                                   'single_run_global_connectivity', pref_a))
+    a_sets = ' '.join(a_sets)
+
+    f = open(os.path.join(stdoutdir, 'stdout_from_3dttest++.txt'), 'w')
+    cmdargs = split('3dttest++ -setA {} -labelA mean_diffs \
+                    -mask {} -prefix {}'.format(
+                    a_sets, 
+                    os.path.join(os.environ['FSLDIR'],
+                                 'data/standard', 
+                                 'MNI152_T1_2mm_brain_mask_dil1.nii.gz'),
+                    outpref))
+    call(cmdargs, stdout=f, stderr=STDOUT)
+    f.close()
+
+
 def t_test_subclust(stdoutdir, ss_list, cl, clst, outpref):
     """
     test between conditions
@@ -172,5 +196,5 @@ if __name__ == '__main__':
     if not os.path.exists(stdout_dir):
         os.makedirs(stdout_dir)
 
-    outpref = os.path.join(out_dir, 'mean_ttest_subruns')
-    t_test_subruns(stdout_dir, subj_list, outpref)
+    outpref = os.path.join(out_dir, 'mean_diff_ttest_subruns')
+    t_test_subruns_mean_diff(stdout_dir, subj_list, outpref)
