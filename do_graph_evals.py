@@ -22,65 +22,79 @@ def file_len(fname):
 if __name__ == '__main__':
 
     os.chdir(os.environ['hel'])
-    print os.getcwd()
+    print (os.getcwd())
 
-    top_dir = '%s/graph_analyses' % os.environ['hel']
+    top_dir = os.path.join(os.environ['hel'], 'graph_analyses')
     if not os.path.exists(top_dir):
         os.makedirs(top_dir)
 
     niter = 100
     mod_loc = 'modularity'
 
-    subj_list = ['hel19']
+    subj_list = ['hel{}'.format(i) for i in range(1, 20) if i is not 9]
+
     for ss in subj_list:
-        graph_dir = os.path.join(top_dir, '%s/graphs' % ss)
+        graph_dir = os.path.join(top_dir, '{}/subrun_graphs'.format(ss))
         if not os.path.exists(graph_dir):
-            os.makedirs(graph_dir)
-        mod_dir = os.path.join(top_dir, '%s/modularity' % ss)
+            os.makedirs(graph_dir)        
+
+        mod_dir = os.path.join(top_dir, '{}/subrun_modularity'.format(ss))
         if not os.path.exists(mod_dir):
-            os.makedirs(mod_dir)
-        trees_all_levl_dir = os.path.join(top_dir, '%s/hierarchy_trees' % ss)
+            os.makedirs(mod_dir)        
+
+        trees_all_levl_dir = os.path.join(top_dir,
+                                          '{}/subrun_hierarchy_trees'.format(ss))
         if not os.path.exists(trees_all_levl_dir):
-            os.makedirs(trees_all_levl_dir)
-        random_dir = os.path.join(top_dir, '%s/random' % ss)
+            os.makedirs(trees_all_levl_dir)        
+
+        random_dir = os.path.join(top_dir, '{}/subrun_random'.format(ss))
         if not os.path.exists(random_dir):
             os.makedirs(random_dir)
-        random_graph_dir = random_dir+'/graphs/'
+
+        random_graph_dir = random_dir+'/subrun_graphs/'
         if not os.path.exists(random_graph_dir):
             os.makedirs(random_graph_dir)
+
         rand_mod_dir = os.path.join(random_dir, mod_loc)
         if not os.path.exists(rand_mod_dir):
             os.makedirs(rand_mod_dir)
 
         proc_dir = os.path.join(os.environ['hel'], ss, 'preprocessing')
 
-        for session in range(1, 3):
-            ts_name = os.path.join(proc_dir,
-                                   'task_sess_%d_%s_gm_mskd.txt' %
-                                   (session, ss))
-            ts_file = np.loadtxt(ts_name)
-            n_nodes = file_len(ts_name)
+        for r in [1, 3]:
+            if r is 1:
+                session = 'first'
+            if r is 3:
+                session = 'second'
+            ts_nameA = os.path.join(proc_dir,
+                                    'task_r0{}_hel1_gm_mskd.txt'.format(r))
+            ts_nameB = os.path.join(proc_dir,
+                                    'task_r0{}_hel1_gm_mskd.txt'.format(r+3))
+            tsA = np.loadtxt(ts_nameA)
+            tsB = np.loadtxt(ts_nameB)
+            ts_file = np.column_stack([tsA, tsB])
+            n_nodes = file_len(ts_nameA)
 
-            for thresh_dens in [.05, .10, .15, .20]:
-                print 'Thresh: %s' % thresh_dens
-                print time.ctime()
-                graph_outname = 'task_sess_%d_%s.dens_%s.edgelist.gz' % \
-                    (session, ss, thresh_dens)
+            for thresh_dens in [.15]:
+                print ('Thresh: {}'.format(thresh_dens))
+                print (time.ctime())
+                graph_outname = 'task_{}_{}.dens_{}.edgelist.gz'.format(
+                    session, ss, thresh_dens)
                 gr = ge.Graphs(ss, ts_file, thresh_dens, graph_dir)
 
                 # making graph:
-                print 'Making graph... '+time.ctime()
+                print ('Making graph... '+time.ctime())
                 avg_r = np.zeros(1)
                 edg_lst = os.path.join(graph_dir, graph_outname)
                 avg_r[0] = gr.make_graph(edg_lst)
-                avg_r_val_name = 'Avg_rval_task_sess_%d_%s.dens_%s.txt' % \
-                    (session, ss, thresh_dens)
+                avg_r_val_name = 'Avg_rval_task_{}_{}.dens_{}.txt'.format(
+                    session, ss, thresh_dens)
                 avg_r_out = os.path.join(graph_dir, avg_r_val_name)
                 np.savetxt(avg_r_out, avg_r, fmt='%.4f')
 
                 # modularity and trees
-                graph_pref = 'task_sess_%d_%s.dens_%s.edgelist' % \
-                    (session, ss, thresh_dens)
+                graph_pref = 'task_{}_{}.dens_{}.edgelist'.format(
+                    session, ss, thresh_dens)
                 com = ge.CommunityDetect(os.path.join(graph_dir, graph_pref))
                 com.zipper('unzip')
                 com.convert_graph()
@@ -88,11 +102,11 @@ if __name__ == '__main__':
                 Qs = np.zeros(niter)
                 nmods = np.zeros(niter)
                 trees = np.zeros(n_nodes*niter).reshape(n_nodes, niter)
-                hierar_suff = 'task_sess_%d_%s.dens_%s.trees_hierarchy' % \
-                    (session, ss, thresh_dens)
-                for i in xrange(niter):
-                    print 'iter %d' % i
-                    hierarchy_tr_name = 'iter%d.%s' % (i, hierar_suff)
+                hierar_suff = 'task_{}_{}.dens_{}.trees_hierarchy'.format(
+                    session, ss, thresh_dens)
+                for i in range(niter):
+                    print ('iter {}'.format(i))
+                    hierarchy_tr_name = 'iter{}.{}'.format(i, hierar_suff)
                     hierarchy_tr_filename = os.path.join(trees_all_levl_dir,
                                                          hierarchy_tr_name)
                     Qs[i] = com.get_modularity(hierarchy_tr_filename)
@@ -101,16 +115,16 @@ if __name__ == '__main__':
                         tr = np.append(tr, tr[len(tr)-1])
                     trees[:, i] = tr
                     nmods[i] = n_m
-                Qs_outname = 'task_sess_%d_%s.dens_%s.Qval' % \
-                    (session, ss, thresh_dens)
+                Qs_outname = 'task_{}_{}.dens_{}.Qval'.format(
+                    session, ss, thresh_dens)
                 np.savetxt(os.path.join(mod_dir, Qs_outname), Qs, fmt='%.4f')
-                trees_outname = 'task_sess_%d_%s.dens_%s.trees' % \
-                    (session, ss, thresh_dens)
+                trees_outname = 'task_{}_{}.dens_{}.trees'.format(
+                    session, ss, thresh_dens)
                 np.savetxt(os.path.join(mod_dir, trees_outname),
                            trees, fmt='%i')
-                nmods_outname = 'task_sess_%d_%s.dens_%s.nmods' % \
-                    (session, ss, thresh_dens)
+                nmods_outname = 'task_{}_{}.dens_{}.nmods'.format(
+                    session, ss, thresh_dens)
                 np.savetxt(os.path.join(mod_dir, nmods_outname),
                            nmods, fmt='%i')
-                bin_file = '%s.bin' % graph_pref
+                bin_file = '{}.bin'.format(graph_pref)
                 os.remove(os.path.join(graph_dir, bin_file))
