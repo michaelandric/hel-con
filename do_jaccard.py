@@ -22,7 +22,7 @@ def jacc_evaluation(ss, density):
     tree_suff = 'maxq_tree'
     mod_dir = os.path.join(top_dir, ss, 'subrun_modularity')
     tree1_name = os.path.join(mod_dir,
-                              'task_sess_{}_{}.dens_{}.{}'.format(
+                              'task_{}_{}.dens_{}.{}'.format(
                               'first', ss, density, tree_suff))
     tree2_name = os.path.join(mod_dir,
                               'task_{}_{}.dens_{}.{}'.format(
@@ -49,7 +49,7 @@ def median_simil_777filt(subj_list, thresh_dens, mask, nvox=185456):
     print ('mask is \n{}'.format(mask))
     dat_suff = 'ijk_fnirted_MNI2mm.nii.gz'
     for i, ss in enumerate(subj_list):
-        simil_dir = '{}/graph_analyses/{}/jaccard_res'.format(
+        simil_dir = '{}/graph_analyses/{}/subrun_jaccard_res'.format(
             os.environ['hel'], ss)
         dat_name = 'jacc_{}_{}.{}'.format(ss, thresh_dens, dat_suff)
         dat_fname = os.path.join(simil_dir, dat_name)
