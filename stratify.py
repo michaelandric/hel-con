@@ -63,9 +63,12 @@ def assigner(inputname, outname):
 
 if __name__ == "__main__":
 
-    os.chdir('/cnari/normal_language/HEL/graph_analyses/group_jaccard')
+    os.chdir(os.path.join(os.environ['hel'], 'graph_analyses',
+                          'subrun_group_jaccard'))
+
     for h in ['lh', 'rh']:
-        for td in [.05, .1]:
-            inname = 'group_jaccard_median_%s_mesh140_%s.1D' % (h, td)
-            outname = 'group_jaccard_median_%s_mesh140_%s.stratified_2.1D' % (h, td)
+        for td in [.15]:
+            pref = 'subrun_group_jaccard_median_{}_mesh140_{}'.format(h, td)
+            inname = '{}.1D'.format(pref)
+            outname = '{}.stratified_2.1D'.format(pref)
             assigner(inname, outname)
