@@ -20,13 +20,13 @@ def jacc_evaluation(ss, density):
     Get Jaccard similarity coefficient
     """
     tree_suff = 'maxq_tree'
-    mod_dir = os.path.join(top_dir, '%s/modularity' % ss)
+    mod_dir = os.path.join(top_dir, '{}/modularity'.format(ss))
     tree1_name = os.path.join(mod_dir,
-                              'task_sess_%d_%s.dens_%s.%s' %
-                              (1, ss, density, tree_suff))
+                              'task_sess_{}_{}.dens_{}.{}'.format(
+                              1, ss, density, tree_suff))
     tree2_name = os.path.join(mod_dir,
-                              'task_sess_%d_%s.dens_%s.%s' %
-                              (2, ss, density, tree_suff))
+                              'task_sess_{}_{}.dens_{}.{}'.format(
+                              2, ss, density, tree_suff))
 
     simil = ge.Similarity()
     return simil.jaccard_vw(tree1_name, tree2_name)
@@ -42,21 +42,21 @@ def median_simil_777filt(subj_list, thresh_dens, mask, nvox=185456):
         else:
             return np.median(nr[nr != 777])
 
-    print 'Getting median at thresh %s' % thresh_dens
-    print time.ctime()
+    print ('Getting median at thresh {}'.format(thresh_dens))
+    print (time.ctime())
     simil_vals = np.zeros((nvox, len(subj_list)))
-    print simil_vals.shape
-    print 'mask is \n%s' % mask
+    print (simil_vals.shape)
+    print ('mask is \n{}'.format(mask))
     dat_suff = 'ijk_fnirted_MNI2mm.nii.gz'
     for i, ss in enumerate(subj_list):
-        simil_dir = '%s/graph_analyses/%s/jaccard_res' % \
-            (os.environ['hel'], ss)
-        dat_name = 'jacc_%s_%s.%s' % (ss, thresh_dens, dat_suff)
+        simil_dir = '{}/graph_analyses/{}/jaccard_res'.format(
+            os.environ['hel'], ss)
+        dat_name = 'jacc_{}_{}.{}'.format(ss, thresh_dens, dat_suff)
         dat_fname = os.path.join(simil_dir, dat_name)
-        cmdargs = split('3dmaskdump -mask %s %s' % (mask, dat_fname))
+        cmdargs = split('3dmaskdump -mask {} {}'.format(mask, dat_fname))
         dump_out = Popen(cmdargs, stdout=PIPE).communicate()
         out_dump = [dd for dd in dump_out[0].split('\n')]
-        for n in xrange(len(out_dump)-1):
+        for n in range(len(out_dump)-1):
             simil_vals[n, i] = out_dump[n].split()[3]
 
     return np.apply_along_axis(fltmedian, axis=1, arr=simil_vals)
@@ -71,7 +71,7 @@ if __name__ == '__main__':
 
     top_dir = '%s/graph_analyses' % os.environ['hel']
     if not os.path.exists(top_dir):
-        print 'Where is the top_dir?'
+        print ('Where is the top_dir?')
         sys.exit(1)
     group_dir = os.path.join(top_dir, 'group_jaccard')
     if not os.path.exists(group_dir):

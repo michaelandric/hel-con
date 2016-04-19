@@ -67,9 +67,9 @@ if __name__ == '__main__':
             if r is 3:
                 session = 'second'
             ts_nameA = os.path.join(proc_dir,
-                                    'task_r0{}_hel1_gm_mskd.txt'.format(r))
+                                    'task_r0{}_{}_gm_mskd.txt'.format(r, ss))
             ts_nameB = os.path.join(proc_dir,
-                                    'task_r0{}_hel1_gm_mskd.txt'.format(r+3))
+                                    'task_r0{}_{}_gm_mskd.txt'.format(r+3, ss))
             tsA = np.loadtxt(ts_nameA)
             tsB = np.loadtxt(ts_nameB)
             ts_file = np.column_stack([tsA, tsB])

@@ -11,24 +11,35 @@ import os
 import numpy as np
 import graph_evals as ge
 
-grp_conn_dir = os.path.join(os.environ['hel'],
-                            'graph_analyses', 'group_modularity_thr0.5msk')
-mod_dir = grp_conn_dir
 
 if __name__ == '__main__':
 
-    for thresh_dens in [.05, .10, .15, .20]:
-        gr = ge.Graphs('group', 'agreement_stuff',
-                       thresh_dens, grp_conn_dir)
+    subj_list = ['hel{}'.format(i) for i in range(1, 20) if i is not 9]
 
-        qsuff = 'agreement.nothr.Qval'
-        pref = 'group_task_2sess'
-        q_fname = '%s_dens_%s.%s' % (pref, thresh_dens, qsuff)
-        qval, iter_max = gr.max_q(os.path.join(mod_dir, q_fname))
-        tsuff = 'agreement.nothr.mod_arr'
-        trees_fname = '%s_dens_%s.%s' % (pref, thresh_dens, tsuff)
-        trees = np.loadtxt(os.path.join(mod_dir, trees_fname))
-        best_tree = trees[:, iter_max]+1
-        best_tree_fname = '%s_dens_%s.maxq_tree' % (pref, thresh_dens)
-        np.savetxt(os.path.join(mod_dir, best_tree_fname),
-                   best_tree, fmt='%i')
+    top_dir = os.path.join(os.environ['hel'], 'graph_analyses')
+    for ss in subj_list:
+        proc_dir = os.path.join(os.environ['hel'], ss, 'preprocessing')
+        mod_dir = os.path.join(top_dir, ss, 'subrun_modularity')
+
+        for session in range(1, 3):
+        for r in [1, 3]:
+            if r is 1:
+                session = 'first'
+            if r is 3:
+                session = 'second'
+            ts_name = os.path.join(proc_dir,
+                                   'task_r0{}_{}_gm_mskd.txt'.format(r, ss)
+            graph_dir = os.path.join(top_dir, ss, 'subrun_graphs')
+            for thresh_dens in [.15]:
+                gr = ge.Graphs(ss, ts_name, thresh_dens, graph_dir)
+                q_fname = 'task_{}_{}.dens_{}.Qval'.format(
+                    session, ss, thresh_dens)
+                qval, iter_max = gr.max_q(os.path.join(mod_dir, q_fname))
+                trees_fname = 'task_{}_{}.dens_{}.trees' % \
+                    (session, ss, thresh_dens)
+                trees = np.loadtxt(os.path.join(mod_dir, trees_fname))
+                best_tree = trees[:, iter_max]+1
+                best_tree_fname = 'task_{}_{}.dens_{}.maxq_tree' % \
+                    (session, ss, thresh_dens)
+                np.savetxt(os.path.join(mod_dir, best_tree_fname),
+                           best_tree, fmt='%i')
