@@ -32,7 +32,24 @@ def jacc_evaluation(ss, density):
     return simil.jaccard_vw(tree1_name, tree2_name)
 
 
-def median_simil_777filt(subj_list, thresh_dens, mask, nvox=185456):
+def jacc_subruns_eval(ss, density, r):
+    """
+    Get Jaccard similarity coefficient
+    """
+    tree_suff = 'maxq_tree'
+    mod_dir = os.path.join(top_dir, ss, 'subrun_modularity')
+    tree1_name = os.path.join(mod_dir,
+                              'task_r0{}_{}.dens_{}.{}'.format(
+                              r, ss, density, tree_suff))
+    tree2_name = os.path.join(mod_dir,
+                              'task_r0{}_{}.dens_{}.{}'.format(
+                              r+3, ss, density, tree_suff))
+
+    simil = ge.Similarity()
+    return simil.jaccard_vw(tree1_name, tree2_name)
+
+
+def median_simil_777filt(subj_list, thresh_dens, dat_pref, mask, nvox=185456):
     """
     Get median value across participants
     """
@@ -47,11 +64,10 @@ def median_simil_777filt(subj_list, thresh_dens, mask, nvox=185456):
     simil_vals = np.zeros((nvox, len(subj_list)))
     print (simil_vals.shape)
     print ('mask is \n{}'.format(mask))
-    dat_suff = 'ijk_fnirted_MNI2mm.nii.gz'
     for i, ss in enumerate(subj_list):
         simil_dir = '{}/graph_analyses/{}/subrun_jaccard_res'.format(
             os.environ['hel'], ss)
-        dat_name = 'jacc_{}_{}.{}'.format(ss, thresh_dens, dat_suff)
+        dat_name = '{}.ijk_fnirted_MNI2mm.nii.gz'.format(dat_pref)
         dat_fname = os.path.join(simil_dir, dat_name)
         cmdargs = split('3dmaskdump -mask {} {}'.format(mask, dat_fname))
         dump_out = Popen(cmdargs, stdout=PIPE).communicate()
@@ -74,56 +90,65 @@ if __name__ == '__main__':
     if not os.path.exists(group_dir):
         os.makedirs(group_dir)
 
-    for thresh_dens in [.15]:
-        for ss in subj_list:
-            indiv_res_dir = os.path.join(ss, 'subrun_jaccard_res')
-            simil_dir = os.path.join(top_dir, indiv_res_dir)
-            if not os.path.exists(simil_dir):
-                os.makedirs(simil_dir)
-            res = jacc_evaluation(ss, thresh_dens)
-            simil_out_pref = 'jacc_{}_{}'.format(ss, thresh_dens)
-            simil_outf = os.path.join(simil_dir, simil_out_pref)
-            np.savetxt(simil_outf, res, fmt='%.4f')
+    for r in [1, 3]:
+        if r is 1:
+            nom = '1and4'
+        if r is 3:
+            nom = '3and6'
+        for thresh_dens in [.15]:
+            for ss in subj_list:
+                indiv_res_dir = os.path.join(ss, 'subrun_jaccard_res')
+                simil_dir = os.path.join(top_dir, indiv_res_dir)
+                if not os.path.exists(simil_dir):
+                    os.makedirs(simil_dir)
+                res = jacc_subruns_eval(ss, thresh_dens, r)
 
-            vol_dir_pref = os.path.join(ss, 'volume.{}.anat'.format(ss))
-            anat_dir = os.path.join(os.environ['hel'], vol_dir_pref)
-            ijk_name = os.path.join(anat_dir,
-                                    '{}_gm_mask_frac_bin_ijk.txt'.format(ss))
-            master_file = os.path.join(anat_dir,
-                                       '{}_gm_mask_frac_bin.nii.gz'.format(ss))
-            gp.undump(ss, ijk_name, simil_outf, simil_dir,
-                      master_file, 'float')
-
-            epi_nii_pref = '{}.ijk'.format(simil_outf)
-            epi_afni = '{}+orig'.format(epi_nii_pref)
-            gp.converttoNIFTI(simil_dir, epi_afni, epi_nii_pref)
-
-            extrt1 = os.path.join(anat_dir, 'T1_biascorr_brain.nii.gz')
-            premat = os.path.join(anat_dir,
-                                  '{}_gm_mask_frac_bin_flirted.mat'.format(ss))
-            in_fl = '{}.nii.gz'.format(epi_nii_pref)
-            out_fl = '{}_flirted'.format(epi_nii_pref)
-            gp.applywarpFLIRT(ss, simil_dir, in_fl, extrt1,
-                              out_fl, premat)
-
-            fn_coef = os.path.join(anat_dir,
-                                   'T1_to_MNI_nonlin_coeff.nii.gz')
-            in_fn = '{}.nii.gz'.format(out_fl)
-            out_fn = '{}_fnirted_MNI2mm'.format(epi_nii_pref)
-            gp.applywarpFNIRT(ss, simil_dir, in_fn, out_fn,
-                              fn_coef)
-
-        # now getting median value across all ss
-        mask_dir = os.path.join(os.environ['hel'], 'group_anat')
-        mask_pref = 'group_avg_gm_mask_frac_bin_fnirted_MNI2mm_thr0.34'
-        mask_fname = os.path.join(mask_dir, '{}.nii.gz'.format(mask_pref))
-        group_simil = median_simil_777filt(subj_list, thresh_dens, mask_fname)
-
-        group_out_name = 'jaccard_group_median_dens_{}'.format(thresh_dens)
-        group_out_fname = os.path.join(group_dir, group_out_name)
-        np.savetxt(group_out_fname, group_simil, fmt='%.4f')
-
-        ijk_n = '{}_ijk.txt'.format(mask_pref)
-        ijk_f = os.path.join(mask_dir, ijk_n)
-        gp.undump('group', ijk_f, group_out_fname,
-                  group_dir, mask_fname, 'float')
+                simil_out_pref = 'jacc_{}_{}_{}'.format(ss, thresh_dens, nom)
+                simil_outf = os.path.join(simil_dir, simil_out_pref)
+                np.savetxt(simil_outf, res, fmt='%.4f')
+    
+                # below is for transforming to AFNI and into group space
+                vol_dir_pref = os.path.join(ss, 'volume.{}.anat'.format(ss))
+                anat_dir = os.path.join(os.environ['hel'], vol_dir_pref)
+                ijk_name = os.path.join(anat_dir,
+                                        '{}_gm_mask_frac_bin_ijk.txt'.format(ss))
+                master_file = os.path.join(anat_dir,
+                                           '{}_gm_mask_frac_bin.nii.gz'.format(ss))
+                gp.undump(ss, ijk_name, simil_outf, simil_dir,
+                          master_file, 'float')
+    
+                epi_nii_pref = '{}.ijk'.format(simil_outf)
+                epi_afni = '{}+orig'.format(epi_nii_pref)
+                gp.converttoNIFTI(simil_dir, epi_afni, epi_nii_pref)
+    
+                extrt1 = os.path.join(anat_dir, 'T1_biascorr_brain.nii.gz')
+                premat = os.path.join(anat_dir,
+                                      '{}_gm_mask_frac_bin_flirted.mat'.format(ss))
+                in_fl = '{}.nii.gz'.format(epi_nii_pref)
+                out_fl = '{}_flirted'.format(epi_nii_pref)
+                gp.applywarpFLIRT(ss, simil_dir, in_fl, extrt1,
+                                  out_fl, premat)
+    
+                fn_coef = os.path.join(anat_dir,
+                                       'T1_to_MNI_nonlin_coeff.nii.gz')
+                in_fn = '{}.nii.gz'.format(out_fl)
+                out_fn = '{}_fnirted_MNI2mm'.format(epi_nii_pref)
+                gp.applywarpFNIRT(ss, simil_dir, in_fn, out_fn,
+                                  fn_coef)
+    
+            # now getting median value across all ss
+            mask_dir = os.path.join(os.environ['hel'], 'group_anat')
+            mask_pref = 'group_avg_gm_mask_frac_bin_fnirted_MNI2mm_thr0.34'
+            mask_fname = os.path.join(mask_dir, '{}.nii.gz'.format(mask_pref))
+            group_simil = median_simil_777filt(subj_list, thresh_dens,
+                                               simil_out_pref, mask_fname)
+    
+            group_out_name = 'jaccard_group_median_dens_{}_{}'.format(
+                thresh_dens, nom)
+            group_out_fname = os.path.join(group_dir, group_out_name)
+            np.savetxt(group_out_fname, group_simil, fmt='%.4f')
+    
+            ijk_n = '{}_ijk.txt'.format(mask_pref)
+            ijk_f = os.path.join(mask_dir, ijk_n)
+            gp.undump('group', ijk_f, group_out_fname,
+                      group_dir, mask_fname, 'float')
