@@ -61,25 +61,17 @@ if __name__ == '__main__':
 
         proc_dir = os.path.join(os.environ['hel'], ss, 'preprocessing')
 
-        for r in [1, 3]:
-            if r is 1:
-                session = 'first'
-            if r is 3:
-                session = 'second'
-            ts_nameA = os.path.join(proc_dir,
-                                    'task_r0{}_{}_gm_mskd.txt'.format(r, ss))
-            ts_nameB = os.path.join(proc_dir,
-                                    'task_r0{}_{}_gm_mskd.txt'.format(r+3, ss))
-            tsA = np.loadtxt(ts_nameA)
-            tsB = np.loadtxt(ts_nameB)
-            ts_file = np.column_stack([tsA, tsB])
-            n_nodes = file_len(ts_nameA)
+        for r in [1, 3, 4, 6]:
+            ts_name = os.path.join(proc_dir,
+                                   'task_r0{}_{}_gm_mskd.txt'.format(r, ss))
+            ts_file = np.loadtxt(ts_name)
+            n_nodes = file_len(ts_name)
 
             for thresh_dens in [.15]:
+                pref = 'task_r0{}_{}.dens_{}'.format(r, ss, thresh_dens)
                 print ('Thresh: {}'.format(thresh_dens))
                 print (time.ctime())
-                graph_outname = 'task_{}_{}.dens_{}.edgelist.gz'.format(
-                    session, ss, thresh_dens)
+                graph_outname = '{}.edgelist.gz'.format(pref)
                 gr = ge.Graphs(ss, ts_file, thresh_dens, graph_dir)
 
                 # making graph:
@@ -87,14 +79,12 @@ if __name__ == '__main__':
                 avg_r = np.zeros(1)
                 edg_lst = os.path.join(graph_dir, graph_outname)
                 avg_r[0] = gr.make_graph(edg_lst)
-                avg_r_val_name = 'Avg_rval_task_{}_{}.dens_{}.txt'.format(
-                    session, ss, thresh_dens)
+                avg_r_val_name = 'Avg_rval_{}.txt'.format(pref)
                 avg_r_out = os.path.join(graph_dir, avg_r_val_name)
                 np.savetxt(avg_r_out, avg_r, fmt='%.4f')
 
                 # modularity and trees
-                graph_pref = 'task_{}_{}.dens_{}.edgelist'.format(
-                    session, ss, thresh_dens)
+                graph_pref = '{}.edgelist'.format(pref)
                 com = ge.CommunityDetect(os.path.join(graph_dir, graph_pref))
                 com.zipper('unzip')
                 com.convert_graph()
@@ -102,8 +92,7 @@ if __name__ == '__main__':
                 Qs = np.zeros(niter)
                 nmods = np.zeros(niter)
                 trees = np.zeros(n_nodes*niter).reshape(n_nodes, niter)
-                hierar_suff = 'task_{}_{}.dens_{}.trees_hierarchy'.format(
-                    session, ss, thresh_dens)
+                hierar_suff = '{}.trees_hierarchy'.format(pref)
                 for i in range(niter):
                     print ('iter {}'.format(i))
                     hierarchy_tr_name = 'iter{}.{}'.format(i, hierar_suff)
@@ -115,15 +104,12 @@ if __name__ == '__main__':
                         tr = np.append(tr, tr[len(tr)-1])
                     trees[:, i] = tr
                     nmods[i] = n_m
-                Qs_outname = 'task_{}_{}.dens_{}.Qval'.format(
-                    session, ss, thresh_dens)
+                Qs_outname = '{}.Qval'.format(pref)
                 np.savetxt(os.path.join(mod_dir, Qs_outname), Qs, fmt='%.4f')
-                trees_outname = 'task_{}_{}.dens_{}.trees'.format(
-                    session, ss, thresh_dens)
+                trees_outname = '{}.trees'.format(pref)
                 np.savetxt(os.path.join(mod_dir, trees_outname),
                            trees, fmt='%i')
-                nmods_outname = 'task_{}_{}.dens_{}.nmods'.format(
-                    session, ss, thresh_dens)
+                nmods_outname = '{}.nmods'.format(pref)
                 np.savetxt(os.path.join(mod_dir, nmods_outname),
                            nmods, fmt='%i')
                 bin_file = '{}.bin'.format(graph_pref)
