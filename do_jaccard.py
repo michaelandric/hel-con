@@ -49,7 +49,7 @@ def jacc_subruns_eval(ss, density, r):
     return simil.jaccard_vw(tree1_name, tree2_name)
 
 
-def median_simil_777filt(subj_list, thresh_dens, dat_pref, mask, nvox=185456):
+def median_simil_777filt(subj_list, thresh_dens, nom, mask, nvox=185456):
     """
     Get median value across participants
     """
@@ -67,6 +67,7 @@ def median_simil_777filt(subj_list, thresh_dens, dat_pref, mask, nvox=185456):
     for i, ss in enumerate(subj_list):
         simil_dir = '{}/graph_analyses/{}/subrun_jaccard_res'.format(
             os.environ['hel'], ss)
+        dat_pref = 'jacc_{}_{}_{}'.format(ss, thresh_dens, nom)
         dat_name = '{}.ijk_fnirted_MNI2mm.nii.gz'.format(dat_pref)
         dat_fname = os.path.join(simil_dir, dat_name)
         cmdargs = split('3dmaskdump -mask {} {}'.format(mask, dat_fname))
@@ -141,7 +142,7 @@ if __name__ == '__main__':
             mask_pref = 'group_avg_gm_mask_frac_bin_fnirted_MNI2mm_thr0.34'
             mask_fname = os.path.join(mask_dir, '{}.nii.gz'.format(mask_pref))
             group_simil = median_simil_777filt(subj_list, thresh_dens,
-                                               simil_out_pref, mask_fname)
+                                               nom, mask_fname)
     
             group_out_name = 'jaccard_group_median_dens_{}_{}'.format(
                 thresh_dens, nom)
