@@ -66,9 +66,10 @@ if __name__ == "__main__":
     os.chdir(os.path.join(os.environ['hel'], 'graph_analyses',
                           'subrun_group_jaccard'))
 
-    for h in ['lh', 'rh']:
-        for td in [.15]:
-            pref = 'subrun_group_jaccard_median_{}_mesh140_{}'.format(h, td)
-            inname = '{}.1D'.format(pref)
-            outname = '{}.stratified_2.1D'.format(pref)
-            assigner(inname, outname)
+    for nom in ['1and4', '3and6']:
+        for h in ['lh', 'rh']:
+            for td in [.15]:
+                pref = 'subrun_group_jaccard_median_{}_mesh140_{}_{}'.format(h, td, nom)
+                inname = '{}.1D'.format(pref)
+                outname = '{}.stratified_2.1D'.format(pref)
+                assigner(inname, outname)
