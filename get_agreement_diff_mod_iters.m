@@ -3,17 +3,17 @@
 % then write out the edgelist for the graph
 
 path(path,'/home/andric/BCT2015');
-cd('/cnari/normal_language/HEL/graph_analyses/group_modularity_thr0.5msk');
+cd('/cnari/normal_language/HEL/graph_analyses/subrun_group_modularity_thr0.5msk');
 n_perms = 100;
 diff_thr = 6
-for td = [.05, .1, .15, .2]
+for td = [.15]
     disp(td);
     disp(datestr(now))
-    fname1 = sprintf('group_task_sess_%d.dens_%g.maxq_tree.ijk_fnirted_MNI4mm_thr0.5.txt', 1, td);
+    fname1 = sprintf('group_task_sess_%s.dens_%g.maxq_tree.ijk_fnirted_MNI4mm_thr0.5.txt', 'first', td);
     M1 = dlmread(fname1);
     M1 = M1+1;
     m_ag1 = agreement(M1);
-    fname2 = sprintf('group_task_sess_%d.dens_%g.maxq_tree.ijk_fnirted_MNI4mm_thr0.5.txt', 2, td);
+    fname2 = sprintf('group_task_sess_%s.dens_%g.maxq_tree.ijk_fnirted_MNI4mm_thr0.5.txt', 'second', td);
     M2 = dlmread(fname2);
     M2 = M2+1;
     m_ag2 = agreement(M2);
