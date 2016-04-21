@@ -40,7 +40,7 @@ if __name__ == '__main__':
             out_resamp_pref = os.path.join(mod_dir,
                                            '{}.{}'.format(tree_name, outsufx))
             gp.resamp_with_master(st_odir, '{}.nii.gz'.format(in_resamp_pref),
-                                  mask_fname)
+                                  mask_fname, '{}.nii.gz'.format(out_resamp_pref))
             out_fname = os.path.join(mod_dir, '{}.txt'.format(out_resamp_pref))
             gp.maskdump(st_odir, mask_fname,
                         '{}.nii.gz'.format(out_resamp_pref), out_fname)
