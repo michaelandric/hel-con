@@ -10,7 +10,7 @@ revision April 2016 for subrun modularity
 import os
 import numpy as np
 
-top_dir = (os.environ['hel'], 'graph_analyses')
+top_dir = os.path.join(os.environ['hel'], 'graph_analyses')
 nvox = 20071
 suff = 'maxq_tree.ijk_fnirted_MNI4mm_thr0.5.txt'
 
