@@ -30,12 +30,12 @@ if __name__ == '__main__':
                                         'task_{}_{}.dens_{}.maxq_tree.ijk'.format(
                                         session, ss, thresh_dens))
             
-            gp.converttoNIFTI('{}+orig'.format(epi_nii_pref),
+            gp.converttoNIFTI(mod_dir, '{}+orig'.format(epi_nii_pref),
                               epi_nii_pref)
             in_fl = '{}.nii.gz'.format(epi_nii_pref)
             out_fl = '{}_flirted'.format(epi_nii_pref)
             gp.applywarpFLIRT(ss, mod_dir, in_fl, extrt1,
-                              out_fl, premat, 'nearestneighbour')
+                              out_fl, premat, 'nn')
 
             fn_coef = os.path.join(anat_dir,
                                    'T1_to_MNI_nonlin_coeff.nii.gz')
