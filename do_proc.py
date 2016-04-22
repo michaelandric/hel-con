@@ -10,37 +10,25 @@ import general_procedures as gp
 
 
 if __name__ == '__main__':
-    subj_list = ['hel{}'.format(i) for i in range(1, 20) if i is not 9]
+
+    mask_dir = os.path.join(os.environ['hel'], 'group_anat')
+    mask_pref = 'group_avg_gm_mask_frac_bin_fnirted_MNI4mm_thr0.5'
+    mask_fname = os.path.join(mask_dir, '{}.nii.gz'.format(mask_pref))
+    ijk_fname = os.path.join(mask_dir, '{}_ijk.txt'.format(mask_pref))
+
+    grp_conn_dir = os.path.join(os.environ['hel'], 'graph_analyses',
+                                'subrun_group_modularity_thr0.5msk')
+
+    st_odir = os.path.join(grp_conn_dir, 'stdout_dir')
+    if not os.path.exists(st_odir):
+        os.makedirs(st_odir)
 
     thresh_dens = .15
-    top_dir = os.path.join(os.environ['hel'], 'graph_analyses')
-    mask_dir = os.path.join(os.environ['hel'], 'group_anat')
-    mask_n = 'group_avg_gm_mask_frac_bin_fnirted_MNI4mm_thr0.5.nii.gz'
-    mask_fname = os.path.join(mask_dir, mask_n)
-    
-    outsufx = 'ijk_fnirted_MNI4mm_thr0.5'
-    for ss in subj_list:
-        anat_dir = os.path.join(os.environ['hel'], ss,
-                                'volume.{}.anat'.format(ss))
-        mod_dir = os.path.join(top_dir, ss, 'subrun_modularity')
-        st_odir = os.path.join(mod_dir, 'stdout_dir')
-        if not os.path.exists(st_odir):
-            os.makedirs(st_odir)
 
-        ijk_name = os.path.join(anat_dir,
-                                '{}_gm_mask_frac_bin_ijk.txt'.format(ss))
-        master_file = os.path.join(anat_dir,
-                                   '{}_gm_mask_frac_bin.nii.gz'.format(ss))
-
-        for session in ['first', 'second']:
-            tree_name = os.path.join('task_{}_{}.dens_{}.maxq_tree'.format(
-                                     session, ss, thresh_dens))
-            in_resamp_pref = os.path.join(mod_dir,
-                                          '{}.ijk_fnirted_MNI2mm'.format(tree_name))
-            out_resamp_pref = os.path.join(mod_dir,
-                                           '{}.{}'.format(tree_name, outsufx))
-            gp.resamp_with_master(st_odir, '{}.nii.gz'.format(in_resamp_pref),
-                                  mask_fname, '{}.nii.gz'.format(out_resamp_pref))
-            out_fname = os.path.join(mod_dir, '{}.txt'.format(out_resamp_pref))
-            gp.maskdump(st_odir, mask_fname,
-                        '{}.nii.gz'.format(out_resamp_pref), out_fname)
+    for session in ['first', 'second']:
+        pref = 'group_task_sess_{}'.format(session)
+        tree_fname = '{}_dens_{}.maxq_tree'.format(pref, thresh_dens)
+        best_tree_fname = os.path.join(grp_conn_dir, tree_fname)
+        master_file = mask_fname
+        gp.undump('group', ijk_fname, best_tree_fname, grp_conn_dir,
+                  master_file)
