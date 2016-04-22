@@ -27,7 +27,7 @@ if __name__ == '__main__':
 
     for session in ['first', 'second']:
         pref = 'group_task_sess_{}'.format(session)
-        tree_fname = '{}_dens_{}.maxq_tree'.format(pref, thresh_dens)
+        tree_fname = '{}.dens_{}.maxq_tree'.format(pref, thresh_dens)
         best_tree_fname = os.path.join(grp_conn_dir, tree_fname)
         master_file = mask_fname
         gp.undump('group', ijk_fname, best_tree_fname, grp_conn_dir,
