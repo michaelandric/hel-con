@@ -30,8 +30,8 @@ def bucket(workdir, subj_list, outname):
 
 def tcorr1D(inbucket, outname):
     logging.info('doing 3dTcorr1D')
-    scores = os.path.join(os.environ['hel'], 'questions', 'scores.txt')
-    cmd = split('3dTcorr1D -prefix %s %s %s[1]{1..$}' % 
+    scores = os.path.join(os.environ['hel'], 'questions', 'usable_scores.txt')
+    cmd = split('3dTcorr1D -prefix %s %s %s' % 
                 (outname, inbucket, scores))
     logging.info('cmd: \n{}'.format(cmd))
     subprocess.call(cmd, stdout=subprocess.PIPE)
