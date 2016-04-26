@@ -28,8 +28,8 @@ def conv_corr_to_t(workdir, input, outname):
 if __name__ == '__main__':
 
     workdir = os.path.join(os.environ['hel'], 'graph_analyses/behav_correlate')
-    infile = os.path.join(workdir, 'tcorr_prsn_gm_mskd_Z_corr_with_behav+tlrc.')
-    outf = os.path.join(workdir, 'tcorr_prsn_gm_mskd_Z_corr_with_behav_tvals')
+    infile = os.path.join(workdir, 'avg_corrZ_task_sess_1_corr_with_behav+tlrc.')
+    outf = os.path.join(workdir, 'avg_corrZ_task_sess_1_corr_with_behav_tvals')
     conv_corr_to_t(workdir, infile, outf)
     
     
