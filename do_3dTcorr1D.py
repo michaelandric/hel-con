@@ -13,7 +13,7 @@ from shlex import split
 
 
 def bucket(workdir, subj_list, outname):
-    logging.INFO('work directory: {}'.format(workdir))
+    logging.info('work directory: {}'.format(workdir))
     graph_dir = os.path.join(os.environ['hel'], 'graph_analyses')
 
     input_set = []
@@ -24,15 +24,16 @@ def bucket(workdir, subj_list, outname):
     input_set = ' '.join(input_set)
 
     cmd = split('3dbucket -prefix {} {}'.format(outname, input_set))
-    logging.INFO('cmd: \n{}'.format(cmd))
+    logging.info('cmd: \n{}'.format(cmd))
     subprocess.call(cmd, stdout=subprocess.PIPE)
 
 
 def tcorr1D(inbucket, outname):
-    logging.INFO('doing 3dTcorr1D')
+    logging.info('doing 3dTcorr1D')
     scores = os.path.join(os.environ['hel'], 'questions', 'scores.txt')
-    cmd = split('3dTcorr1D -prefix {} {} {}'.format(outname, inbucket, scores))
-    logging.INFO('cmd: \n{}'.format(cmd))
+    cmd = split('3dTcorr1D -prefix %s %s %s[1]{1..$}' % 
+                (outname, inbucket, scores))
+    logging.info('cmd: \n{}'.format(cmd))
     subprocess.call(cmd, stdout=subprocess.PIPE)
 
 
