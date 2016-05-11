@@ -24,8 +24,9 @@ def main():
     subj_list = ['hel{}'.format(i) for i in range(1, 20) if i is not 9]
     for subject in subj_list:
         subject_dir = os.path.join(os.environ['hel'], subject)
-        aseg = os.path.join(subject_dir, 'freesurfer_{ss}/{ss}/SUMA',
-                            'aparc.a2009s+aseg_rank.nii'.format(ss=subject))
+        aseg = os.path.join(subject_dir,
+                            'freesurfer_{ss}/{ss}/SUMA'.format(ss=subject),
+                            'aparc.a2009s+aseg_rank.nii')
         anat = os.path.join(subject_dir, 'volume.{}.nii.gz'.format(subject))
         transmat = os.path.join(subject_dir, 'preprocessing',
                                 '{}_SurfVol_Alnd_Exp.A2E.1D'.format(subject))
