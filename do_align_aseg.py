@@ -15,7 +15,8 @@ def aseg_align(anat, transmat, aseg, outname):
     to the EPI data"""
     stdf = open('stdout_files/stdout_from_asegalign.txt', 'w')
     cmdargs = split('3dAllineate -master {} -1Dmatrix_apply {} \
-                    -input {} -prefix {}'.format(anat, transmat, aseg, outname))
+                    -input {} -prefix {} \
+                    -final NN'.format(anat, transmat, aseg, outname))
     call(cmdargs, stdout=stdf, stderr=STDOUT)
     stdf.close()
 
