@@ -15,7 +15,7 @@ class GetAseg(object):
         self.asegname = asegname
         os.environ['SUBJECTS_DIR'] = fs_dir
 
-    def mri_convert(self):
+    def mri_convert(self, mgz_file):
         """Convert from mgz to nii."""
         stdf = open('stdout_files/stdout_from_mri_convert.txt', 'w')
         cmdargs = split('mri_convert -ot nii {}.mgz {}.nii'.format(
@@ -78,6 +78,8 @@ def main():
         aseg_name = os.path.join(freesurfdir, subject,
                                  'SUMA/aparc.a{}s+aseg'.format(year))
         asegmaker = GetAseg(freesurfdir, aseg_name)
+        mgzfile = os.path.join(freesurfdir, subject,
+                               'mri/aparc.a{}}s+aseg.mgz'.format(year))
         asegmaker.mri_convert()
         surf_vol = os.path.join(freesurfdir, subject,
                                 'SUMA/{}_SurfVol+orig.BRIK.gz'.format(subject))
