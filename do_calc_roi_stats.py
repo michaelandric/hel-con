@@ -31,7 +31,7 @@ def stat_compile(subjectlist, region, outname, logdir):
 
     Region compilations of AFNI 3dROIstats outputs into a single file.
     """
-    log = setup_log(os.path.join(logdir, '{}_{}'.format(region, __name__)))
+    log = setup_log(os.path.join(logdir, '{}_stat_compile'.format(region)))
     log.info('Doing region: %s', region)
     statlist = []
     for subject in subjectlist:
@@ -45,7 +45,7 @@ def stat_compile(subjectlist, region, outname, logdir):
                              columns=['File', 'Sub-brick', 'Mean',
                                       'NZMean', 'Median'])
     statframe.to_csv(outname, index=False)
-    log.info('Finished %s for %s', __name__, region)
+    log.info('Finished %s for stat_compile', region)
 
 
 def main():
