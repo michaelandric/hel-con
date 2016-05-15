@@ -48,8 +48,7 @@ def main():
         for subject in subj_list:
             subject_dir = os.path.join(os.environ['hel'], subject,
                                        'preprocessing')
-            logfilename = os.path.join(subject_dir,
-                                       'preprocessing', 'calc_mask.log')
+            logfilename = os.path.join(subject_dir, 'calc_mask.log')
             if subject == 'hel1' or subject == 'hel2' or subject == 'hel3':
                 year = 2005
             else:
