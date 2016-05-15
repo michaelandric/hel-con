@@ -82,7 +82,7 @@ def main():
 
         outtable = os.path.join(os.environ['hel'],
                                 'graph_analyses/behav_correlate',
-                                '{}_grouptable_raw.txt'.format(region))
+                                '{}_grouptable_raw.csv'.format(region))
         log_dir = os.path.join(os.environ['hel'],
                                'graph_analyses/behav_correlate')
         stat_compile(subj_list, region, outtable, log_dir)
