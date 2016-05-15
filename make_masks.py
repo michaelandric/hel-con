@@ -50,8 +50,12 @@ def main():
                                        'preprocessing')
             logfilename = os.path.join(subject_dir,
                                        'preprocessing', 'calc_mask.log')
-            aparcname = 'aparc.a2005s+aseg_rank_{}_allin_resamp+orig'.format(
-                subject)
+            if subject == 'hel1' or subject == 'hel2' or subject == 'hel3':
+                year = 2005
+            else:
+                year = 2009
+            aparcname = 'aparc.a{}s+aseg_rank_{}_allin_resamp+orig'.format(
+                year, subject)
             inputfile = os.path.join(subject_dir, aparcname)
             regionnumber = reg_d[region][subj_d[subject]]
             outfname = os.path.join(subject_dir, '{}_mask'.format(region))
