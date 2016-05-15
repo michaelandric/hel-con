@@ -3,6 +3,9 @@
 
 import os
 import logging
+import csv
+import pandas as pd
+from setlog import setup_log
 from shlex import split
 from subprocess import call
 
@@ -21,6 +24,28 @@ def calc_stat(mask_name, inputf, outname):
     logging.info('Running: \n %s', cmdargs)
     call(cmdargs, stdout=outf)
     outf.close()
+
+
+def stat_compile(subjectlist, region, outname, logdir):
+    """Create table of stats.
+
+    Region compilations of AFNI 3dROIstats outputs into a single file.
+    """
+    log = setup_log(os.path.join(logdir, '{}_{}'.format(region, __name__)))
+    log.info('Doing region: %s', region)
+    statlist = []
+    for subject in subjectlist:
+        afnifile = os.path.join(os.environ['hel'], subject,
+                                'preprocessing',
+                                '{}_{}_stats.txt'.format(region, subject))
+        with open(afnifile) as aff:
+            caff = [line for line in csv.reader(aff, delimiter='\t')]
+            statlist.append(caff[1])
+    statframe = pd.DataFrame(statlist,
+                             columns=['File', 'Sub-brick', 'Mean',
+                                      'NZMean', 'Median'])
+    statframe.to_csv(outname, index=False)
+    log.info('Finished %s for %s', __name__, region)
 
 
 def main():
@@ -54,6 +79,14 @@ def main():
             outfname = os.path.join(subject_dir,
                                     '{}_{}_stats.txt'.format(region, subject))
             calc_stat(mask_file, input_stats, outfname)
+
+        outtable = os.path.join(os.environ['hel'],
+                                'graph_analyses/behav_correlate',
+                                '{}_grouptable_raw.txt'.format(region))
+        log_dir = os.path.join(os.environ['hel'],
+                               'graph_analyses/behav_correlate')
+        stat_compile(subj_list, region, outtable, log_dir)
+
 
 if __name__ == '__main__':
     main()
