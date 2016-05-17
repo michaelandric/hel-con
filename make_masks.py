@@ -3,25 +3,22 @@
 
 import os
 import logging
+from setlog import setup_log
 from shlex import split
 from subprocess import call
 from subprocess import STDOUT
 from subprocess import PIPE
 
 
-def calc_mask(log_file_name, inputf, region_num, outname):
+def calc_mask(log, inputf, region_num, outname):
     """Using this to make a region mask.
 
     Volumes are already done in Freesurfer parcellation
     """
-    logging.basicConfig(filename=log_file_name, level=logging.INFO)
-    chl = logging.StreamHandler()
-    chl.setLevel(logging.INFO)
-
-    logging.info('Input file: %s', inputf)
     cmdargs = split('3dcalc -prefix {} -a {} \
                      -expr "step(equals(a, {}))"'.format(outname, inputf,
                                                          region_num))
+    log.info('calc_mask command: \n%s', cmdargs)
     call(cmdargs, stdout=PIPE, stderr=STDOUT)
 
 
@@ -43,12 +40,15 @@ def main():
              'rh_sup_temp_g': (153, 151, 152, 152, 153),
              'lh_IFGOp': (47, 46, 47, 55, 56),
              'rh_IFGOp': (125, 123, 124, 130, 131)}
+    reg_d2 = {'lh_sup_temp_s': (120, 118, 119, 117, 117),
+              'rh_sup_temp_s': (198, 196, 196, 192, 192),
+              'lh_mid_temp_g': (73, 72, 73, 81, 82),
+              'rh_mid_temp_g': (151, 149, 150, 156, 157)}
     subj_d = dict(zip(subj_list, [0] + [1] + [2] + [3]*7 + [4]*7))
-    for region in reg_d:
+    for region in reg_d2:
         for subject in subj_list:
             subject_dir = os.path.join(os.environ['hel'], subject,
                                        'preprocessing')
-            logfilename = os.path.join(subject_dir, 'calc_mask.log')
             if subject == 'hel1' or subject == 'hel2' or subject == 'hel3':
                 year = 2005
             else:
@@ -56,9 +56,11 @@ def main():
             aparcname = 'aparc.a{}s+aseg_rank_{}_allin_resamp+orig'.format(
                 year, subject)
             inputfile = os.path.join(subject_dir, aparcname)
-            regionnumber = reg_d[region][subj_d[subject]]
+            regionnumber = reg_d2[region][subj_d[subject]]
             outfname = os.path.join(subject_dir, '{}_mask'.format(region))
-            calc_mask(logfilename, inputfile, regionnumber, outfname)
+            log = setup_log(os.path.join(subject_dir, 'calc_mask'))
+            log.info('Doing calc_mask...')
+            calc_mask(log, inputfile, regionnumber, outfname)
 
 if __name__ == '__main__':
     main()
