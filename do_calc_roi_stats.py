@@ -54,10 +54,12 @@ def main():
     Will adjust within calc_stat function.
     """
     subj_list = ['hel{}'.format(i) for i in range(1, 20) if i is not 9]
-    region_list = ['lh_sup_temp_s',
-                   'rh_sup_temp_s',
-                   'lh_mid_temp_g',
-                   'rh_mid_temp_g']
+    region_list = ['lh_ttg',
+                   'rh_ttg',
+                   'lh_planum_temp',
+                   'rh_planum_temp',
+                   'lh_vis_calcarine',
+                   'rh_vis_calcarine']
     for region in region_list:
         for subject in subj_list:
             subject_dir = os.path.join(os.environ['hel'], subject,

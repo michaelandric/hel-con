@@ -2,7 +2,6 @@
 """Making region masks."""
 
 import os
-import logging
 from setlog import setup_log
 from shlex import split
 from subprocess import call
@@ -31,21 +30,15 @@ def main():
     autorecon2 and autorecon3 that did not always behave in uniform way.
 
     """
-    subj_list = ['hel{}'.format(i) for i in range(1, 19) if i is not 9]
-    reg_d = {'lh_ant_occ_s': (101, 100, 101, 103, 103),
-             'rh_ant_occ_s': (179, 177, 177, 178, 178),
-             'lh_mid_occ_g': (56, 55, 56, 62, 63),
-             'rh_mid_occ_g': (134, 132, 133, 137, 138),
-             'lh_sup_temp_g': (75, 74, 75, 77, 78),
-             'rh_sup_temp_g': (153, 151, 152, 152, 153),
-             'lh_IFGOp': (47, 46, 47, 55, 56),
-             'rh_IFGOp': (125, 123, 124, 130, 131)}
-    reg_d2 = {'lh_sup_temp_s': (120, 118, 119, 117, 117),
-              'rh_sup_temp_s': (198, 196, 196, 192, 192),
-              'lh_mid_temp_g': (73, 72, 73, 81, 82),
-              'rh_mid_temp_g': (151, 149, 150, 156, 157)}
-    subj_d = dict(zip(subj_list, [0] + [1] + [2] + [3]*7 + [4]*7))
-    for region in reg_d2:
+    subj_list = ['hel{}'.format(i) for i in range(1, 20) if i is not 9]
+    reg_d = {'lh_ttg': (74, 73, 74, 76, 77),
+             'rh_ttg': (152, 150, 151, 151, 152),
+             'lh_planum_tem': (77, 76, 77, 79, 80),
+             'rh_planum_tem': (155, 153, 154, 154, 155),
+             'lh_vis_ctx': (85, 84, 85, 88, 88),
+             'rh_vis_ctx': (163, 161, 162, 163, 163)}
+    subj_d = dict(zip(subj_list, [0] + [1] + [2] + [3]*7 + [4]*8))
+    for region in reg_d:
         for subject in subj_list:
             subject_dir = os.path.join(os.environ['hel'], subject,
                                        'preprocessing')
@@ -56,7 +49,7 @@ def main():
             aparcname = 'aparc.a{}s+aseg_rank_{}_allin_resamp+orig'.format(
                 year, subject)
             inputfile = os.path.join(subject_dir, aparcname)
-            regionnumber = reg_d2[region][subj_d[subject]]
+            regionnumber = reg_d[region][subj_d[subject]]
             outfname = os.path.join(subject_dir, '{}_mask'.format(region))
             log = setup_log(os.path.join(subject_dir, 'calc_mask'))
             log.info('Doing calc_mask...')
