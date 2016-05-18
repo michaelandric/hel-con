@@ -62,13 +62,10 @@ def main():
     workdir = os.path.join(os.environ['hel'], 'graph_analyses/behav_correlate')
     logfile = setup_log(os.path.join(workdir, 'tcorr_conv_corr_to_t'))
     logfile.info('Doing tcorr1D')
-    subjectlist = ['hel{}'.format(i) for i in range(1, 20) if i is not 9]
-    inbucket = os.path.join(workdir, 'avg_corrZ_task_sess_2_bucket')
-    bucket(logfile, subjectlist, inbucket)
-
+    inbucket = os.path.join(workdir, 'avg_corrZ_task_diff_bucket')
     seed_prefs = ['lh_highlevel', 'lh_ttg', 'lh_vis_ctx']
     for seed in seed_prefs:
-        outcorr = os.path.join(workdir, 'wgc_sess_2_{}_corr'.format(seed))
+        outcorr = os.path.join(workdir, 'wgc_diff_{}_corr'.format(seed))
         tcorr(logfile, '{}+tlrc.'.format(inbucket),
               os.path.join(workdir, '{}.txt'.format(seed)), outcorr)
 
