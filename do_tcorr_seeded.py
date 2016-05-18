@@ -23,7 +23,8 @@ def bucket(log, subj_list, outname):
     input_set = []
     suffx = 'ijk_fnirted_MNI2mm.nii.gz'
     for subj in subj_list:
-        dat_dir = os.path.join(os.environ['hel'], subj, 'global_connectivity')
+        dat_dir = os.path.join(os.environ['hel'], 'graph_analyses',
+                               subj, 'global_connectivity')
         fname = 'avg_corrZ_task_sess_2_{}.{}'.format(subj, suffx)
         input_set.append(os.path.join(dat_dir, fname))
     input_set = ' '.join(input_set)
@@ -67,7 +68,7 @@ def main():
 
     seed_prefs = ['lh_highlevel', 'lh_ttg', 'lh_vis_ctx']
     for seed in seed_prefs:
-        outcorr = os.path.join(workdir, 'wgc_sess_1_{}_corr'.format(seed))
+        outcorr = os.path.join(workdir, 'wgc_sess_2_{}_corr'.format(seed))
         tcorr(logfile, '{}+tlrc.'.format(inbucket),
               os.path.join(workdir, '{}.txt'.format(seed)), outcorr)
 
