@@ -43,15 +43,30 @@ def tcorr(log, inbucket, seedfile, outname):
     call(cmd, stdout=PIPE, stderr=STDOUT)
 
 
-if __name__ == '__main__':
-    SUBJECTLIST = ['hel{}'.format(i) for i in range(1, 20) if i is not 9]
-    WORKDIR = os.path.join(os.environ['hel'], 'graph_analyses/behav_correlate')
-    LOGFILE = setup_log(os.path.join(WORKDIR, 'calc_mask'))
-    LOGFILE.info('Doing tcorr1D')
+def conv_corr_to_t(log, workdir, inputf, outname):
+    """Convert correlation value to t value."""
+    log.info('Doing convert corr to t')
+    log.info('work directory: {}'.format(workdir))
+    cmd = split("3dcalc -a {} -expr 'a / (sqrt(((1-a^2) / (18-2))))' \
+                -prefix {}".format(inputf, outname))
+    log.info('cmd: \n%s', cmd)
+    call(cmd, stdout=PIPE, stderr=STDOUT)
 
-    INBUCKET = os.path.join(WORKDIR, 'tcorr_prsn_gm_mskd_Z_bucket')
-    SEED_PREFS = ['lh_highlevel', 'lh_ttg', 'lh_vis_ctx']
-    for seed in SEED_PREFS:
-        outcorr = os.path.join(WORKDIR, 'wgc_sess_1_{}_corr')
-        tcorr(LOGFILE, '{}+tlrc.'.format(INBUCKET),
-              os.path.join(WORKDIR, '{}.txt'.format(seed)), outcorr)
+
+def main():
+    """Main call to do functions."""
+    workdir = os.path.join(os.environ['hel'], 'graph_analyses/behav_correlate')
+    logfile = setup_log(os.path.join(workdir, 'calc_mask'))
+    logfile.info('Doing tcorr1D')
+
+    inbucket = os.path.join(workdir, 'avg_corrZ_task_sess_1_bucket')
+    seed_prefs = ['lh_highlevel', 'lh_ttg', 'lh_vis_ctx']
+    for seed in seed_prefs:
+        outcorr = os.path.join(workdir, 'wgc_sess_1_{}_corr')
+        tcorr(logfile, '{}+tlrc.'.format(inbucket),
+              os.path.join(workdir, '{}.txt'.format(seed)), outcorr)
+        out_conv_corr = '{}_tvals'.format(outcorr)
+        conv_corr_to_t(logfile, workdir, '{}+tlrc', out_conv_corr)
+
+if __name__ == '__main__':
+    main()
