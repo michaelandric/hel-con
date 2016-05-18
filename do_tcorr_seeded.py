@@ -40,7 +40,8 @@ def tcorr(log, inbucket, seedfile, outname):
     cmd = split('3dTcorr1D -prefix {} {} {}'.format(outname, inbucket,
                                                     seedfile))
     log.info('cmd: \n%s', cmd)
-    Popen(cmd, stdout=PIPE, stderr=STDOUT)
+    with Popen(cmd, stdout=PIPE, stderr=STDOUT) as proc:
+        log.info(proc.stdout.read())
 
 
 def conv_corr_to_t(log, workdir, inputf, outname):
@@ -50,7 +51,8 @@ def conv_corr_to_t(log, workdir, inputf, outname):
     cmd = split("3dcalc -a {} -expr 'a / (sqrt(((1-a^2) / (18-2))))' \
                 -prefix {}".format(inputf, outname))
     log.info('cmd: \n%s', cmd)
-    Popen(cmd, stdout=PIPE, stderr=STDOUT)
+    with Popen(cmd, stdout=PIPE, stderr=STDOUT) as proc:
+        log.info(proc.stdout.read())
 
 
 def main():
