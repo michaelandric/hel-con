@@ -40,8 +40,8 @@ def tcorr(log, inbucket, seedfile, outname):
     cmd = split('3dTcorr1D -prefix {} {} {}'.format(outname, inbucket,
                                                     seedfile))
     log.info('cmd: \n%s', cmd)
-    with Popen(cmd, stdout=PIPE, stderr=STDOUT) as proc:
-        log.info(proc.stdout.read())
+    proc = Popen(cmd, stdout=PIPE, stderr=STDOUT)
+    log.info(proc.stdout.read())
 
 
 def conv_corr_to_t(log, workdir, inputf, outname):
@@ -51,8 +51,8 @@ def conv_corr_to_t(log, workdir, inputf, outname):
     cmd = split("3dcalc -a {} -expr 'a / (sqrt(((1-a^2) / (18-2))))' \
                 -prefix {}".format(inputf, outname))
     log.info('cmd: \n%s', cmd)
-    with Popen(cmd, stdout=PIPE, stderr=STDOUT) as proc:
-        log.info(proc.stdout.read())
+    proc = Popen(cmd, stdout=PIPE, stderr=STDOUT)
+    log.info(proc.stdout.read())
 
 
 def main():
@@ -68,7 +68,8 @@ def main():
         tcorr(logfile, '{}+tlrc.'.format(inbucket),
               os.path.join(workdir, '{}.txt'.format(seed)), outcorr)
         out_conv_corr = '{}_tvals'.format(outcorr)
-        conv_corr_to_t(logfile, workdir, '{}+tlrc', out_conv_corr)
+        conv_corr_to_t(logfile, workdir, '{}+tlrc'.format(outcorr),
+                       out_conv_corr)
 
 if __name__ == '__main__':
     main()
