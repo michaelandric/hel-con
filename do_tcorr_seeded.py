@@ -37,8 +37,10 @@ def bucket(log, workdir, subj_list, outname):
 def tcorr(log, inbucket, seedfile, outname):
     """Correlate func data against seed."""
     log.info('Doing 3dTcorr1D...')
-    cmd = split('3dTcorr1D -prefix {} {} {}'.format(outname, inbucket,
-                                                    seedfile))
+    mask = os.path.join(os.environ['FSLDIR'], 'data/standard/',
+                        'MNI152_T1_2mm_brain_mask_dil1.nii.gz')
+    cmd = split('3dTcorr1D -prefix {} \
+                -mask {} {} {}'.format(outname, mask, inbucket, seedfile))
     log.info('cmd: \n%s', cmd)
     proc = Popen(cmd, stdout=PIPE, stderr=STDOUT)
     log.info(proc.stdout.read())
