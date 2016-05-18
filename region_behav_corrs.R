@@ -93,6 +93,11 @@ lh_lowlev <- rowMeans(cbind(filter(region_frame,
                             filter(region_frame, Region=='lh_vis_ctx')$NZMean))
 write.table(lh_highlev, 'lh_highlevel.txt', row.names=F, col.names=F, quote=F)
 write.table(lh_lowlev, 'lh_lowlevel.txt', row.names=F, col.names=F, quote=F)
+write.table(filter(region_frame, Region=='lh_ttg')$NZMean, 'lh_ttg.txt',
+            row.names=F, col.names=F, quote=F)
+write.table(filter(region_frame, Region=='lh_vis_ctx')$NZMean, 'lh_vis_ctx.txt',
+            row.names=F, col.names=F, quote=F)
+
 
 # Do modularity values correlate with high or low level region intra-corr?
 moddir <- '/Users/andric/Documents/workspace/hel/group_modularity/'
@@ -128,3 +133,17 @@ for (levl in c('lh_highlev', 'lh_lowlev')){
         next
     }
 }
+
+library(ggplot2)
+pdf('region_qqplots.pdf')
+ggplot(filter(region_frame, Region=='lh_ant_occ_s'), aes(sample=NZMean)) +
+    theme_bw() + geom_point(stat='qq', size=4) + ggtitle('Q-Q plot lh_ant_occ_s')
+ggplot(filter(region_frame, Region=='lh_ttg'), aes(sample=NZMean)) +
+    theme_bw() + geom_point(stat='qq', size=4) + ggtitle('Q-Q plot lh_ttg')
+ggplot(filter(region_frame, Region=='lh_planum_tem'), aes(sample=NZMean)) +
+    theme_bw() + geom_point(stat='qq', size=4) + ggtitle('Q-Q plot lh_planum_tem')
+ggplot(filter(region_frame, Region=='lh_vis_ctx'), aes(sample=NZMean)) +
+    theme_bw() + geom_point(stat='qq', size=4) + ggtitle('Q-Q plot lh_vix_ctx')
+ggplot(filter(region_frame, Region=='lh_sup_temp_s'), aes(sample=NZMean)) +
+    theme_bw() + geom_point(stat='qq', size=4) + ggtitle('Q-Q plot lh_sup_temp_s')
+dev.off()

@@ -17,21 +17,20 @@ from subprocess import PIPE
 from subprocess import STDOUT
 
 
-def bucket(log, workdir, subj_list, outname):
-    """Bucket individuals' tcorr values into one dataset."""
+def bucket(log, subj_list, outname):
+    """Bucket individuals' values into one dataset."""
     log.info('Doing bucket...')
-    log.info('work directory: %s', workdir)
-
-    tcorr_dir = os.path.join(os.environ['hel'], 'tcorr_group')
     input_set = []
+    suffx = 'ijk_fnirted_MNI2mm.nii.gz'
     for subj in subj_list:
-        fname = 'tcorr_prsn_{}_gm_mskd_Z_fnirted_MNI2mm.nii.gz'.format(subj)
-        input_set.append(os.path.join(tcorr_dir, fname))
+        dat_dir = os.path.join(os.environ['hel'], subj, 'global_connectivity')
+        fname = 'avg_corrZ_task_sess_2_{}.{}'.format(subj, suffx)
+        input_set.append(os.path.join(dat_dir, fname))
     input_set = ' '.join(input_set)
-
     cmd = split('3dbucket -prefix {} {}'.format(outname, input_set))
     log.info('cmd: \n%s', cmd)
-    Popen(cmd, stdout=PIPE, stderr=STDOUT)
+    proc = Popen(cmd, stdout=PIPE, stderr=STDOUT)
+    log.info(proc.stdout.read())
 
 
 def tcorr(log, inbucket, seedfile, outname):
@@ -62,13 +61,16 @@ def main():
     workdir = os.path.join(os.environ['hel'], 'graph_analyses/behav_correlate')
     logfile = setup_log(os.path.join(workdir, 'tcorr_conv_corr_to_t'))
     logfile.info('Doing tcorr1D')
+    subjectlist = ['hel{}'.format(i) for i in range(1, 20) if i is not 9]
+    inbucket = os.path.join(workdir, 'avg_corrZ_task_sess_2_bucket')
+    bucket(logfile, subjectlist, inbucket)
 
-    inbucket = os.path.join(workdir, 'avg_corrZ_task_sess_1_bucket')
     seed_prefs = ['lh_highlevel', 'lh_ttg', 'lh_vis_ctx']
     for seed in seed_prefs:
         outcorr = os.path.join(workdir, 'wgc_sess_1_{}_corr'.format(seed))
         tcorr(logfile, '{}+tlrc.'.format(inbucket),
               os.path.join(workdir, '{}.txt'.format(seed)), outcorr)
+
         out_conv_corr = '{}_tvals'.format(outcorr)
         conv_corr_to_t(logfile, workdir, '{}+tlrc'.format(outcorr),
                        out_conv_corr)
