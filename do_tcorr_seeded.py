@@ -12,7 +12,7 @@ Setting up 3dTcorr1D
 import os
 from setlog import setup_log
 from shlex import split
-from subprocess import call
+from subprocess import Popen
 from subprocess import PIPE
 from subprocess import STDOUT
 
@@ -31,7 +31,7 @@ def bucket(log, workdir, subj_list, outname):
 
     cmd = split('3dbucket -prefix {} {}'.format(outname, input_set))
     log.info('cmd: \n%s', cmd)
-    call(cmd, stdout=PIPE, stderr=STDOUT)
+    Popen(cmd, stdout=PIPE, stderr=STDOUT)
 
 
 def tcorr(log, inbucket, seedfile, outname):
@@ -40,7 +40,7 @@ def tcorr(log, inbucket, seedfile, outname):
     cmd = split('3dTcorr1D -prefix {} {} {}'.format(outname, inbucket,
                                                     seedfile))
     log.info('cmd: \n%s', cmd)
-    call(cmd, stdout=PIPE, stderr=STDOUT)
+    Popen(cmd, stdout=PIPE, stderr=STDOUT)
 
 
 def conv_corr_to_t(log, workdir, inputf, outname):
@@ -50,19 +50,19 @@ def conv_corr_to_t(log, workdir, inputf, outname):
     cmd = split("3dcalc -a {} -expr 'a / (sqrt(((1-a^2) / (18-2))))' \
                 -prefix {}".format(inputf, outname))
     log.info('cmd: \n%s', cmd)
-    call(cmd, stdout=PIPE, stderr=STDOUT)
+    Popen(cmd, stdout=PIPE, stderr=STDOUT)
 
 
 def main():
     """Main call to do functions."""
     workdir = os.path.join(os.environ['hel'], 'graph_analyses/behav_correlate')
-    logfile = setup_log(os.path.join(workdir, 'calc_mask'))
+    logfile = setup_log(os.path.join(workdir, 'tcorr_conv_corr_to_t'))
     logfile.info('Doing tcorr1D')
 
     inbucket = os.path.join(workdir, 'avg_corrZ_task_sess_1_bucket')
     seed_prefs = ['lh_highlevel', 'lh_ttg', 'lh_vis_ctx']
     for seed in seed_prefs:
-        outcorr = os.path.join(workdir, 'wgc_sess_1_{}_corr')
+        outcorr = os.path.join(workdir, 'wgc_sess_1_{}_corr'.format(seed))
         tcorr(logfile, '{}+tlrc.'.format(inbucket),
               os.path.join(workdir, '{}.txt'.format(seed)), outcorr)
         out_conv_corr = '{}_tvals'.format(outcorr)
