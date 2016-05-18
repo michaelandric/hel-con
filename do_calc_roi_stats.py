@@ -56,10 +56,10 @@ def main():
     subj_list = ['hel{}'.format(i) for i in range(1, 20) if i is not 9]
     region_list = ['lh_ttg',
                    'rh_ttg',
-                   'lh_planum_temp',
-                   'rh_planum_temp',
-                   'lh_vis_calcarine',
-                   'rh_vis_calcarine']
+                   'lh_planum_tem',
+                   'rh_planum_tem',
+                   'lh_vis_ctx',
+                   'rh_vis_ctx']
     for region in region_list:
         for subject in subj_list:
             subject_dir = os.path.join(os.environ['hel'], subject,

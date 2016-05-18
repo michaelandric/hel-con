@@ -19,7 +19,13 @@ region_list <- c('lh_IFGOp',
                  'lh_sup_temp_s',
                  'rh_sup_temp_s',
                  'lh_mid_temp_g',
-                 'rh_mid_temp_g')
+                 'rh_mid_temp_g',
+                 'lh_ttg',
+                 'rh_ttg',
+                 'lh_planum_tem',
+                 'rh_planum_tem',
+                 'lh_vis_ctx',
+                 'rh_vis_ctx')
 
 behav <- read.table('/Users/andric/Documents/HEL/questions/scores.txt', header=TRUE)
 scores <- behav$SCORE[s_nums]
@@ -75,5 +81,50 @@ for (region in region_list){
     reg_dat <- read.csv(paste(region,'_grouptable_raw.csv', sep=''))
     cor_pval <- cor.test(scores, reg_dat$NZMean)$p.value
     print(cor.test(scores, reg_dat$NZMean))}
+    }
+}
+
+
+lh_highlev <- rowMeans(cbind(filter(region_frame,
+                                    Region=='lh_sup_temp_s')$NZMean,
+                             filter(region_frame, Region=='lh_ant_occ_s')$NZMean))
+lh_lowlev <- rowMeans(cbind(filter(region_frame,
+                                   Region=='lh_ttg')$NZMean,
+                            filter(region_frame, Region=='lh_vis_ctx')$NZMean))
+write.table(lh_highlev, 'lh_highlevel.txt', row.names=F, col.names=F, quote=F)
+write.table(lh_lowlev, 'lh_lowlevel.txt', row.names=F, col.names=F, quote=F)
+
+# Do modularity values correlate with high or low level region intra-corr?
+moddir <- '/Users/andric/Documents/workspace/hel/group_modularity/'
+for (td in seq(.05, .2, .05)){
+    #print(td)
+    q_vals <- read.table(paste(moddir, '/max_q_values_density',td,'_array.txt', sep=''))
+    names(q_vals) <- c('View1', 'View2')
+    attach(q_vals)
+    for (levl in c('lh_highlev', 'lh_lowlev')){
+        for (viewing in colnames(q_vals)){
+            corrtest <- cor.test(get(levl), get(viewing))
+            if (corrtest$p.value <= .05){
+                print(c(td, levl, viewing))
+                print(corrtest)
+            }
+            else{
+                next
+            }
+        }
+    }
+    detach(q_vals)
+}
+
+
+# Do behavior scores correlate with region intra-subj corr?
+for (levl in c('lh_highlev', 'lh_lowlev')){
+    corrtest <- cor.test(get(levl), scores)
+    if (corrtest$p.value <= .05){
+        print(c(levl))
+        print(corrtest)
+    }
+    else{
+        next
     }
 }

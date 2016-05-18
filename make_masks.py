@@ -33,10 +33,10 @@ def main():
     subj_list = ['hel{}'.format(i) for i in range(1, 20) if i is not 9]
     reg_d = {'lh_ttg': (74, 73, 74, 76, 77),
              'rh_ttg': (152, 150, 151, 151, 152),
-             'lh_planum_tem': (77, 76, 77, 79, 80),
-             'rh_planum_tem': (155, 153, 154, 154, 155),
-             'lh_vis_ctx': (85, 84, 85, 88, 88),
-             'rh_vis_ctx': (163, 161, 162, 163, 163)}
+             'lh_planum_temp': (77, 76, 77, 79, 80),
+             'rh_planum_temp': (155, 153, 154, 154, 155),
+             'lh_vis_calcarine': (85, 84, 85, 88, 88),
+             'rh_vis_calcarine': (163, 161, 162, 163, 163)}
     subj_d = dict(zip(subj_list, [0] + [1] + [2] + [3]*7 + [4]*8))
     for region in reg_d:
         for subject in subj_list:
