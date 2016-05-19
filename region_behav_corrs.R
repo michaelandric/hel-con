@@ -146,4 +146,6 @@ ggplot(filter(region_frame, Region=='lh_vis_ctx'), aes(sample=NZMean)) +
     theme_bw() + geom_point(stat='qq', size=4) + ggtitle('Q-Q plot lh_vix_ctx')
 ggplot(filter(region_frame, Region=='lh_sup_temp_s'), aes(sample=NZMean)) +
     theme_bw() + geom_point(stat='qq', size=4) + ggtitle('Q-Q plot lh_sup_temp_s')
+ggplot(scores_frame, aes(sample=scores)) + theme_bw() +
+    geom_point(stat='qq', size=4) + ggtitle('Q-Q plot scores')
 dev.off()
