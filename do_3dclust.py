@@ -50,9 +50,11 @@ if __name__ == '__main__':
         for seed in SEED_PREFS:
             out_conv_corr = os.path.join(WORKDIR,
                                          'wgc_diff_{}_corr_tvals'.format(seed))
+            outmaskpref = '{}_{}_{}_mask'.format(out_conv_corr,
+                                                 thr, THRESH_DICT[thr])
             clust_msk(LOGFILE, '{}+tlrc'.format(out_conv_corr),
-                      thr, THRESH_DICT[thr], '{}_mask'.format(out_conv_corr))
-            out_thr_clust = '{}_{}_{}'.format(out_conv_corr,
-                                              thr, THRESH_DICT[thr])
-            thresh_clust(LOGFILE, '{}_mask+tlrc'.format(out_conv_corr),
-                         '{}+tlrc'.format(out_conv_corr), out_thr_clust)
+                      thr, THRESH_DICT[thr], outmaskpref)
+            outvalspref = '{}_{}_{}_vals'.format(out_conv_corr,
+                                                 thr, THRESH_DICT[thr])
+            thresh_clust(LOGFILE, '{}+tlrc'.format(outmaskpref),
+                         '{}+tlrc'.format(out_conv_corr), outvalspref)
