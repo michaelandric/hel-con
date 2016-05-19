@@ -16,22 +16,20 @@ from subprocess import STDOUT
 def clust_msk(log, infile, thresh, vxl, outmskpref):
     """Cluster correct a stat result."""
     clst_info = open('%s.txt' % outmskpref, 'w')
-    cmdargs = "3dclust -1Dformat -nosum -1dindex 1 -1tindex 1 \
-                -2thresh -%.3f %.3f -dxyz=1 \
-                -savemask %s 1.44 %.1f %s" % \
-              (thresh, thresh, outmskpref, vxl, infile)
+    cmdargs = split("3dclust -1Dformat -nosum -1dindex 0 -1tindex 0 \
+                    -2thresh -%.3f %.3f -dxyz=1 \
+                    -savemask %s 1.44 %.1f %s" %
+                    (thresh, thresh, outmskpref, vxl, infile))
     log.info('cmd: \n%s', cmdargs)
-    proc = Popen(cmdargs)
-    outs, errs = proc.communicate()
-    log.warning(errs)
-    clst_info.write(outs)
+    proc = Popen(cmdargs, stdout=PIPE)
+    clst_info.write(proc.stdout.read())
     clst_info.close()
 
 
 def thresh_clust(log, msk, infile, outfilepref):
     """Create masked thresholded map."""
     log.info('Doing thresh_clust')
-    tcargs = split("3dcalc -a %s -b '%s[1]' -expr 'ispositive(a)*b*-1' \
+    tcargs = split("3dcalc -a %s -b '%s[0]' -expr 'ispositive(a)*b*-1' \
         -prefix %s" % (msk, infile, outfilepref))
     log.info('cmd args: \n%s', tcargs)
     proc = Popen(tcargs, stdout=PIPE, stderr=STDOUT)
