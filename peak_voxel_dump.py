@@ -32,14 +32,14 @@ def build_clust_dat(log, datadir, subjectlist, clustercoords):
     clust_dat = pd.Series()
     for clust in clustercoords:
         num_of_clusts = len(clustercoords[clust])
-        for subclust in num_of_clusts:
+        for subclust in range(num_of_clusts):
             serieslist = []
             clust_name = '{}_{}'.format(clust, subclust)
             clust_col_names.append(clust_name)
             coords = clustercoords[clust][subclust]
             for i, subj in enumerate(subjectlist):
                 log.info('Peak clust for %s, subj %s', clust, subj)
-                fname = "'{}/avg_corrZ_task_diff_bucket+tlrc[{}]'".format(
+                fname = "'{}/tcorr_prsn_gm_mskd_Z_bucket+tlrc[{}]'".format(
                     datadir, i)
                 serieslist.append(mask_dump_peak(log, coords, fname))
             clust_dat = clust_dat.append(pd.Series(serieslist))
@@ -67,7 +67,7 @@ def main():
     out_dat = pd.DataFrame(cluster_peaks.reshape(total_num_clusts,
                                                  total_num_subjects).T,
                            columns=cluster_names)
-    outname = os.path.join(workdir, 'avg_corrZ_task_diff_peak_voxel_data.csv')
+    outname = os.path.join(workdir, 'tcorr_prsn_gm_mskd_Z_peak_voxel_data.csv')
     out_dat.to_csv(outname, index=False)
 
 if __name__ == '__main__':
