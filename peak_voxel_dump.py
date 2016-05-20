@@ -47,7 +47,7 @@ def build_clust_dat(log, datadir, subjectlist, clustercoords):
             coords = clustercoords[clust][subclust]
             for i, subj in enumerate(subjectlist):
                 log.info('Peak clust for %s, subj %s', clust, subj)
-                fname = "'{}/tcorr_prsn_gm_mskd_Z_bucket+tlrc[{}]'".format(
+                fname = "'{}/avg_corrZ_task_diff_bucket+tlrc[{}]'".format(
                     datadir, i)
                 serieslist.append(mask_dump_peak(log, coords, fname))
             clust_dat = clust_dat.append(pd.Series(serieslist))
@@ -62,9 +62,24 @@ def main():
     """
     workdir = os.path.join(os.environ['hel'], 'graph_analyses/behav_correlate')
     subjectlist = ['hel{}'.format(i) for i in range(1, 20) if i is not 9]
-    clustercoords = {'lh_highlevel': ('-26.0 60.0 -46.0', '-12.0 48.0 76.0'),
-                     'lh_vis_ctx': ('-46.0 40.0 40.0', '-12.0 70.0 64.0',
-                                    '10.0 52.0 76.0')}
+    clustercoords = {'diff_lh_highlevel': ('-26.0 60.0 -46.0',
+                                           '-12.0 48.0 76.0'),
+                     'diff_lh_vis_ctx': ('-46.0 40.0 40.0', '-12.0 70.0 64.0',
+                                         '10.0 52.0 76.0'),
+                     'sess_1_lh_vis_ctx': (' -68.0 22.0 42.0',
+                                           '-28.0 -70.0 8.0',
+                                           '-60.0 62.0 -16.0',
+                                           '52.0 28.0 62.0',
+                                           '32.0 10.0 72.0',
+                                           '14.0 52.0 22.0',
+                                           '62.0 28.0 -20.0',
+                                           '-44.0 10.0 -38.0',
+                                           '-24.0 70.0 58.0',
+                                           '20.0 -66.0 20.0',
+                                           '64.0 18.0 42.0'),
+                     'sess_2_lh_ttg': ('14.0 82.0 10.0', '72.0 40.0 -8.0'),
+                     'sess_2_lh_vis_ctx': ('8.0 -70.0 22.0', '6.0 48.0 48.0',
+                                           '-12.0 94.0 2.0')}
     logfile = setup_log(os.path.join(workdir, 'mask_dump_peak'))
     logfile.info('Doing mask_dump_peak')
 
@@ -75,7 +90,7 @@ def main():
     out_dat = pd.DataFrame(cluster_peaks.reshape(total_num_clusts,
                                                  total_num_subjects).T,
                            columns=cluster_names)
-    outname = os.path.join(workdir, 'tcorr_prsn_gm_mskd_Z_peak_voxel_data.csv')
+    outname = os.path.join(workdir, 'avg_corrZ_task_all_peak_voxel_data.csv')
     out_dat.to_csv(outname, index=False)
 
 if __name__ == '__main__':
