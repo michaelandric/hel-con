@@ -18,7 +18,15 @@ def mask_dump_peak(log, coords, dataset):
     """Dump the functional data at voxel coords.
 
     Generalize this to accept the log file,
-    coordinates, and an AFNI func dataset
+    coordinates, and an AFNI func dataset.
+    If not obvious, coordinates and dataset should be in the
+    same space.
+    Arg: coords:
+            This is a three value string, e.g.,
+            '-44.0 34 12'
+    Arg: dataset:
+            This is the functional AFNI data that you
+            from which you get the voxel's data.
     """
     log.info('Doing mask_dump_peak')
     cmdargs = split('3dmaskdump -noijk -dbox {} {}'.format(coords, dataset))

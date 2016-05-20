@@ -2,10 +2,9 @@
 library(dplyr)
 setwd('/Users/andric/Documents/workspace/hel/behav_correlations_etc/')
 subjects <- c()
-s_nums = seq(1, 19)[seq(1,19) != 9]
-for (s in s_nums)
-{
-    subjects <- c(subjects, paste('hel', s, sep=''))
+s_nums <- seq(1, 19)[seq(1,19) != 9]
+for (s in s_nums){
+  subjects <- c(subjects, paste('hel', s, sep=''))
 }
 
 region_list <- c('lh_IFGOp',
@@ -31,21 +30,21 @@ behav <- read.table('/Users/andric/Documents/HEL/questions/scores.txt', header=T
 scores <- behav$SCORE[s_nums]
 scores_frame <- tbl_df(data.frame(subjects, scores))
 
-for (region in region_list){
-    reg_dat <- read.csv(paste(region,'_grouptable_raw.csv', sep=''))
-    cor_pval <- cor.test(scores, reg_dat$NZMean)$p.value
-    if (cor_pval <= .05){
-        print(region)
-        print(cor.test(scores, reg_dat$NZMean))}
-    else{
-        next
-    }
+for (region in region_list) {
+  reg_dat <- read.csv(paste(region,'_grouptable_raw.csv', sep=''))
+  cor_pval <- cor.test(scores, reg_dat$NZMean)$p.value
+  if (cor_pval <= .05) {
+    print(region)
+    print(cor.test(scores, reg_dat$NZMean))
+  } else {
+    next
+  }
 }
 
 
 
 region_frame <- data.frame()
-for (region in region_list){
+for (region in region_list) {
     reg_dat <- read.csv(paste(region,'_grouptable_raw.csv', sep=''))
     region_frame <- rbind(region_frame, reg_dat)
 }
@@ -77,11 +76,11 @@ write.table(low_participants, 'low_participants.txt', row.names=F, col.names=F, 
 print(subjects[!subjects %in% low_participants & !subjects %in% high_participants])
 
 
-for (region in region_list){
-    reg_dat <- read.csv(paste(region,'_grouptable_raw.csv', sep=''))
-    cor_pval <- cor.test(scores, reg_dat$NZMean)$p.value
-    print(cor.test(scores, reg_dat$NZMean))}
-    }
+for (region in region_list) {
+  reg_dat <- read.csv(paste(region,'_grouptable_raw.csv', sep=''))
+  cor_pval <- cor.test(scores, reg_dat$NZMean)$p.value
+  print(cor.test(scores, reg_dat$NZMean))}
+  }
 }
 
 
@@ -101,37 +100,35 @@ write.table(filter(region_frame, Region=='lh_vis_ctx')$NZMean, 'lh_vis_ctx.txt',
 
 # Do modularity values correlate with high or low level region intra-corr?
 moddir <- '/Users/andric/Documents/workspace/hel/group_modularity/'
-for (td in seq(.05, .2, .05)){
-    #print(td)
-    q_vals <- read.table(paste(moddir, '/max_q_values_density',td,'_array.txt', sep=''))
-    names(q_vals) <- c('View1', 'View2')
-    attach(q_vals)
-    for (levl in c('lh_highlev', 'lh_lowlev')){
-        for (viewing in colnames(q_vals)){
-            corrtest <- cor.test(get(levl), get(viewing))
-            if (corrtest$p.value <= .05){
-                print(c(td, levl, viewing))
-                print(corrtest)
-            }
-            else{
-                next
-            }
-        }
+for (td in seq(.05, .2, .05)) {
+  #print(td)
+  q_vals <- read.table(paste(moddir, '/max_q_values_density',td,'_array.txt', sep=''))
+  names(q_vals) <- c('View1', 'View2')
+  attach(q_vals)
+  for (levl in c('lh_highlev', 'lh_lowlev')) {
+    for (viewing in colnames(q_vals)) {
+      corrtest <- cor.test(get(levl), get(viewing))
+      if (corrtest$p.value <= .05) {
+        print(c(td, levl, viewing))
+        print(corrtest)
+      } else {
+        next
+      }
     }
-    detach(q_vals)
+  }
+  detach(q_vals)
 }
 
 
 # Do behavior scores correlate with region intra-subj corr?
-for (levl in c('lh_highlev', 'lh_lowlev')){
-    corrtest <- cor.test(get(levl), scores)
-    if (corrtest$p.value <= .05){
-        print(c(levl))
-        print(corrtest)
-    }
-    else{
-        next
-    }
+for (levl in c('lh_highlev', 'lh_lowlev')) {
+  corrtest <- cor.test(get(levl), scores)
+  if (corrtest$p.value <= .05) {
+    print(c(levl))
+    print(corrtest)
+  } else {
+    next
+  }
 }
 
 library(ggplot2)
