@@ -49,7 +49,9 @@ def build_clust_dat(log, datadir, subjectlist, clustercoords):
     """Get peak vox data into table."""
     clust_col_names = []
     clust_dat = pd.Series()
+    tot_num_clsts = 0
     for clust in clustercoords:
+        tot_num_clsts += len(list(chain(*clustercoords[clust].values())))
         for seed in clustercoords[clust]:
             num_of_clusts = len(clustercoords[clust][seed])
             for subclust in range(num_of_clusts):
@@ -59,7 +61,7 @@ def build_clust_dat(log, datadir, subjectlist, clustercoords):
                 clust_series = build_serieslist(log, datadir, clust,
                                                 coords, subjectlist)
                 clust_dat = clust_dat.append(pd.Series(clust_series))
-    return (clust_dat, clust_col_names)
+    return (clust_dat, clust_col_names, tot_num_clsts)
 
 
 def main():
@@ -91,13 +93,12 @@ def main():
     logfile = setup_log(os.path.join(workdir, 'mask_dump_peak'))
     logfile.info('Doing mask_dump_peak')
 
-    cluster_peaks, cluster_names = build_clust_dat(logfile, workdir,
-                                                   subjectlist, clustercoords)
-    total_num_clusts = len(list(chain(*clustercoords.values())))
+    bcd_peaks, bcd_names, bcd_tot_nc = build_clust_dat(logfile, workdir,
+                                                       subjectlist,
+                                                       clustercoords)
     total_num_subjects = len(subjectlist)
-    out_dat = pd.DataFrame(cluster_peaks.reshape(total_num_clusts,
-                                                 total_num_subjects).T,
-                           columns=cluster_names)
+    out_dat = pd.DataFrame(bcd_peaks.reshape(bcd_tot_nc, total_num_subjects).T,
+                           columns=bcd_names)
     outname = os.path.join(workdir, 'avg_corrZ_task_all_peak_voxel_data.csv')
     out_dat.to_csv(outname, index=False)
 
