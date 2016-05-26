@@ -36,7 +36,7 @@ mlt_intrasubj <- melt(intrasubj_corr_dat)
 # put them into a data.frame
 df_peak_intrasubj <- data.frame(mlt_peak_diff, mlt_intrasubj$value)
 df_peak_intrasubj <- tbl_df(df_peak_intrasubj)
-names(df_peak_intrasubj) <- c('clust', 'diff_wgc', 'intra_subj_cor', 'seed_val')
+# names(df_peak_intrasubj) <- c('clust', 'diff_wgc', 'intra_subj_cor', 'seed_val')
 
 # Doing alternate version with seed vec
 # there are 3 vis clusters and 2 highlev clusters:
