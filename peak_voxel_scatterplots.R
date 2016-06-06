@@ -14,7 +14,7 @@ ScatterPlot <- function(df, xname, yname, xlabel, ylabel, title_name) {
   # of the data frame "df_peak_intrasubj"
   # works off 3 column data frame, with variable name in one column and
   # values in each the other two columns (those are the "x" and "y" in plot).
-  ggplot(df, aes_string(x=xname, y=yname)) + geom_point(size = 3) +
+  ggplot(df, aes_string(x=xname, y=yname)) + geom_point(size = 3, shape=15) +
     geom_smooth(method=lm, se=FALSE, size=1.15) + xlab(xlabel) +
     ylab(ylabel) + theme_bw() + ggtitle(paste(title_name))
 }
@@ -38,7 +38,7 @@ sess_name_vec <- c()
 clust_num_vec <- c()
 seed_name_vec <- c()
 seed_data_vec <- c()
-for (i in 1:length(levels(mlt_peak_diff$variable))){
+for (i in 1:length(levels(mlt_peak_diff$variable))) {
   sess_str_spl <- strsplit(levels(mlt_peak_diff$variable)[i], "_lh")[[1]]
   sess <- sess_str_spl[1]
   sess_names <- c(sess_names, sess)
@@ -77,12 +77,13 @@ df_peak_dat <- tbl_df(df_peak_dat)
 plots <- list()
 plt_cnt = 0
 # pdf('peak_voxel_scatterplots_v3.pdf')  # "v3" plots all clusters
-pdf('peak_voxel_scatterplots_v4.pdf')  # "v4" reversed x and y axes
-for (sess_level in levels(df_peak_dat$session)){
+# pdf('peak_voxel_scatterplots_v4.pdf')  # "v4" reversed x and y axes
+pdf('peak_voxel_scatterplots_v3.2.pdf')  # uses different shape
+for (sess_level in levels(df_peak_dat$session)) {
   sess_dat <- filter(df_peak_dat, session==sess_level)
-  for (seed_level in unique(sess_dat$seed)){
+  for (seed_level in unique(sess_dat$seed)) {
     sess_seed_dat <- filter(sess_dat, seed==seed_level)
-    for (clst in unique(sess_seed_dat$clustnum)){
+    for (clst in unique(sess_seed_dat$clustnum)) {
       dat <- filter(sess_seed_dat, clustnum==clst)
       titlename <- paste(sess_level, 'WGC,',seed_level, 'seed, cluster', clst)
       plt <- ScatterPlot(dat, 'seed_vals', 'wgc', seed_level, sess_level, titlename)
