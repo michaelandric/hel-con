@@ -81,4 +81,6 @@ def main():
         testfiles = setup_files(set_dict, perm_indx)
         aset = ' '.join(testfiles[:18])
         bset = ' '.join(testfiles[18:])
-        t_test(logfile, aset, bset, 'perm{}'.format(n))
+        outf = os.path.join(os.environ['hel'], 'graph_analyses',
+                            'perms_global_connectivity', 'perm{}'.format(n))
+        t_test(logfile, aset, bset, outf)
