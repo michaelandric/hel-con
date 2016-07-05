@@ -27,41 +27,92 @@ def t_test(log, a_sets, b_sets, outpref):
     log.info(proc.stdout.read())
 
 
-def shuffle_indx(indx):
-    """Shuffle the index."""
-    g = indx[:]
-    shuffle(g)
-    return tuple(g)
+def cluster(inputf):
+    """Cluster the permutation."""
+    try:
+        cmdargs = split('3dclust -quiet -1Dformat -nosum -1dindex 1 -1tindex 1 \
+                        -dxyz=1 -2thresh -2.896 2.896 \
+                        1.44 234 {}'.format(inputf))
+        proc = Popen(cmdargs, stdout=PIPE)
+        ppp = proc.stdout.read().split('\n')
+    except proc as err:
+        print('SOMETHING BROKE ---------- cluster NOT WORKING: ', err.value)
+        print(inputf)
+
+    if 'NO CLUSTERS' in ppp[0]:
+        clustsize = 0
+    else:
+        clustsize = int(ppp[0].split()[0])
+
+    return clustsize
 
 
-def gen_perms(nset, nperms):
-    """Generate permutated indices.
+def read_perms():
+    """Read the permutation orders."""
+    perm_a_name = os.path.join(os.environ['hel'], 'graph_analyses',
+                               'group_modularity_thr0.5msk', 'perm_mat_a.txt')
+    perm_b_name = os.path.join(os.environ['hel'], 'graph_analyses',
+                               'group_modularity_thr0.5msk', 'perm_mat_b.txt')
+    with open(perm_a_name) as a:
+        prm_afile = a.read().splitlines()
+    with open(perm_b_name) as b:
+        prm_bfile = b.read().splitlines()
 
-    Arg: nset
-        number of items shuffling around
-    Arg: nperms
-        number of permutations
-    """
-    perms = []
-    while len(perms) < nperms:
-        shuf = shuffle_indx(range(nset))
-        if shuf not in perms:
-            perms.append(shuf)
-    return perms
+    return (prm_afile, prm_bfile)
 
 
-def setup_files(setdict, indx):
+def setup_files(setdict, indxa, indxb):
     """Iterate through indices to set files from permutations."""
     suffx = 'ijk_fnirted_MNI2mm.nii.gz'
-    files = []
-    for i in indx:
+    afiles = []
+    bfiles = []
+    for i in indxa:
         subj = setdict[i][0]
         sess = setdict[i][1]
         fname = 'avg_corrZ_task_sess_{}_{}.{}'.format(sess, subj, suffx)
         fpath = os.path.join(os.environ['hel'], 'graph_analyses',
                              subj, 'global_connectivity', fname)
-        files.append(fpath)
-    return files
+        afiles.append(fpath)
+    for i in indxb:
+        subj = setdict[i][0]
+        sess = setdict[i][1]
+        fname = 'avg_corrZ_task_sess_{}_{}.{}'.format(sess, subj, suffx)
+        fpath = os.path.join(os.environ['hel'], 'graph_analyses',
+                             subj, 'global_connectivity', fname)
+        bfiles.append(fpath)
+
+    return (afiles, bfiles)
+
+
+def do_perms(log, n_perms, setdict):
+    """Do AFNI functions on permutation."""
+    permuted_a, permuted_b = read_perms()
+    perms_indxs = range(len(permuted_a))
+    shuffle(perms_indxs)
+
+    cluster_list = []
+    for i in range(n_perms):
+        a_perm_indx = map(int, permuted_a[i])
+        b_perm_indx = map(int, permuted_b[i])
+        a_files, b_files = setup_files(setdict, a_perm_indx, b_perm_indx)
+        aset = ' '.join(a_files)
+        bset = ' '.join(b_files)
+        outf = os.path.join(os.environ['hel'], 'graph_analyses',
+                            'perms_global_connectivity', 'perm{}'.format(i))
+        t_test(log, aset, bset, outf)
+        cluster_list.append(cluster('{}+tlrc'.format(outf)))
+    return cluster_list
+
+
+def output_clusterlist(clustlist):
+    """Sort and write out cluster list from permutations."""
+    clustout = '\n'.join(map(str, sorted(clustlist)))
+    clusters_outf = os.path.join(os.environ['hel'], 'graph_analyses',
+                                 'perms_global_connectivity',
+                                 'clustersize_permutations.txt')
+    outf = open(clusters_outf, 'w')
+    outf.write(clustout)
+    outf.close()
 
 
 def main():
@@ -73,14 +124,10 @@ def main():
     subjectlist = ['hel{}'.format(i) for i in range(1, 20) if i is not 9]
 
     sets = zip(subjectlist, [1]*18) + zip(subjectlist, [2]*18)
-    set_dict = dict(zip(range(len(sets)), sets))
+    set_dict = dict(zip(range(1, len(sets)+1), sets))
 
     n_permutations = 2
-    perm_list = gen_perms(len(set_dict), n_permutations)
-    for n, perm_indx in enumerate(perm_list):
-        testfiles = setup_files(set_dict, perm_indx)
-        aset = ' '.join(testfiles[:18])
-        bset = ' '.join(testfiles[18:])
-        outf = os.path.join(os.environ['hel'], 'graph_analyses',
-                            'perms_global_connectivity', 'perm{}'.format(n))
-        t_test(logfile, aset, bset, outf)
+    output_clusterlist(do_perms(logfile, n_permutations, set_dict))
+
+if __name__ == '__main__':
+    main()
