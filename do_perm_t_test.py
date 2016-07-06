@@ -92,8 +92,8 @@ def do_perms(log, n_perms, setdict):
 
     cluster_list = []
     for i in range(n_perms):
-        a_perm_indx = map(int, permuted_a[i].split())
-        b_perm_indx = map(int, permuted_b[i].split())
+        a_perm_indx = map(int, permuted_a[perms_indxs[i]].split())
+        b_perm_indx = map(int, permuted_b[perms_indxs[i]].split())
         a_files, b_files = setup_files(setdict, a_perm_indx, b_perm_indx)
         aset = ' '.join(a_files)
         bset = ' '.join(b_files)
