@@ -32,7 +32,7 @@ def cluster(inputf):
     try:
         cmdargs = split('3dclust -quiet -1Dformat -nosum -1dindex 1 -1tindex 1 \
                         -dxyz=1 -2thresh -2.896 2.896 \
-                        1.44 234 {}'.format(inputf))
+                        1.44 2 {}'.format(inputf))
         proc = Popen(cmdargs, stdout=PIPE)
         ppp = proc.stdout.read().split('\n')
     except proc as err:
@@ -138,7 +138,7 @@ def do_perms(log, n_perms, setdict):
 
 def output_clusterlist(clustlist):
     """Sort and write out cluster list from permutations."""
-    clustout = '\n'.join(map(str, sorted(clustlist)))
+    clustout = '\n'.join(map(str, clustlist))
     clusters_outf = os.path.join(os.environ['hel'], 'graph_analyses',
                                  'perms_global_connectivity',
                                  'clustersize_permutations.txt')
@@ -158,8 +158,8 @@ def main():
     sets = zip(subjectlist, [1]*18) + zip(subjectlist, [2]*18)
     set_dict = dict(zip(range(1, len(sets)+1), sets))
 
-    n_permutations = 2
-    output_clusterlist(do_perms(logfile, n_permutations, set_dict))
+    n_permut = 5
+    output_clusterlist(do_perms_at_least_half(logfile, n_permut, set_dict))
 
 if __name__ == '__main__':
     main()
