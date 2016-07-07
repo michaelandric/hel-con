@@ -84,6 +84,38 @@ def setup_files(setdict, indxa, indxb):
     return (afiles, bfiles)
 
 
+def do_perms_at_least_half(log, n_perms, setdict):
+    """Permute the groups.
+
+    Re-design where at least half the participants
+    have to be swapped between session 1 and session 2.
+    """
+    from collections import Counter
+    permuted_a, permuted_b = read_perms()
+    perms_indxs = range(len(permuted_a))
+    shuffle(perms_indxs)
+
+    first_inds = Counter(range(1, 19))
+    cluster_list = []
+    for n, i in enumerate(perms_indxs):
+        if n > n_perms:
+            break
+        a_perm_indx = map(int, permuted_a[i].split())
+        b_perm_indx = map(int, permuted_b[i].split())
+        a_inds = Counter(a_perm_indx)
+        if len(list((first_inds & a_inds).elements())) < 9:
+            a_files, b_files = setup_files(setdict, a_perm_indx, b_perm_indx)
+            aset = ' '.join(a_files)
+            bset = ' '.join(b_files)
+            outf = os.path.join(os.environ['hel'], 'graph_analyses',
+                                'perms_global_connectivity',
+                                'perm{}'.format(i))
+            t_test(log, aset, bset, outf)
+            cluster_list.append(cluster('{}+tlrc'.format(outf)))
+
+    return cluster_list
+
+
 def do_perms(log, n_perms, setdict):
     """Do AFNI functions on permutation."""
     permuted_a, permuted_b = read_perms()
