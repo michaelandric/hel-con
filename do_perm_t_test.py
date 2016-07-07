@@ -98,7 +98,7 @@ def do_perms_at_least_half(log, n_perms, setdict):
     first_inds = Counter(range(1, 19))
     cluster_list = []
     for n, i in enumerate(perms_indxs):
-        if n > n_perms:
+        if len(cluster_list) > n_perms:
             break
         a_perm_indx = map(int, permuted_a[i].split())
         b_perm_indx = map(int, permuted_b[i].split())
@@ -109,7 +109,7 @@ def do_perms_at_least_half(log, n_perms, setdict):
             bset = ' '.join(b_files)
             outf = os.path.join(os.environ['hel'], 'graph_analyses',
                                 'perms_global_connectivity',
-                                'perm{}'.format(i))
+                                'perm{}'.format(n))
             t_test(log, aset, bset, outf)
             cluster_list.append(cluster('{}+tlrc'.format(outf)))
 
