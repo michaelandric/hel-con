@@ -84,6 +84,30 @@ def setup_files(setdict, indxa, indxb):
     return (afiles, bfiles)
 
 
+def do_perms_exact_half(log, n_perms, setdict):
+    """Permute half the participants."""
+    from itertools import combinations
+    from collections import Counter
+    combos_list = list(combinations(range(1, 19), 9))
+    shuffle(combos_list)
+    first_inds = range(1, 19)
+
+    cluster_list = []
+    for i in range(n_perms):
+        kept = list((Counter(first_inds) - Counter(combos_list[i])).elements())
+        a_perm_indx = kept + [i+18 for i in list(combos_list[i])]
+        b_perm_indx = list((Counter(range(1, 37)) -
+                            Counter(a_perm_indx)).elements())
+        a_files, b_files = setup_files(setdict, a_perm_indx, b_perm_indx)
+        aset = ' '.join(a_files)
+        bset = ' '.join(b_files)
+        outf = os.path.join(os.environ['hel'], 'graph_analyses',
+                            'perms_global_connectivity', 'perm{}'.format(i))
+        t_test(log, aset, bset, outf)
+        cluster_list.append(cluster('{}+tlrc'.format(outf)))
+    return cluster_list
+
+
 def do_perms_at_least_half(log, n_perms, setdict):
     """Permute the groups.
 
@@ -159,7 +183,7 @@ def main():
     set_dict = dict(zip(range(1, len(sets)+1), sets))
 
     n_permut = 5
-    output_clusterlist(do_perms_at_least_half(logfile, n_permut, set_dict))
+    output_clusterlist(do_perms_exact_half(logfile, n_permut, set_dict))
 
 if __name__ == '__main__':
     main()
