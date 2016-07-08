@@ -95,14 +95,19 @@ def do_perms_exact_half(log, n_perms, setdict):
     cluster_list = []
     for i in range(n_perms):
         kept = list((Counter(first_inds) - Counter(combos_list[i])).elements())
-        a_perm_indx = kept + [i+18 for i in list(combos_list[i])]
-        b_perm_indx = list((Counter(range(1, 37)) -
-                            Counter(a_perm_indx)).elements())
+        a_perm_indx = kept + [x+18 for x in list(combos_list[i])]
+        b_perm_indx = []
+        for l in a_perm_indx:
+            if l < 19:
+                b_perm_indx.append(l+18)
+            elif l > 18:
+                b_perm_indx.append(l-18)
         a_files, b_files = setup_files(setdict, a_perm_indx, b_perm_indx)
         aset = ' '.join(a_files)
         bset = ' '.join(b_files)
         outf = os.path.join(os.environ['hel'], 'graph_analyses',
-                            'perms_global_connectivity', 'perm{}'.format(i))
+                            'perms_global_connectivity_exact_half',
+                            'perm{}'.format(i))
         t_test(log, aset, bset, outf)
         cluster_list.append(cluster('{}+tlrc'.format(outf)))
     return cluster_list
@@ -164,7 +169,7 @@ def output_clusterlist(clustlist):
     """Sort and write out cluster list from permutations."""
     clustout = '\n'.join(map(str, clustlist))
     clusters_outf = os.path.join(os.environ['hel'], 'graph_analyses',
-                                 'perms_global_connectivity',
+                                 'perms_global_connectivity_exact_half',
                                  'clustersize_permutations.txt')
     outf = open(clusters_outf, 'w')
     outf.write(clustout)
