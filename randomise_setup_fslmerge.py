@@ -21,7 +21,7 @@ def mergefsl(log, file_list, outname):
     log.info(proc.stdout.read())
 
 
-def make_file_list(subj_list):
+def make_file_list(subj_list, sub_clust_n):
     """Make list of files."""
     graph_dir = os.path.join(os.environ['hel'], 'graph_analyses')
     suffx = 'ijk_fnirted_MNI2mm.nii.gz'
@@ -29,7 +29,8 @@ def make_file_list(subj_list):
     for i in range(1, 3):
         for subj in subj_list:
             subj_dir = os.path.join(graph_dir, subj, 'global_connectivity')
-            fname = 'avg_corrZ_task_sess_{}_{}.{}'.format(i, subj, suffx)
+            fname = 'knnward_clst1_mskd_subclust{}_corrZ_sess_{}_{}.{}'.format(
+                sub_clust_n, i, subj, suffx)
             filelist.append(os.path.join(subj_dir, fname))
 
     return ' '.join(filelist)
@@ -44,8 +45,11 @@ def main():
     logfile.info('Making a 4D data set by combining images')
     outdir = os.path.join(os.environ['hel'], 'graph_analyses',
                           'randomise_global_connectivity')
-    outfilename = os.path.join(outdir, 'wgc_PairedT_4Dfile')
-    mergefsl(logfile, make_file_list(subjectlist), outfilename)
+    for subclust_n in range(1, 4):
+        outfilename = os.path.join(outdir,
+                                   'knnward_clst1_subclust{}_4Dfile'.format(
+                                    subclust_n))
+        mergefsl(logfile, make_file_list(subjectlist, subclust_n), outfilename)
 
 if __name__ == '__main__':
     main()
