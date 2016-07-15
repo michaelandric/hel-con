@@ -24,7 +24,7 @@ def fsl_maths(log, corrp, statimg, outname):
 
 def cluster(log, inputf, clustindx, lmax, clustsize):
     """Cluster via FSL procedure."""
-    cmdargs = split('cluster --in={} --thresh=0.001 --oindex={} \
+    cmdargs = split('cluster --in={} --thresh=0.01 --oindex={} \
                     --olmax={}.txt --osize={} --mm'.format(
                         inputf, clustindx, lmax, clustsize))
     proc = Popen(cmdargs, stdout=PIPE, stderr=STDOUT)
@@ -36,23 +36,26 @@ def main():
     logfile = setup_log(os.path.join(os.environ['hel'], 'logs',
                                      'thresh_cluster_fsl'))
     logfile.info('Threshold and cluster.')
+    logfile.info('Doing the wgc PairedTres data. \
+                 This is the main result for the difference between \
+                 View1 and View2 in weighted global connectivity')
     outdir = os.path.join(os.environ['hel'], 'graph_analyses',
                           'randomise_global_connectivity')
 
     os.chdir(outdir)
-    for subclust_n in range(2, 4):
-        prefx = 'knnward_clst1_subclust{}'.format(subclust_n)
-        corrctd_p = '{}_4Dfile_n10000_clustere_corrp_tstat2.nii.gz'.format(
-            prefx)
-        stat = '{}_4Dfile_n10000_tstat2.nii.gz'.format(prefx)
-        outfilename = '{}_thresh_4Dfile_n10000_clustere_corrp_tstat2'.format(
-            prefx)
-        fsl_maths(logfile, corrctd_p, stat, outfilename)
-        clust_in = '{}.nii.gz'.format(outfilename)
-        clst_indx = '{}_cluster_index'.format(outfilename)
-        lmax_f = '{}_lmax.txt'.format(outfilename)
-        clst_sz = '{}_cluster_size'.format(outfilename)
-        cluster(logfile, clust_in, clst_indx, lmax_f, clst_sz)
+    prefx = 'wgc_PairedTres_n10000'
+    corrctd_p = '{}_clustere_corrp_tstat2.nii.gz'.format(
+        prefx)
+    stat = '{}_tstat2.nii.gz'.format(prefx)
+    outfilename = '{}_thresh_clustere_corrp_tstat2'.format(
+        prefx)
+    fsl_maths(logfile, corrctd_p, stat, outfilename)
+    clust_in = '{}.nii.gz'.format(outfilename)
+    clst_indx = '{}_cluster_index'.format(outfilename)
+    lmax_f = '{}_lmax.txt'.format(outfilename)
+    clst_sz = '{}_cluster_size'.format(outfilename)
+    logfile.info('Now doing cluster for wgc.')
+    cluster(logfile, clust_in, clst_indx, lmax_f, clst_sz)
 
 if __name__ == '__main__':
     main()
