@@ -25,7 +25,7 @@ def fsl_maths(log, corrp, statimg, outname):
 def cluster(log, inputf, clustindx, lmax, clustsize):
     """Cluster via FSL procedure."""
     cmdargs = split('cluster --in={} --thresh=0.01 --oindex={} \
-                    --olmax={}.txt --osize={} --mm'.format(
+                    --olmax={} --osize={} --mm'.format(
                         inputf, clustindx, lmax, clustsize))
     proc = Popen(cmdargs, stdout=PIPE, stderr=STDOUT)
     log.info(proc.stdout.read())
